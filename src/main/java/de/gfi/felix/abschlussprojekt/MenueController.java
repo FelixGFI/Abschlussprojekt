@@ -21,7 +21,7 @@ public class MenueController {
 
     @FXML
     protected void onBtBetriebsurlaubClick() throws IOException {
-        KuechenController.openWindow(stage, "Kuechenplanung", "betriebsurlaub-view.fxml");
+        BetriebsurlaubController.openWindow(stage, "Betriebsurlaub", "betriebsurlaub-view.fxml");
     }
     @FXML
     protected void onBtKuecheClick() {

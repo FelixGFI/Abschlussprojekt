@@ -42,6 +42,7 @@ public class BetriebsurlaubController extends Controller {
     public static void openWindow(Stage parentStage, String title, String fxmlResource) {
         FXMLLoader loader = new FXMLLoader(Controller.class.getResource(fxmlResource));
         Scene newScene;
+
         try {
             newScene = new Scene(loader.load());
         } catch (IOException ex) {
