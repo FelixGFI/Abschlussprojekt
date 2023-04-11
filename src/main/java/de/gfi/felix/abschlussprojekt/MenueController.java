@@ -11,6 +11,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class MenueController {
+    @FXML private Button btKalender;
+    @FXML private Button btKueche;
+    @FXML private Button btBetriebsurlaub;
     Stage stage;
     public void showDialog() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("menue-view.fxml"));
@@ -20,6 +23,5 @@ public class MenueController {
         stage.setScene(scene);
         stage.show();
     }
-    public void initialize() {
-    }
+    public void initialize() {}
 }

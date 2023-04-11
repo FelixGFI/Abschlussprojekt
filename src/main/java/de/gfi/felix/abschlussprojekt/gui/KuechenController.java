@@ -1,14 +1,29 @@
 package de.gfi.felix.abschlussprojekt.gui;
 
+import de.gfi.felix.abschlussprojekt.speicherklassen.KalenderTag;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+
+import java.time.LocalDate;
 
 public class KuechenController extends Controller {
+    private Button btSpeichern;
     @FXML
-    private Label welcomeText;
+    private Button btAbbrechen;
+    @FXML
+    private ComboBox cbMonat;
+    @FXML
+    private ComboBox cbJahr;
+    @FXML
+    private DatePicker dpVon;
+    @FXML
+    private DatePicker dpBis;
+    @FXML
+    private TableView tbTabelle;
+    @FXML
+    private TableColumn<KalenderTag, LocalDate> tcDatum;
+    @FXML
+    private TableColumn<KalenderTag, Integer> tcKuechenStatus;
 
-    @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
-    }
+
 }

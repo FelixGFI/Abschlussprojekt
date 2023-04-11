@@ -11,7 +11,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         MenueController menue = new MenueController();
-        menue.showDialog()
+        menue.showDialog();
     }
 
     public static void main(String[] args) {
