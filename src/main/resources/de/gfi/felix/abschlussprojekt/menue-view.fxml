@@ -21,17 +21,17 @@
          <children>
             <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="btKalender" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Gruppenkalender" />
+                  <Button fx:id="btKalender" mnemonicParsing="false" onAction="#onBtKalenderClick" prefHeight="50.0" prefWidth="150.0" text="Gruppenkalender" />
                </children>
             </FlowPane>
             <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                <children>
-                  <Button fx:id="btKueche" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Küche" />
+                  <Button fx:id="btKueche" mnemonicParsing="false" onAction="#onBtKuecheClick" prefHeight="50.0" prefWidth="150.0" text="Küche" />
                </children>
             </FlowPane>
             <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                <children>
-                  <Button fx:id="btBetriebsurlaub" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Betriebsurlaub" />
+                  <Button fx:id="btBetriebsurlaub" mnemonicParsing="false" onAction="#onBtBetriebsurlaubClick" prefHeight="50.0" prefWidth="150.0" text="Betriebsurlaub" />
                </children>
             </FlowPane>
          </children>
