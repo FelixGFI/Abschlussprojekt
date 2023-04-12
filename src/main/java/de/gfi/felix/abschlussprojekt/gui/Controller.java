@@ -1,6 +1,10 @@
 package de.gfi.felix.abschlussprojekt.gui;
 
+import de.gfi.felix.abschlussprojekt.helferklassen.DatenbankCommunicator;
 import de.gfi.felix.abschlussprojekt.helferklassen.UsefullConstants;
+import de.gfi.felix.abschlussprojekt.speicherklassen.Gruppe;
+import de.gfi.felix.abschlussprojekt.speicherklassen.GruppeOderFamilie;
+import de.gfi.felix.abschlussprojekt.speicherklassen.GruppenFamilie;
 import de.gfi.felix.abschlussprojekt.speicherklassen.Tag;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
@@ -9,6 +13,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.StringConverter;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
@@ -155,6 +160,16 @@ public class Controller {
                 return null;
             }
         });
+    }
+
+    protected void configureGruppenAuswahlCombobox(ComboBox<GruppeOderFamilie> cbGruppenauswahl) throws SQLException {
+        ArrayList<GruppenFamilie> familenListe = DatenbankCommunicator.dbAbfrageGruppenUndFamilien();
+        for (GruppenFamilie familie : familenListe) {
+            System.out.println(familie.getBezeichnung());
+            for (Gruppe gruppe: familie.getGruppenListe()) {
+                System.out.println("\t" + gruppe.getBezeichnung());
+            }
+        }
     }
     private static String getStatusStringForCharacter(Character statusCharacter) {
         String statusString;

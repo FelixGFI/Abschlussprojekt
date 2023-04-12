@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class GruppenFamilie extends GruppeOderFamilie {
     private Integer familienID;
-    private Integer bezeichnung;
+    private String bezeichnung;
     private ArrayList<Gruppe> gruppenListe;
 
 
-    public GruppenFamilie(Integer familienID, Integer bezeichnung, ArrayList<Gruppe> gruppenListe) {
+    public GruppenFamilie(Integer familienID, String bezeichnung, ArrayList<Gruppe> gruppenListe) {
         this.familienID = familienID;
         this.bezeichnung = bezeichnung;
         this.gruppenListe = gruppenListe;
@@ -28,11 +28,11 @@ public class GruppenFamilie extends GruppeOderFamilie {
         this.familienID = familienID;
     }
 
-    public Integer getBezeichnung() {
+    public String getBezeichnung() {
         return bezeichnung;
     }
 
-    public void setBezeichnung(Integer bezeichnung) {
+    public void setBezeichnung(String bezeichnung) {
         this.bezeichnung = bezeichnung;
     }
 

@@ -29,7 +29,7 @@ public class MenueController {
         KuechenController.openWindow(stage, "Kuechenplanung", "kuechen-view.fxml");
     }
     @FXML
-    protected void onBtKalenderClick() {
+    protected void onBtKalenderClick() throws IOException {
         KalenderController.openWindow(stage, "Gruppenkalender", "kalender-view.fxml");
     }
     public void showDialog() throws IOException {

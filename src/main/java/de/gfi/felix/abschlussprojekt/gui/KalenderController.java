@@ -52,17 +52,18 @@ public class KalenderController extends Controller {
     @FXML
     private Button btPDFErstellen;
 
-    public static void openWindow(Stage parentStage, String title, String fxmlResource) {
+    public static void openWindow(Stage parentStage, String title, String fxmlResource) throws IOException {
         FXMLLoader loader = new FXMLLoader(Controller.class.getResource(fxmlResource));
         Scene newScene;
-        try {
-            newScene = new Scene(loader.load());
+        newScene = new Scene(loader.load());
+        /*try {
+
         } catch (IOException ex) {
 
             //TODO gennerate ERROR popup
             System.out.println("Error beim öffnen von Dialog. KalenderController.openWindow()");
             return;
-        }
+        }*/
 
         Stage stage = new Stage();
         stage.initOwner(parentStage);
@@ -106,7 +107,7 @@ public class KalenderController extends Controller {
     protected void onBtPDFErstellenClick() {
         System.out.println("KalenderController.OnBtPDFErstellenClick()");
     }
-    public void initialize() {
+    public void initialize() throws SQLException {
         DatenbankCommunicator.establishConnection();
 
         Label lblPlacholder = new Label("Momentan sind keine Daten ausgewählt.\nBitte wählen sie eine Gruppe oder Gruppenfamilie aus");
@@ -120,5 +121,6 @@ public class KalenderController extends Controller {
         configureMonatCombobox(cbMonat);
         configureJahrCombobox(cbJahr);
         configureStatusCombobox(cbStatusAuswahl);
+        configureGruppenAuswahlCombobox(cbGruppenauswahl);
     }
 }
