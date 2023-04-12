@@ -55,7 +55,6 @@ public class BetriebsurlaubController extends Controller {
             System.out.println("Error beim öffnen von Dialog. BetriebsurlaubController.openWindow()");
             return;
         }
-        DatenbankCommunicator.establishConnection();
         Stage stage = new Stage();
         stage.initOwner(parentStage);
         stage.setScene(newScene);
@@ -92,6 +91,8 @@ public class BetriebsurlaubController extends Controller {
         tbTabelle.refresh();
     }
     public void initialize() {
+        DatenbankCommunicator.establishConnection();
+
         tbTabelle.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         configureLocalDateTableColum(tcDatum, "datum");
         configureIntegerColumn(tcIstBetriebsurlaub, "istBetriebsurlaub");

@@ -106,7 +106,9 @@ public class KalenderController extends Controller {
     protected void onBtPDFErstellenClick() {
         System.out.println("KalenderController.OnBtPDFErstellenClick()");
     }
-    public void initialize() throws SQLException {
+    public void initialize() {
+        DatenbankCommunicator.establishConnection();
+
         Label lblPlacholder = new Label("Momentan sind keine Daten ausgewählt.\nBitte wählen sie eine Gruppe oder Gruppenfamilie aus");
         tbTabelle.setPlaceholder(lblPlacholder);
         tbTabelle.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -114,8 +116,6 @@ public class KalenderController extends Controller {
         configureGruppenBezeichnungtableColumn(tcGruppenBezeichnung, "gruppenBezeichnung");
         configureGruppenStatusTableColumn(tcGruppenStatus, "status");
         configureBooleanTableColumn(tcEssenVerfuegbar, "essenVerfuegbar");
-
-        DatenbankCommunicator.establishConnection();
 
         configureMonatCombobox(cbMonat);
         configureJahrCombobox(cbJahr);

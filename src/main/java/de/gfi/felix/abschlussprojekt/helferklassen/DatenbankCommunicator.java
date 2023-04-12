@@ -17,6 +17,7 @@ public class DatenbankCommunicator {
      */
     public static void establishConnection() {
         //create connection for a server installed in localhost, with a user "root" with no password
+
         try {
             conn = DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
