@@ -11,23 +11,24 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 
 public class KalenderController extends Controller {
     @FXML
     private Button btAnnehmen;
     @FXML
-    private ComboBox cbGruppenauswahl;
+    private ComboBox<GruppeOderFamilie> cbGruppenauswahl;
     @FXML
-    private ComboBox cbStatusAuswahl;
+    private ComboBox<Character> cbStatusAuswahl;
     @FXML
     private Button btSpeichern;
     @FXML
     private Button btAbbrechen;
     @FXML
-    private ComboBox cbMonat;
+    private ComboBox<Month> cbMonat;
     @FXML
-    private ComboBox cbJahr;
+    private ComboBox<Integer> cbJahr;
     @FXML
     private DatePicker dpVon;
     @FXML
@@ -110,5 +111,9 @@ public class KalenderController extends Controller {
         configureGruppenBezeichnungtableColumn(tcGruppenBezeichnung, "gruppenBezeichnung");
         configureGruppenStatusTableColumn(tcGruppenStatus, "status");
         configureBooleanTableColumn(tcEssenVerfuegbar, "essenVerfuegbar");
+
+        configureMonatCombobox(cbMonat);
+        configureJahrCombobox(cbJahr);
+        configureStatusCombobox(cbStatusAuswahl);
     }
 }

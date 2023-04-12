@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 
 public class KuechenController extends Controller {
@@ -18,9 +19,9 @@ public class KuechenController extends Controller {
     @FXML
     private Button btAbbrechen;
     @FXML
-    private ComboBox cbMonat;
+    private ComboBox<Month> cbMonat;
     @FXML
-    private ComboBox cbJahr;
+    private ComboBox<Integer> cbJahr;
     @FXML
     private DatePicker dpVon;
     @FXML
@@ -90,6 +91,8 @@ public class KuechenController extends Controller {
         tbTabelle.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         configureLocalDateTableColum(tcDatum, "datum");
         configureIntegerColumn(tcKuechenStatus, "kuechenStatus");
+        configureJahrCombobox(cbJahr);
+        configureMonatCombobox(cbMonat);
     }
 
 }

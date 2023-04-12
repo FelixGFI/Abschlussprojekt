@@ -2,11 +2,15 @@ package de.gfi.felix.abschlussprojekt.gui;
 
 import de.gfi.felix.abschlussprojekt.helferklassen.UsefullConstants;
 import de.gfi.felix.abschlussprojekt.speicherklassen.Tag;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.StringConverter;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -95,10 +99,94 @@ public class Controller {
             return cell;
         });
     }
+
+    protected void configureJahrCombobox(ComboBox<Integer> cbJahr) {
+        cbJahr.getItems().addAll(UsefullConstants.getJahreListe());
+        cbJahr.getSelectionModel().select(LocalDate.now().getYear() - UsefullConstants.getJahreListe().get(0));
+    }
+    protected void configureMonatCombobox(ComboBox<Month> cbMonat) {
+        cbMonat.getItems().addAll(Month.values());
+        cbMonat.getSelectionModel().select(LocalDate.now().getMonth());
+        cbMonat.setCellFactory(colum -> {
+            ListCell<Month> cell = new ListCell<>();
+            cell.itemProperty().addListener((observable, oldValue, newValue) -> {
+                if(newValue != null) {
+                    String cellText;
+                    cellText = getMonthStringFromMonth(newValue);
+                    cell.setText(cellText);
+                }
+            });
+            return cell;
+        });
+        cbMonat.setConverter(new StringConverter<Month>() {
+            @Override
+            public String toString(Month object) {
+                return getMonthStringFromMonth(object);
+            }
+
+            @Override
+            public Month fromString(String string) {
+                return null;
+            }
+        });
+    }
+
+    protected void configureStatusCombobox(ComboBox<Character> cbStatusAuswahl) {
+        cbStatusAuswahl.getItems().addAll(UsefullConstants.getStatusListCharacterFormatOhneFeiertag());
+        cbStatusAuswahl.setCellFactory(colum -> {
+            ListCell<Character> cell = new ListCell<>();
+            cell.itemProperty().addListener((observable, oldValue, newValue) -> {
+                if(newValue != null) {
+                    String cellText;
+                    cellText = getStatusStringForCharacterOhneFeiertag(newValue);
+                    cell.setText(cellText);
+                }
+            });
+            return cell;
+        });
+        cbStatusAuswahl.setConverter(new StringConverter<Character>() {
+            @Override
+            public String toString(Character object) {
+                return getStatusStringForCharacterOhneFeiertag(object);
+            }
+
+            @Override
+            public Character fromString(String string) {
+                return null;
+            }
+        });
+    }
     private static String getStatusStringForCharacter(Character statusCharacter) {
         String statusString;
         int statusIndex = UsefullConstants.getStatusListCharacterFormat().indexOf(statusCharacter);
         statusString = UsefullConstants.getStatusListStringFormat().get(statusIndex);
         return statusString;
     }
+    private static String getStatusStringForCharacterOhneFeiertag(Character statusCharacter) {
+        String statusString;
+        int statusIndex = UsefullConstants.getStatusListCharacterFormatOhneFeiertag().indexOf(statusCharacter);
+        statusString = UsefullConstants.getStatusListStringFormatOhneFeiertag().get(statusIndex);
+        return statusString;
+    }
+    private static String getMonthStringFromMonth(Month newValue) {
+        String cellText;
+        switch (newValue) {
+            case JANUARY -> cellText = "Januar";
+            case FEBRUARY -> cellText = "Februar";
+            case MARCH -> cellText = "März";
+            case APRIL -> cellText = "April";
+            case MAY -> cellText = "Mai";
+            case JUNE -> cellText = "Juni";
+            case JULY -> cellText = "Juli";
+            case AUGUST -> cellText = "August";
+            case SEPTEMBER -> cellText = "September";
+            case OCTOBER -> cellText = "Oktober";
+            case NOVEMBER -> cellText = "November";
+            case DECEMBER -> cellText = "Dezember";
+            default -> cellText = "";
+        }
+        return cellText;
+    }
+
+
 }
