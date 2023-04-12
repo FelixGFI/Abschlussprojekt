@@ -1,6 +1,6 @@
 package de.gfi.felix.abschlussprojekt.gui;
 
-import de.gfi.felix.abschlussprojekt.speicherklassen.KalenderTag;
+import de.gfi.felix.abschlussprojekt.speicherklassen.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -27,9 +27,9 @@ public class KuechenController extends Controller {
     @FXML
     private TableView tbTabelle;
     @FXML
-    private TableColumn<KalenderTag, LocalDate> tcDatum;
+    private TableColumn<KuechenTag, LocalDate> tcDatum;
     @FXML
-    private TableColumn<KalenderTag, Integer> tcKuechenStatus;
+    private TableColumn<KuechenTag, Integer> tcKuechenStatus;
     @FXML
     private Button btNext;
     @FXML

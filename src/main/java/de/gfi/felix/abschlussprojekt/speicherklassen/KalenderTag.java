@@ -5,12 +5,12 @@ import java.time.LocalDate;
 public class KalenderTag extends Tag{
     private Boolean essenVerfuegbar;
     private Character status;
-    private Integer gruppenBeziechnung;
+    private Integer gruppenBezeichnung;
 
-    public KalenderTag(LocalDate datum, Character status, Integer gruppenBeziechnung) {
+    public KalenderTag(LocalDate datum, Character status, Integer gruppenBezeichnung) {
         this.datum = datum;
         this.status = status;
-        this.gruppenBeziechnung = gruppenBeziechnung;
+        this.gruppenBezeichnung = gruppenBezeichnung;
         calculateEssenVerfuegbar();
     }
 
@@ -31,11 +31,11 @@ public class KalenderTag extends Tag{
         this.status = status;
     }
 
-    public Integer getGruppenBeziechnung() {
-        return gruppenBeziechnung;
+    public Integer getGruppenBezeichnung() {
+        return gruppenBezeichnung;
     }
 
-    public void setGruppenBeziechnung(Integer gruppenBeziechnung) {
-        this.gruppenBeziechnung = gruppenBeziechnung;
+    public void setGruppenBezeichnung(Integer gruppenBezeichnung) {
+        this.gruppenBezeichnung = gruppenBezeichnung;
     }
 }

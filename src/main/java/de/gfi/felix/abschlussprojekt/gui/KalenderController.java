@@ -1,6 +1,7 @@
 package de.gfi.felix.abschlussprojekt.gui;
 
-import de.gfi.felix.abschlussprojekt.speicherklassen.KalenderTag;
+import de.gfi.felix.abschlussprojekt.helferklassen.UsefullConstants;
+import de.gfi.felix.abschlussprojekt.speicherklassen.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,6 +11,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class KalenderController extends Controller {
     @FXML
@@ -76,6 +78,17 @@ public class KalenderController extends Controller {
     @FXML
     protected void onBtAnnehmenClick() {
         System.out.println("KalenderController.OnBtAnnehmenClick()");
+        ArrayList<KalenderTag> testListe = new ArrayList<>();
+        testListe.add(new KalenderTag(LocalDate.now(), UsefullConstants.getStatusListCharacterFormat().get(0), 0));
+        testListe.add(new KalenderTag(LocalDate.now(), UsefullConstants.getStatusListCharacterFormat().get(1), 1));
+        testListe.add(new KalenderTag(LocalDate.now(), UsefullConstants.getStatusListCharacterFormat().get(2), 2));
+        testListe.add(new KalenderTag(LocalDate.now(), UsefullConstants.getStatusListCharacterFormat().get(3), 3));
+        testListe.add(new KalenderTag(LocalDate.now(), UsefullConstants.getStatusListCharacterFormat().get(4), 4));
+        testListe.add(new KalenderTag(LocalDate.now(), UsefullConstants.getStatusListCharacterFormat().get(5), 5));
+        testListe.add(new KalenderTag(LocalDate.now(), UsefullConstants.getStatusListCharacterFormat().get(6), 6));
+
+        tbTabelle.getItems().setAll(testListe);
+        tbTabelle.refresh();
     }
     @FXML
     protected void onBtNextClick() {
@@ -90,6 +103,12 @@ public class KalenderController extends Controller {
         System.out.println("KalenderController.OnBtPDFErstellenClick()");
     }
     public void initialize() {
-
+        Label lblPlacholder = new Label("Momentan sind keine Daten ausgewählt.\nBitte wählen sie eine Gruppe oder Gruppenfamilie aus");
+        tbTabelle.setPlaceholder(lblPlacholder);
+        tbTabelle.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        configureLocalDateTableColum(tcDatum, "datum");
+        configureGruppenBezeichnungtableColumn(tcGruppenBezeichnung, "gruppenBezeichnung");
+        configureGruppenStatusTableColumn(tcGruppenStatus, "status");
+        configureBooleanTableColumn(tcEssenVerfuegbar, "essenVerfuegbar");
     }
 }
