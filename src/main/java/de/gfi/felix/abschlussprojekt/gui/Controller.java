@@ -11,6 +11,8 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.util.StringConverter;
 
 import java.sql.SQLException;
@@ -165,11 +167,45 @@ public class Controller {
     protected void configureGruppenAuswahlCombobox(ComboBox<GruppeOderFamilie> cbGruppenauswahl) throws SQLException {
         ArrayList<GruppenFamilie> familenListe = DatenbankCommunicator.dbAbfrageGruppenUndFamilien();
         for (GruppenFamilie familie : familenListe) {
-            System.out.println(familie.getBezeichnung());
+            cbGruppenauswahl.getItems().add(familie);
             for (Gruppe gruppe: familie.getGruppenListe()) {
-                System.out.println("\t" + gruppe.getBezeichnung());
+                cbGruppenauswahl.getItems().add(gruppe);
             }
         }
+        cbGruppenauswahl.setCellFactory(colum -> {
+            ListCell<GruppeOderFamilie> cell = new ListCell<>();
+            cell.itemProperty().addListener((observable, oldValue, newValue) -> {
+                if(newValue != null) {
+
+                    if(newValue.getClass() == GruppenFamilie.class) {
+                        cell.setText(((GruppenFamilie) newValue).getBezeichnung());
+                        cell.setFont(Font.font(Font.getDefault().getFamily(), FontWeight.BOLD, Font.getDefault().getSize()));
+                    } else {
+                        cell.setText(((Gruppe) newValue).getBezeichnung());
+                        cell.setFont(Font.font(Font.getDefault().getFamily(), FontWeight.NORMAL, Font.getDefault().getSize()));
+                    }
+
+                }
+            });
+            return cell;
+        });
+        cbGruppenauswahl.setConverter(new StringConverter<GruppeOderFamilie>
+                () {
+            @Override
+            public String toString(GruppeOderFamilie object) {
+                if(object.getClass() == GruppenFamilie.class) {
+                    return ((GruppenFamilie) object).getBezeichnung();
+                } else {
+                    return ((Gruppe) object).getBezeichnung();
+                }
+            }
+
+            @Override
+            public GruppeOderFamilie fromString(String string) {
+                return null;
+            }
+        });
+
     }
     private static String getStatusStringForCharacter(Character statusCharacter) {
         String statusString;
