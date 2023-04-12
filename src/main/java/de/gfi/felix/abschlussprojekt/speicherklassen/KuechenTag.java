@@ -3,18 +3,18 @@ package de.gfi.felix.abschlussprojekt.speicherklassen;
 import java.time.LocalDate;
 
 public class KuechenTag extends Tag {
-    private Integer tcKuechenStatus;
+    private Integer kuechenStatus;
 
-    public KuechenTag(LocalDate datum, Integer tcKuechenStatus) {
+    public KuechenTag(LocalDate datum, Integer kuechenStatus) {
         this.datum = datum;
-        this.tcKuechenStatus = tcKuechenStatus;
+        this.kuechenStatus = kuechenStatus;
     }
 
-    public Integer getTcKuechenStatus() {
-        return tcKuechenStatus;
+    public Integer getKuechenStatus() {
+        return kuechenStatus;
     }
 
-    public void setTcKuechenStatus(Integer tcKuechenStatus) {
-        this.tcKuechenStatus = tcKuechenStatus;
+    public void setKuechenStatus(Integer kuechenStatus) {
+        this.kuechenStatus = kuechenStatus;
     }
 }

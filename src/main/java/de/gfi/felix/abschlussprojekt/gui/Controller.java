@@ -20,5 +20,7 @@ public class Controller {
     public void configureGruppenBezeichnungtableColumn(TableColumn tableColumnGruppenBezeichnung, String attributName) {
         tableColumnGruppenBezeichnung.setCellValueFactory(new PropertyValueFactory<>(attributName));
     }
-
+    public void configureIntegerColumn(TableColumn tableColumnInteger, String attributName) {
+        tableColumnInteger.setCellValueFactory(new PropertyValueFactory<>(attributName));
+    }
 }

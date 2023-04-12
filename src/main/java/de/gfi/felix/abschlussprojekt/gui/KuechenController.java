@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class KuechenController extends Controller {
     @FXML
@@ -78,9 +79,17 @@ public class KuechenController extends Controller {
     }
     @FXML protected void onBtGeschlossenClick() {
         System.out.println("KuechenController.OnBtGeschlossenClick");
+        ArrayList<KuechenTag> testListe = new ArrayList<>();
+        testListe.add(new KuechenTag(LocalDate.now(), 0));
+        testListe.add(new KuechenTag(LocalDate.now(), 1));
+        testListe.add(new KuechenTag(LocalDate.now(), 2));
+        tbTabelle.getItems().setAll(testListe);
+        tbTabelle.refresh();
     }
     public void initialize() {
-
+        tbTabelle.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        configureLocalDateTableColum(tcDatum, "datum");
+        configureIntegerColumn(tcKuechenStatus, "kuechenStatus");
     }
 
 }

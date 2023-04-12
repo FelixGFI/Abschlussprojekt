@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class BetriebsurlaubController extends Controller {
     @FXML
@@ -79,8 +80,16 @@ public class BetriebsurlaubController extends Controller {
     }
     @FXML protected void onBtArbeitClick() {
         System.out.println("BetriebsurlaubController.OnBtArbeitClick()");
+        ArrayList<BetriebsurlaubsTag> testListe = new ArrayList();
+        testListe.add(new BetriebsurlaubsTag(LocalDate.now(), 0));
+        testListe.add(new BetriebsurlaubsTag(LocalDate.now(), 1));
+        testListe.add(new BetriebsurlaubsTag(LocalDate.now(), 2));
+        tbTabelle.getItems().setAll(testListe);
+        tbTabelle.refresh();
     }
     public void initialize() {
-
+        tbTabelle.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        configureLocalDateTableColum(tcDatum, "datum");
+        configureIntegerColumn(tcIstBetriebsurlaub, "istBetriebsurlaub");
     }
 }
