@@ -12,6 +12,7 @@ import javafx.scene.control.DatePicker;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class MenueController {
     @FXML private Button btKalender;
@@ -20,11 +21,11 @@ public class MenueController {
     Stage stage;
 
     @FXML
-    protected void onBtBetriebsurlaubClick() throws IOException {
+    protected void onBtBetriebsurlaubClick() throws IOException, SQLException {
         BetriebsurlaubController.openWindow(stage, "Betriebsurlaub", "betriebsurlaub-view.fxml");
     }
     @FXML
-    protected void onBtKuecheClick() {
+    protected void onBtKuecheClick() throws SQLException {
         KuechenController.openWindow(stage, "Kuechenplanung", "kuechen-view.fxml");
     }
     @FXML

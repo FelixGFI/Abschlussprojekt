@@ -1,5 +1,6 @@
 package de.gfi.felix.abschlussprojekt.gui;
 
+import de.gfi.felix.abschlussprojekt.helferklassen.DatenbankCommunicator;
 import de.gfi.felix.abschlussprojekt.helferklassen.UsefullConstants;
 import de.gfi.felix.abschlussprojekt.speicherklassen.*;
 import javafx.fxml.FXML;
@@ -10,6 +11,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -61,6 +63,7 @@ public class KalenderController extends Controller {
             System.out.println("Error beim öffnen von Dialog. KalenderController.openWindow()");
             return;
         }
+
         Stage stage = new Stage();
         stage.initOwner(parentStage);
         stage.setScene(newScene);
@@ -103,7 +106,7 @@ public class KalenderController extends Controller {
     protected void onBtPDFErstellenClick() {
         System.out.println("KalenderController.OnBtPDFErstellenClick()");
     }
-    public void initialize() {
+    public void initialize() throws SQLException {
         Label lblPlacholder = new Label("Momentan sind keine Daten ausgewählt.\nBitte wählen sie eine Gruppe oder Gruppenfamilie aus");
         tbTabelle.setPlaceholder(lblPlacholder);
         tbTabelle.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -111,6 +114,8 @@ public class KalenderController extends Controller {
         configureGruppenBezeichnungtableColumn(tcGruppenBezeichnung, "gruppenBezeichnung");
         configureGruppenStatusTableColumn(tcGruppenStatus, "status");
         configureBooleanTableColumn(tcEssenVerfuegbar, "essenVerfuegbar");
+
+        DatenbankCommunicator.establishConnection();
 
         configureMonatCombobox(cbMonat);
         configureJahrCombobox(cbJahr);

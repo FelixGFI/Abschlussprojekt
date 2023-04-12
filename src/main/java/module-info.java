@@ -1,6 +1,7 @@
 module de.gfi.felix.abschlussprojekt {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.sql;
 
     opens de.gfi.felix.abschlussprojekt to javafx.fxml;
     exports de.gfi.felix.abschlussprojekt.gui;

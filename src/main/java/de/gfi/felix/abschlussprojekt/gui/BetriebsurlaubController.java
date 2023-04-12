@@ -1,5 +1,6 @@
 package de.gfi.felix.abschlussprojekt.gui;
 
+import de.gfi.felix.abschlussprojekt.helferklassen.DatenbankCommunicator;
 import de.gfi.felix.abschlussprojekt.speicherklassen.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +10,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -41,7 +43,7 @@ public class BetriebsurlaubController extends Controller {
     @FXML
     private Button btArbeit;
 
-    public static void openWindow(Stage parentStage, String title, String fxmlResource) {
+    public static void openWindow(Stage parentStage, String title, String fxmlResource) throws SQLException {
         FXMLLoader loader = new FXMLLoader(Controller.class.getResource(fxmlResource));
         Scene newScene;
 
@@ -53,6 +55,7 @@ public class BetriebsurlaubController extends Controller {
             System.out.println("Error beim öffnen von Dialog. BetriebsurlaubController.openWindow()");
             return;
         }
+        DatenbankCommunicator.establishConnection();
         Stage stage = new Stage();
         stage.initOwner(parentStage);
         stage.setScene(newScene);
