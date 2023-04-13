@@ -121,6 +121,11 @@ public class KalenderController extends Controller {
             System.out.println(tag.getDatum() + ", " + tag.getStatus() + ", " + tag.getGruppenID());
         }
 
+        //TODO abfrage ob Nutzer sicher ist wenn Änderungen vorgenommen wurden
+
+        tbTabelle.getItems().setAll(kalenderTagsListe);
+        tbTabelle.getSortOrder().clear();
+        tbTabelle.getSortOrder().add(tcDatum);
     }
     @FXML
     protected void onCbMonatAction() {
