@@ -1,15 +1,12 @@
 package de.gfi.felix.abschlussprojekt.helferklassen;
 
-import de.gfi.felix.abschlussprojekt.speicherklassen.Gruppe;
-import de.gfi.felix.abschlussprojekt.speicherklassen.GruppeOderFamilie;
-import de.gfi.felix.abschlussprojekt.speicherklassen.GruppenFamilie;
+import de.gfi.felix.abschlussprojekt.speicherklassen.*;
 
 import java.sql.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class DatenbankCommunicator {
 
@@ -37,7 +34,8 @@ public class DatenbankCommunicator {
         int akktuelleFamilienID = -1;
         GruppenFamilie akktuelleFamilie = null;
         try (Statement statement = conn.createStatement()) {
-            try(ResultSet resultSet = statement.executeQuery("select g.id, g.name, g.gruppenfamilie_id, g2.name as \"familienName\" from gruppe g, gruppenfamilie g2 where g.gruppenfamilie_id = g2.id order by g.gruppenfamilie_id;")) {
+            try(ResultSet resultSet = statement.executeQuery("select g.id, g.name, g.gruppenfamilie_id, g2.name as \"familienName\" " +
+                    "from gruppe g, gruppenfamilie g2 where g.gruppenfamilie_id = g2.id order by g.gruppenfamilie_id;")) {
                 while (resultSet.next()) {
                     akktuelleFamilienID = resultSet.getInt("gruppenfamilie_id");
                     if(akktuelleFamilie == null) {
@@ -54,9 +52,35 @@ public class DatenbankCommunicator {
         return familienListe;
     }
 
-    public static void dbAbfrageKalenderDaten(GruppeOderFamilie gruppeOderFamilie, Integer jahr) throws SQLException {
+    public static ArrayList<KalenderTag> dbAbfrageKalenderDaten(GruppeOderFamilie gruppeOderFamilie, Integer jahr) throws SQLException {
+        ArrayList<KalenderTag> ausgewaelteTage = new ArrayList<>();
+
         LocalDate firstWerktagOfYear = getFirstWerktagOfYear(jahr);
         checkForKalenderDatensatzAndGenerateIfMissing(gruppeOderFamilie, jahr);
+        ArrayList<Gruppe> ausgewaelteGruppen = new ArrayList<>();
+        if(gruppeOderFamilie.getClass() == GruppenFamilie.class) {
+            ausgewaelteGruppen.addAll(((GruppenFamilie) gruppeOderFamilie).getGruppenListe());
+        } else {
+            ausgewaelteGruppen.add((Gruppe) gruppeOderFamilie);
+        }
+        for (Gruppe gruppe : ausgewaelteGruppen) {
+            try (Statement statement = conn.createStatement()) {
+                try (ResultSet resultSet = statement.executeQuery("select g.gruppe_id , g.datum, g.gruppenstatus, if(g.datum = f.datum, 1, 0) as feiertag, k.geoeffnet from gruppenkalender g  \n" +
+                        "left join kuechenplanung k on k.datum = g.datum left join feiertag f on f.datum = g.datum\n" +
+                        "where g.datum >= \""+ jahr +"-01-01\" and g.datum <= \"" + jahr + "-12-31\" and g.gruppe_id = " + gruppe.getGruppenID() +";")) {
+                    while (resultSet.next()) {
+                        Integer gruppenID = resultSet.getInt("gruppe_id");
+                        LocalDate datum = LocalDate.parse(resultSet.getDate("datum").toString());
+                        Character status = resultSet.getString("gruppenstatus").charAt(0);
+                        Boolean kuecheGeoffnet = resultSet.getBoolean("geoeffnet");
+                        Boolean isFeiertag = resultSet.getBoolean("feiertag");
+                        KalenderTag tag = new KalenderTag(datum, status, gruppenID, kuecheGeoffnet, isFeiertag);
+                        ausgewaelteTage.add(tag);
+                    }
+                }
+            }
+        }
+        return ausgewaelteTage;
     }
 
     private static void checkForKalenderDatensatzAndGenerateIfMissing(GruppeOderFamilie gruppeOderFamilie, Integer jahr) throws SQLException {

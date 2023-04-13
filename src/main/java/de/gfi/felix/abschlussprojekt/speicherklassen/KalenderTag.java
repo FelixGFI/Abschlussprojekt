@@ -1,22 +1,38 @@
 package de.gfi.felix.abschlussprojekt.speicherklassen;
 
+import de.gfi.felix.abschlussprojekt.helferklassen.UsefullConstants;
+
 import java.time.LocalDate;
 
 public class KalenderTag extends Tag{
     private Boolean essenVerfuegbar;
     private Character status;
-    private Integer gruppenBezeichnung;
+    private Integer gruppenID;
+    private Boolean kuecheGeoffnet;
 
-    public KalenderTag(LocalDate datum, Character status, Integer gruppenBezeichnung) {
+    public KalenderTag(LocalDate datum, Character status, Integer gruppenID, Boolean kuecheGeoffnet, Boolean isFeiertag) {
         this.datum = datum;
         this.status = status;
-        this.gruppenBezeichnung = gruppenBezeichnung;
+        this.gruppenID = gruppenID;
+        this.kuecheGeoffnet = kuecheGeoffnet;
+        this.isFeiertag = isFeiertag;
+
+        if(this.isFeiertag) {
+            this.status = UsefullConstants.getFeiertagStatus();
+        } else if (this.status == UsefullConstants.getFeiertagStatus()) {
+            this.status = UsefullConstants.getDefaulStatus();
+        }
         calculateEssenVerfuegbar();
     }
 
     public void calculateEssenVerfuegbar() {
-        //TODO implement Method
-        essenVerfuegbar = true;
+        if(!kuecheGeoffnet) {
+            essenVerfuegbar = false;
+        } else if(UsefullConstants.getStatusWithoutEssenList().contains(status)) {
+            essenVerfuegbar = false;
+        } else {
+            essenVerfuegbar = true;
+        }
     }
 
     public Boolean getEssenVerfuegbar() {
@@ -29,13 +45,14 @@ public class KalenderTag extends Tag{
 
     public void setStatus(Character status) {
         this.status = status;
+        calculateEssenVerfuegbar();
     }
 
-    public Integer getGruppenBezeichnung() {
-        return gruppenBezeichnung;
+    public Integer getGruppenID() {
+        return gruppenID;
     }
 
-    public void setGruppenBezeichnung(Integer gruppenBezeichnung) {
-        this.gruppenBezeichnung = gruppenBezeichnung;
+    public void setGruppenID(Integer gruppenID) {
+        this.gruppenID = gruppenID;
     }
 }
