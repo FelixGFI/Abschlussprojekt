@@ -107,6 +107,21 @@ public class KalenderController extends Controller {
     protected void onBtPDFErstellenClick() {
         System.out.println("KalenderController.OnBtPDFErstellenClick()");
     }
+    @FXML
+    protected void onCbGruppenauswahlAction() {
+        if(cbGruppenauswahl.getSelectionModel().getSelectedItem() == null) {
+            return;
+        }
+        System.out.println("KalenderController.onCbGruppenauswahLAction()");
+    }
+    @FXML
+    protected void onCbMonatAction() {
+        System.out.println("KlanderController.onCbMonatAction()");
+    }
+    @FXML
+    protected void onCbJahrAction() {
+        System.out.println("KlanderController.onCbJahrAction()");
+    }
     public void initialize() throws SQLException {
         DatenbankCommunicator.establishConnection();
 

@@ -90,6 +90,14 @@ public class BetriebsurlaubController extends Controller {
         tbTabelle.getItems().setAll(testListe);
         tbTabelle.refresh();
     }
+    @FXML
+    protected void onCbMonatAction() {
+        System.out.println("KlanderController.onCbMonatAction()");
+    }
+    @FXML
+    protected void onCbJahrAction() {
+        System.out.println("KlanderController.onCbJahrAction()");
+    }
     public void initialize() {
         DatenbankCommunicator.establishConnection();
 

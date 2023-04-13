@@ -75,17 +75,17 @@
             </TableView>
             <FlowPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <ComboBox fx:id="cbJahr" prefWidth="125.0" promptText="Jahr">
+                  <ComboBox fx:id="cbJahr" onAction="#onCbJahrAction" prefWidth="125.0" promptText="Jahr">
                      <FlowPane.margin>
                         <Insets bottom="5.0" right="5.0" top="5.0" />
                      </FlowPane.margin>
                   </ComboBox>
-                  <ComboBox fx:id="cbMonat" prefHeight="25.0" prefWidth="125.0" promptText="Monat">
+                  <ComboBox fx:id="cbMonat" onAction="#onCbMonatAction" prefHeight="25.0" prefWidth="125.0" promptText="Monat">
                      <FlowPane.margin>
                         <Insets bottom="5.0" right="5.0" top="5.0" />
                      </FlowPane.margin>
                   </ComboBox>
-                  <ComboBox fx:id="cbGruppenauswahl" prefWidth="175.0" promptText="Gruppenauswahl">
+                  <ComboBox fx:id="cbGruppenauswahl" onAction="#onCbGruppenauswahlAction" prefWidth="175.0" promptText="Gruppenauswahl">
                      <FlowPane.margin>
                         <Insets bottom="5.0" left="5.0" top="5.0" />
                      </FlowPane.margin>
