@@ -52,13 +52,32 @@ public class DatenbankCommunicator {
         return familienListe;
     }
 
-    public static void dbAbfrageKalenderDaten(GruppeOderFamilie gruppeOderFamilie, Integer jahr) {
+    public static void dbAbfrageKalenderDaten(GruppeOderFamilie gruppeOderFamilie, Integer jahr) throws SQLException {
         LocalDate firstWerktagOfYear = getFirstWerktagOfYear(jahr);
-        System.out.println(firstWerktagOfYear);
-        checkForDatensatzAndGenerateIfMissing();
+        checkForDatensatzAndGenerateIfMissing(gruppeOderFamilie, jahr);
     }
 
-    private static void checkForDatensatzAndGenerateIfMissing() {
+    private static void checkForDatensatzAndGenerateIfMissing(GruppeOderFamilie gruppeOderFamilie, Integer jahr) throws SQLException {
+        LocalDate firstWerktagOfYear = getFirstWerktagOfYear(jahr);
+        ArrayList<Gruppe> ausgewaehlteGruppenListe = new ArrayList<>();
+        if(gruppeOderFamilie.getClass() == GruppenFamilie.class) {
+            ausgewaehlteGruppenListe.addAll(((GruppenFamilie) gruppeOderFamilie).getGruppenListe());
+        } else {
+            ausgewaehlteGruppenListe.add(((Gruppe) gruppeOderFamilie));
+        }
+        for (Gruppe g : ausgewaehlteGruppenListe) {
+            try (Statement statement = conn.createStatement()) {
+                try(ResultSet resultSet = statement.executeQuery("select exists (select * from gruppenkalender g where datum = \"" + firstWerktagOfYear.toString() + "\" and gruppe_id = " + g.getGruppenID() + ") as dayExists;")) {
+                    while (resultSet.next()) {
+                        if(!resultSet.getBoolean("dayExists")) {
+                            System.out.println("Generate");
+                            //TODO implement Generation
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
     private static LocalDate getFirstWerktagOfYear(Integer jahr) {

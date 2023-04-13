@@ -108,7 +108,7 @@ public class KalenderController extends Controller {
         System.out.println("KalenderController.OnBtPDFErstellenClick()");
     }
     @FXML
-    protected void onCbGruppenauswahlAction() {
+    protected void onCbGruppenauswahlAction() throws SQLException {
         if(cbGruppenauswahl.getSelectionModel().getSelectedItem() == null) {
             return;
         }
