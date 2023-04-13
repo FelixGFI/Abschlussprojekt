@@ -5,6 +5,8 @@ import de.gfi.felix.abschlussprojekt.speicherklassen.GruppeOderFamilie;
 import de.gfi.felix.abschlussprojekt.speicherklassen.GruppenFamilie;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 
 public class DatenbankCommunicator {
@@ -48,5 +50,30 @@ public class DatenbankCommunicator {
             }
         }
         return familienListe;
+    }
+
+    public static void dbAbfrageKalenderDaten(GruppeOderFamilie gruppeOderFamilie, Integer jahr) {
+        LocalDate firstWerktagOfYear = getFirstWerktagOfYear(jahr);
+        System.out.println(firstWerktagOfYear);
+        checkForDatensatzAndGenerateIfMissing();
+    }
+
+    private static void checkForDatensatzAndGenerateIfMissing() {
+    }
+
+    private static LocalDate getFirstWerktagOfYear(Integer jahr) {
+        Month monat = Month.JANUARY;
+        LocalDate firstDayOfMonth = getFirstWerktagOfMonth(jahr, monat);
+        return firstDayOfMonth;
+    }
+
+    private static LocalDate getFirstWerktagOfMonth(Integer jahr, Month monat) {
+        LocalDate firstDayOfMonth = LocalDate.of(jahr, monat, 1);
+        switch (firstDayOfMonth.getDayOfWeek()) {
+            case SATURDAY -> firstDayOfMonth = firstDayOfMonth.plusDays(2);
+            case SUNDAY -> firstDayOfMonth = firstDayOfMonth.plusDays(1);
+            default -> {}
+        }
+        return firstDayOfMonth;
     }
 }

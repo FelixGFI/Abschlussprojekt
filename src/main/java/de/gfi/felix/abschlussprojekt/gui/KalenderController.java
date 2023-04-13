@@ -113,6 +113,7 @@ public class KalenderController extends Controller {
             return;
         }
         System.out.println("KalenderController.onCbGruppenauswahLAction()");
+        DatenbankCommunicator.dbAbfrageKalenderDaten(cbGruppenauswahl.getSelectionModel().getSelectedItem(), cbJahr.getSelectionModel().getSelectedItem());
     }
     @FXML
     protected void onCbMonatAction() {
