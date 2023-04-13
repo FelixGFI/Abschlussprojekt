@@ -77,10 +77,12 @@ public class KuechenController extends Controller {
     protected void onBtPreviousClick() {
         System.out.println("KuechenController.OnBtPreviousClick()");
     }
-    @FXML protected void onBtOffenClick() {
+    @FXML
+    protected void onBtOffenClick() {
         System.out.println("KuechenController.OnBtOffenClick");
     }
-    @FXML protected void onBtGeschlossenClick() {
+    @FXML
+    protected void onBtGeschlossenClick() {
         System.out.println("KuechenController.OnBtGeschlossenClick");
         ArrayList<KuechenTag> testListe = new ArrayList<>();
         testListe.add(new KuechenTag(LocalDate.now(), 0));
