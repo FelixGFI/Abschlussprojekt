@@ -91,11 +91,11 @@ public class KuechenController extends Controller {
     }
     @FXML
     protected void onCbMonatAction() {
-        System.out.println("KlanderController.onCbMonatAction()");
+        System.out.println("KuechenController.onCbMonatAction()");
     }
     @FXML
     protected void onCbJahrAction() {
-        System.out.println("KlanderController.onCbJahrAction()");
+        System.out.println("KuechenController.onCbJahrAction()");
     }
     public void initialize() {
         DatenbankCommunicator.establishConnection();

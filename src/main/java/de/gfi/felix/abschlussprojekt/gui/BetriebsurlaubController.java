@@ -78,10 +78,12 @@ public class BetriebsurlaubController extends Controller {
     protected void onBtPreviousClick() {
         System.out.println("BetriebsurlaubController.OnBtFreiClick()");
     }
-    @FXML protected void onBtUrlaubClick() {
+    @FXML
+    protected void onBtUrlaubClick() {
         System.out.println("BetriebsurlaubController.OnBtUrlaubClick()");
     }
-    @FXML protected void onBtArbeitClick() {
+    @FXML
+    protected void onBtArbeitClick() {
         System.out.println("BetriebsurlaubController.OnBtArbeitClick()");
         ArrayList<BetriebsurlaubsTag> testListe = new ArrayList();
         testListe.add(new BetriebsurlaubsTag(LocalDate.now(), 0));
@@ -92,11 +94,11 @@ public class BetriebsurlaubController extends Controller {
     }
     @FXML
     protected void onCbMonatAction() {
-        System.out.println("KlanderController.onCbMonatAction()");
+        System.out.println("BetriebsurlaubController.onCbMonatAction()");
     }
     @FXML
     protected void onCbJahrAction() {
-        System.out.println("KlanderController.onCbJahrAction()");
+        System.out.println("BetriebsurlaubController.onCbJahrAction()");
     }
     public void initialize() {
         DatenbankCommunicator.establishConnection();
