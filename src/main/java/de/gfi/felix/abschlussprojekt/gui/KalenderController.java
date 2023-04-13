@@ -113,7 +113,6 @@ public class KalenderController extends Controller {
             return;
         }
         System.out.println("KalenderController.onCbGruppenauswahLAction()");
-        For
     }
     @FXML
     protected void onCbMonatAction() {
