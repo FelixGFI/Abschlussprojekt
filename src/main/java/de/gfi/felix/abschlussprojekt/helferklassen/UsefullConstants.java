@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 public class UsefullConstants {
 
+    private final static Character defaultStatus = 'N';
     private final static ArrayList<Character> statusListCharacterFormat = new ArrayList<>(Arrays.asList('P', 'O', 'A', 'B', 'U', 'N', 'F'));
     private final static ArrayList<Character> statusListCharacterFormatOhneFeiertag = new ArrayList<>(Arrays.asList('P', 'O', 'A', 'B', 'U', 'N'));
     private final static ArrayList<String> statusListStringFormat = new ArrayList<>(Arrays.asList("Anwesend", "Homeoffice", "Auswärts", "Berufsschule", "Urlaub", "N/A", "gesetzlicher Feiertag"));
@@ -24,5 +25,8 @@ public class UsefullConstants {
     }
     public static ArrayList<Integer> getJahreListe() {
         return jahreListe;
+    }
+    public static Character getDefaulStatus() {
+        return defaultStatus;
     }
 }

@@ -5,9 +5,11 @@ import de.gfi.felix.abschlussprojekt.speicherklassen.GruppeOderFamilie;
 import de.gfi.felix.abschlussprojekt.speicherklassen.GruppenFamilie;
 
 import java.sql.*;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class DatenbankCommunicator {
 
@@ -54,10 +56,10 @@ public class DatenbankCommunicator {
 
     public static void dbAbfrageKalenderDaten(GruppeOderFamilie gruppeOderFamilie, Integer jahr) throws SQLException {
         LocalDate firstWerktagOfYear = getFirstWerktagOfYear(jahr);
-        checkForDatensatzAndGenerateIfMissing(gruppeOderFamilie, jahr);
+        checkForKalenderDatensatzAndGenerateIfMissing(gruppeOderFamilie, jahr);
     }
 
-    private static void checkForDatensatzAndGenerateIfMissing(GruppeOderFamilie gruppeOderFamilie, Integer jahr) throws SQLException {
+    private static void checkForKalenderDatensatzAndGenerateIfMissing(GruppeOderFamilie gruppeOderFamilie, Integer jahr) throws SQLException {
         LocalDate firstWerktagOfYear = getFirstWerktagOfYear(jahr);
         ArrayList<Gruppe> ausgewaehlteGruppenListe = new ArrayList<>();
         if(gruppeOderFamilie.getClass() == GruppenFamilie.class) {
@@ -70,14 +72,36 @@ public class DatenbankCommunicator {
                 try(ResultSet resultSet = statement.executeQuery("select exists (select * from gruppenkalender g where datum = \"" + firstWerktagOfYear.toString() + "\" and gruppe_id = " + g.getGruppenID() + ") as dayExists;")) {
                     while (resultSet.next()) {
                         if(!resultSet.getBoolean("dayExists")) {
-                            System.out.println("Generate");
-                            //TODO implement Generation
+                            generateDummyDatensaetzeForYearAndGroups(jahr, g);
                         }
                     }
                 }
             }
         }
 
+    }
+
+    private static void generateDummyDatensaetzeForYearAndGroups(Integer jahr, Gruppe gruppe) throws SQLException {
+        ArrayList<LocalDate> alleWerktageImJahr = getAlleWerktageImJahr(jahr);
+
+        try(Statement statement = conn.createStatement()){
+            for (LocalDate datum : alleWerktageImJahr) {
+                statement.execute("insert into gruppenkalender (gruppe_id, datum, essensangebot, gruppenstatus)" +
+                        "Values ("+ gruppe.getGruppenID() + ", \"" + datum.toString() + "\", true, \"" + UsefullConstants.getDefaulStatus() + "\");");
+            }
+        }
+    }
+
+    private static ArrayList<LocalDate> getAlleWerktageImJahr(Integer jahr) {
+        LocalDate countDate = LocalDate.of(jahr, Month.JANUARY, 01);
+        ArrayList<LocalDate> datumsListe = new ArrayList<>();
+        while(countDate.getYear() == jahr) {
+            if(!(countDate.getDayOfWeek() == DayOfWeek.SATURDAY || countDate.getDayOfWeek() == DayOfWeek.SUNDAY)) {
+                datumsListe.add(countDate);
+            }
+            countDate = countDate.plusDays(1);
+        }
+        return datumsListe;
     }
 
     private static LocalDate getFirstWerktagOfYear(Integer jahr) {
