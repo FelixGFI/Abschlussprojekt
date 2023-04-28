@@ -52,6 +52,13 @@ public class KalenderController extends Controller {
     @FXML
     private Button btPDFErstellen;
 
+    /**
+     * diese Methode ist zur Öffnung eines Fensters dieser controllerKlasse aus einem anderen Fenster (Hauptmenü) da.
+     * @param parentStage stage des Aufrufenden Fensters
+     * @param title titel des zu Zeigenden Fensters als String
+     * @param fxmlResource dateipfad der für den Controller verwendeten fxml Datei als String
+     * @throws IOException
+     */
     public static void openWindow(Stage parentStage, String title, String fxmlResource) throws IOException {
         FXMLLoader loader = new FXMLLoader(Controller.class.getResource(fxmlResource));
         Scene newScene;

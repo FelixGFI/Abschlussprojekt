@@ -23,6 +23,14 @@ import java.util.ArrayList;
 
 public class Controller {
 
+    /**
+     * Konfiguriert das Datum in einer übergebenen TableColumn in dem Vormat, Wochentagskürzel, DD.MM.JJJJ
+     * z. B. Fr, 28.04.2023
+     * Dies geschieht mithilfe einer CellValueFactory (zum festsetzen des Anzuzeigenden Attributes) und einer
+     * CellFactory (zum festlegen der Formatierung jeder Zelle)
+     * @param tableColumnLocalDate zu Formatierende TableColumn
+     * @param attributName attributname des Datums in der für die zugehörige TableView enthaltene Klasse
+     */
     public void configureLocalDateTableColum(TableColumn tableColumnLocalDate, String attributName) {
         tableColumnLocalDate.setCellValueFactory(new PropertyValueFactory<>(attributName));
         tableColumnLocalDate.setCellFactory(column -> {
@@ -39,7 +47,7 @@ public class Controller {
                         default -> cellText = "";
                     }
 
-                    cellText += newValue.format(DateTimeFormatter.ofPattern("dd.MM.yyy"));
+                    cellText += newValue.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
                     cell.setText(cellText);
                 }
             }));
@@ -47,7 +55,14 @@ public class Controller {
         });
 
     }
-
+    /**
+     * Formatiert eine tableColumn welche Boolsche werte enthalten soll und sorgt dafür das für den booleschen
+     * Wert true "Ja" und für den wert false "Nein" angezeigt wird.
+     * Dies geschieht mithilfe einer CellValueFactory (zum festsetzen des Anzuzeigenden Attributes) und einer
+     * CellFactory (zum festlegen der Formatierung jeder Zelle)
+     * @param tableColumnBoolean zu Formatierende TableColumn
+     * @param attributName attributname des Datums in der für die zugehörige TableView enthaltene Klasse
+     */
     public void configureBooleanTableColumn(TableColumn tableColumnBoolean, String attributName) {
         tableColumnBoolean.setCellValueFactory(new PropertyValueFactory<>(attributName));
         tableColumnBoolean.setCellFactory(column -> {
@@ -66,7 +81,15 @@ public class Controller {
             return cell;
         });
     }
-
+    /**
+     * Formatiert eine TableColumn welche den Status einer Gruppe als Character enthält (z. b. B für Berufschule)
+     * so das anstatt des Characters der Entsprechende String angezeigt wird. Der anzuzeigende String für jeden Chracter,
+     * sowie die Verfügbaren Characters werden aus Arrays in der Klasse UsefullConstants gelesen.
+     * Dies geschieht mithilfe einer CellValueFactory (zum festsetzen des Anzuzeigenden Attributes) und einer
+     * CellFactory (zum festlegen der Formatierung jeder Zelle)
+     * @param tableColumnStatus zu Formatierende TableColumn
+     * @param attributName attributname des Datums in der für die zugehörige TableView enthaltene Klasse
+     */
     public void configureGruppenStatusTableColumn(TableColumn tableColumnStatus, String attributName) {
         tableColumnStatus.setCellValueFactory(new PropertyValueFactory<>(attributName));
         tableColumnStatus.setCellFactory(column -> {
@@ -83,10 +106,27 @@ public class Controller {
     }
 
 
-
+    /**
+     * Diese Methode ist noch nicht Vollständig implementiert. In Zukunft soll sie für eine Bestimmte GruppenID
+     * in der Angezeigten Zelle die Richtige Formatierung festlegen.
+     * Dies geschieht mithilfe einer CellValueFactory (zum festsetzen des Anzuzeigenden Attributes) und einer
+     * CellFactory (zum festlegen der Formatierung jeder Zelle)
+     * @param tableColumnGruppenBezeichnung zu Formatierende TableColumn
+     * @param attributName attributname des Datums in der für die zugehörige TableView enthaltene Klasse
+     */
     public void configureGruppenBezeichnungtableColumn(TableColumn tableColumnGruppenBezeichnung, String attributName) {
         tableColumnGruppenBezeichnung.setCellValueFactory(new PropertyValueFactory<>(attributName));
     }
+
+    /**
+     * Diese Methode formatiert eien TableColumn welche die Integers mit den Werten 0, 1  und 2 beinhalten kann
+     * indem sie je nach enthaltenem Wert einen Bestimmten String ausgibt. (0 -> "Ja", 1 -> "Nein", 2 ->
+     * "gesetzlicher Feiertag")
+     * Dies geschieht mithilfe einer CellValueFactory (zum festsetzen des Anzuzeigenden Attributes) und einer
+     * CellFactory (zum festlegen der Formatierung jeder Zelle)
+     * @param tableColumnInteger zu Formatierende TableColumn
+     * @param attributName attributname des Datums in der für die zugehörige TableView enthaltene Klasse
+     */
     public void configureIntegerColumn(TableColumn tableColumnInteger, String attributName) {
         tableColumnInteger.setCellValueFactory(new PropertyValueFactory<>(attributName));
         tableColumnInteger.setCellFactory(column -> {
@@ -107,10 +147,24 @@ public class Controller {
         });
     }
 
+    /**
+     * befüllt eien Combobox welche Jahreszahlen zur Auswahl enthalten soll mit werten aus siner ArrayList enthalten
+     * in der Klasse UsefullConstants
+     * @param cbJahr zu Befüllende Combobox
+     */
     protected void configureJahrCombobox(ComboBox<Integer> cbJahr) {
         cbJahr.getItems().addAll(UsefullConstants.getJahreListe());
         cbJahr.getSelectionModel().select(LocalDate.now().getYear() - UsefullConstants.getJahreListe().get(0));
     }
+
+    /**
+     * Befüllt eine Combobox mit objekten 12 Month objekten welche für die Zwölf Monat des Jahres stehen
+     * und sorgt danach dafür das für jedes Month Objekt, sowohl in der Dropdown liste als auch wenn ausgewählt
+     * der entsprechende Deutsche Monatsname als String angezeigt wird
+     * Hierzu wird eine CellFactory verwendet (für die Anzeige in der Liste) und ein StringConverter
+     * (für die Anzeige des Ausgewählten wertes)
+     * @param cbMonat zu Befüllende und Formatierende Combobox
+     */
     protected void configureMonatCombobox(ComboBox<Month> cbMonat) {
         cbMonat.getItems().addAll(Month.values());
         cbMonat.getSelectionModel().select(LocalDate.now().getMonth());
@@ -138,6 +192,15 @@ public class Controller {
         });
     }
 
+    /**
+     * Formatiert eine Combobox welche den Status einer Gruppe als Character enthält (z. b. B für Berufschule)
+     * so das anstatt des Characters der Entsprechende String angezeigt wird. Der anzuzeigende String für jeden Chracter,
+     * sowie die Verfügbaren Characters werden aus Arrays in der Klasse UsefullConstants gelesen. Die Formatierung
+     * wird sowohl für die Dropdown Liste als auch für die anzeige des Ausgewählten Wertes angepasst
+     * Hierzu wird eine CellFactory verwendet (für die Anzeige in der Liste) und ein StringConverter
+     * (für die Anzeige des Ausgewählten wertes)
+     * @param cbStatusAuswahl zu Befüllende und Formatierende Combobox
+     */
     protected void configureStatusCombobox(ComboBox<Character> cbStatusAuswahl) {
         cbStatusAuswahl.getItems().addAll(UsefullConstants.getStatusListCharacterFormatOhneFeiertag());
         cbStatusAuswahl.setCellFactory(colum -> {
@@ -164,6 +227,21 @@ public class Controller {
         });
     }
 
+    /**
+     * Diese Methode formatiert eine Combobox welche obejekte enthält welche vo nder Klasse GruppeOderFamilie
+     * abgeleitet sind. Die Combobox kann entweder Objekte der Klasse Gruppe oder der Klasse GruppenFamilie enthalten
+     * welche beide von GruppeOderFamilie abgeleitet sind. Hierzu wird eine ArrayListe aller in der Datenbank enthaltenen
+     * Gruppenfamilien verwendet welche vom DatenbankCommunicator bereitgestellt wird. Jede GruppenFamilie enthält
+     * eine ArrayList aller zu ihr gehörenden Gruppen (ein Gruppe kann nur zu einer Familie gehören). Die GruppenFamilien
+     * werden in der Dropdown Liste Fett gedrukt dargestellt, die zu ihnen Gehördenden Gruppen werden unter der Jweiligen
+     * Familie ohne Fettdruck aufgelistet. Auf diese weise ist erkennbar was eine Gruppenfamilie ist und welche Gruppen
+     * zu ihr gehören. In der Liste sollen Gruppenfamilien als ganzes oder nur einzelne Gruppen ausgwählt werden können.
+     * Die Formatierung wird sowohl für die Dropdown Liste als auch für die anzeige des Ausgewählten
+     * Wertes angepasst
+     * Hierzu wird eine CellFactory verwendet (für die Anzeige in der Liste) und ein StringConverter
+     * (für die Anzeige des Ausgewählten wertes)
+     * @param cbGruppenauswahl zu Befüllende und Formatierende Combobox
+     */
     protected void configureGruppenAuswahlCombobox(ComboBox<GruppeOderFamilie> cbGruppenauswahl) throws SQLException {
         ArrayList<GruppenFamilie> familenListe = DatenbankCommunicator.dbAbfrageGruppenUndFamilien();
         for (GruppenFamilie familie : familenListe) {
@@ -207,18 +285,36 @@ public class Controller {
         });
 
     }
+
+    /**
+     * gibt einen für einen übergebenen Status Character den entsprecehnden Status als String zurück.
+     * @param statusCharacter Character zu dem der Status strign ermittelt werden soll
+     * @return Status String wenn gefunden, wenn nicht gefunden null.
+     */
     private static String getStatusStringForCharacter(Character statusCharacter) {
         String statusString;
         int statusIndex = UsefullConstants.getStatusListCharacterFormat().indexOf(statusCharacter);
         statusString = UsefullConstants.getStatusListStringFormat().get(statusIndex);
         return statusString;
     }
+    /**
+     * gibt einen für einen übergebenen Status Character den entsprecehnden Status als String zurück.
+     * berücksichtigt dabei alerdings keine Feirtage (status Character F)
+     * @param statusCharacter Character zu dem der Status strign ermittelt werden soll
+     * @return Status String wenn gefunden, wenn nicht gefunden null.
+     */
     private static String getStatusStringForCharacterOhneFeiertag(Character statusCharacter) {
         String statusString;
         int statusIndex = UsefullConstants.getStatusListCharacterFormatOhneFeiertag().indexOf(statusCharacter);
         statusString = UsefullConstants.getStatusListStringFormatOhneFeiertag().get(statusIndex);
         return statusString;
     }
+
+    /**
+     * ermittelt für ein gegebenes Month objekt die entsprechende Deutschsprachige bezeichnugn als string
+     * @param newValue Month für die bezeichung als String ermittelt werden soll.
+     * @return Deutschsprachige Bezeichnung als String wenn gefunden. Ansonsten einen Leerstring
+     */
     private static String getMonthStringFromMonth(Month newValue) {
         String cellText;
         switch (newValue) {
