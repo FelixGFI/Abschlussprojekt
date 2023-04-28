@@ -78,6 +78,7 @@ public class KalenderController extends Controller {
         stage.setTitle(title);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
+
     }
     @FXML
     protected void onBtSpeichernClick() {
@@ -87,6 +88,10 @@ public class KalenderController extends Controller {
     protected void onBtAbbrechenClick() {
         System.out.println("KalenderControllerOn.BtAbbrechenClick()");
     }
+
+    /**
+     * enthält momentan Testdatengenerierung. Kann entfernt werden.
+     */
     @FXML
     protected void onBtAnnehmenClick() {
         System.out.println("KalenderController.OnBtAnnehmenClick()");
@@ -117,6 +122,13 @@ public class KalenderController extends Controller {
     protected void onBtPDFErstellenClick() {
         System.out.println("KalenderController.OnBtPDFErstellenClick()");
     }
+
+    /**
+     * Holt wenn eine Gruppe oder Gruppenfamilie ausgewählt wird die Entsprechenden Daten entweder für die gewählte
+     * Gruppe oder für alle Gruppen der Familie alle relevanten Daten aus der Datenbank und zeigt diese in der Tabelle an.
+     * Änderungen werden stand jetzt nicht gespeichert, die in der Tabelle breits vorhandenen Daten werden einfach überschrieben
+     * @throws SQLException
+     */
     @FXML
     protected void onCbGruppenauswahlAction() throws SQLException {
         if(cbGruppenauswahl.getSelectionModel().getSelectedItem() == null) {

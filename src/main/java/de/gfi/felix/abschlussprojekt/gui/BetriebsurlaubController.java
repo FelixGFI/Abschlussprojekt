@@ -89,6 +89,9 @@ public class BetriebsurlaubController extends Controller {
     protected void onBtUrlaubClick() {
         System.out.println("BetriebsurlaubController.OnBtUrlaubClick()");
     }
+    /**
+     * Entält Testdatengenerierung welche später entfernt werden kann
+     */
     @FXML
     protected void onBtArbeitClick() {
         System.out.println("BetriebsurlaubController.OnBtArbeitClick()");

@@ -88,6 +88,9 @@ public class KuechenController extends Controller {
     protected void onBtOffenClick() {
         System.out.println("KuechenController.OnBtOffenClick");
     }
+    /**
+     * Entält Testdatengenerierung welche später entfernt werden kann
+     */
     @FXML
     protected void onBtGeschlossenClick() {
         System.out.println("KuechenController.OnBtGeschlossenClick");

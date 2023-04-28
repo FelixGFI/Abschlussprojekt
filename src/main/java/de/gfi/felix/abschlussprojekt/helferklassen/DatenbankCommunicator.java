@@ -29,6 +29,16 @@ public class DatenbankCommunicator {
             System.out.println( "Datenbankverbindung Fehlgeschlagen. Bitte Stellen Sie sicher das das Programm zugriff auf die Datenbank hat. [" + url + "]");
         }
     }
+
+    /**
+     * fragt aus der Datenbank alle vorhandenen Gruppenfamilien und die zu ihnen Gehörenden Gruppen ab.
+     * Erzeugt in jeder Gruppenfamilie eine Vollständige Arraylist aller zugehörigen Gruppen (eine Gruppe gehört
+     * immer nur zu einer Familie) und gibt eine ArrayList aller Gruppenfamilien zurück (die enthaltenen Gruppen
+     * können von der entsprechenden GruppenFamilie erhalten werden)
+     * @return eine ArrayList aller GruppenFamilien aus der Datenbank welche jeweils alle zu ihnen gehörenden
+     * Gruppen enthalten
+     * @throws SQLException
+     */
     public static ArrayList<GruppenFamilie> dbAbfrageGruppenUndFamilien() throws SQLException {
         ArrayList<GruppenFamilie> familienListe = new ArrayList<>();
         int akktuelleFamilienID = -1;
@@ -52,6 +62,17 @@ public class DatenbankCommunicator {
         return familienListe;
     }
 
+    /**
+     * leist für das gegebene Jahr und die gegebene Gruppe oder Gruppenfamilie alle Kalenderdatensätze aus der Datenbank aus
+     * und gibt diese als ArrayList<KalenderTage> zurück. Wird eine Gruppe übergeben bearbeitet die Methode diese, wird eien
+     * GruppenFamilie übergeben erkentn die Methode dies und bearbeitet alle Gruppen dieser Familie. (Alle zugehörigen gruppen
+     * sind in der Gruppenfamilie als ArrayList enthalten). Überprüft vor dder Datenbankabfrage ob Kalenderdatensätze für
+     * jeder Gruppe und das entsprechende Jahr vorhanden sind. Generiert diese fals noch nicht vorhanden
+     * @param gruppeOderFamilie Grupep oder Gruppenfamilie für die Kalenderdatensätze ausgegelsesn werden sollen
+     * @param jahr jahr für welche die Auslesung durchgeführt werden soll
+     * @return ArrayListy<KalenderTag> welche für alle Werktage des übergebenen Jahres einen Datensatz für jede Gruppe enthält
+     * @throws SQLException
+     */
     public static ArrayList<KalenderTag> dbAbfrageKalenderDaten(GruppeOderFamilie gruppeOderFamilie, Integer jahr) throws SQLException {
         ArrayList<KalenderTag> ausgewaelteTage = new ArrayList<>();
 
@@ -83,6 +104,23 @@ public class DatenbankCommunicator {
         return ausgewaelteTage;
     }
 
+    /**
+     * überprüft für ein Objekt GruppeOderGruppenfamilie ob für die Darin enthaltene Gruppe, oder Gruppen in der Gruppenfamilie
+     * bereits Kalenderdatensätze in der Entsprechenden Tabelle Datenbankttabelle vorhanden sind für das gegebene Jahr.
+     * Überprüft ob es sich beim Übergebnene GruppenOderGruppenfamilie objekt um eien Gruppe oder eine Gruppenfamilie handelt.
+     * Fügt jeweils, entweder dei Gruppe oder alle in der Familie enthaltnen Gruppen zu eienr Arraylist hinzu.
+     * Überprüft für jedes Element der Arraylist ob Datensätze für das gegebene Jahr vorhanden sind und erzeugt
+     * wenn nicht alle für die entsprechende Gruppe und das Entsprechende Jahr.
+     * Hinweis: Es wird davon Ausgegangen das Datensätez immer nur für ein Ganzes Jahr und nur für Werktage
+     * in der Datenbank vorhandne sind (inklusive Feirtage die auf einen Werktag fallen). Daher genügt es
+     * den Datensatz für den Ersten Werktag eiens Jahres zu prüfen. Ist dieser nicht in der Datenbank vorhanden kann
+     * davon ausgegangen werden das für dieses Jahr und diese Gruppe noch keien Datensätze existieren. Die Methode generiert
+     * Datensätze nur für alle Werktage eiens Jahres
+     * @param gruppeOderFamilie kann sowohl eine Gruppe als auch eine GruppenFamilie enthlaten für welche geprüft werden soll
+     *                          ob datensätze vorhanden sind und wenn nicht neue generiert werden.
+     * @param jahr jahr für welches die Prüfung und bei bedarf generierung durchgeführt werden soll
+     * @throws SQLException
+     */
     private static void checkForKalenderDatensatzAndGenerateIfMissing(GruppeOderFamilie gruppeOderFamilie, Integer jahr) throws SQLException {
         LocalDate firstWerktagOfYear = getFirstWerktagOfYear(jahr);
         ArrayList<Gruppe> ausgewaehlteGruppenListe = new ArrayList<>();
@@ -105,6 +143,18 @@ public class DatenbankCommunicator {
 
     }
 
+    /**
+     * generirt für alle Werktage des übergebenen Jahres für die Übergebene Gruppe Kalenderdatensätze in der Datenbank.
+     * Diese Methode sollte nur aufgerufen werden wenn für das besagte Jahr noch keine Datensätze existieren.
+     * Hinweis: Es wird davon Ausgegangen das Datensetez immer nur für ein Ganzes Jarh und nur für Werktage
+     * in der Datenbank vorhandne sind (inklusive Feirtage die auf einen Werktag fallen). Daher genügt es vor dem
+     * Methodenaufruf den Ersten Werktag eines Jahres zu prüfen. Ist dieser nicht in der Datenbank vorhanden kann
+     * davon ausgegangen werden das für dieses Jahr und diese Gruppe noch keien Datensätze existieren.
+     * @param jahr jahr für das Datensätze generiert werden. Die Methode generiert Datensätze nur für alle Werktage
+     * eiens Jahres.
+     * @param gruppe Grupep für welche Datensätze generiert werden
+     * @throws SQLException
+     */
     private static void generateDummyDatensaetzeForYearAndGroups(Integer jahr, Gruppe gruppe) throws SQLException {
         ArrayList<LocalDate> alleWerktageImJahr = getAlleWerktageImJahr(jahr);
 
@@ -116,6 +166,12 @@ public class DatenbankCommunicator {
         }
     }
 
+    /**
+     * Diese Methode ermittelt für ein Jahr ALLE Werktage (d. h. kein Wochenende) und gibt diese in einer ArrayList
+     * von LocalDates zurück. Feiertage werden nicht berücksichtigt
+     * @param jahr jahr für das alle Werktage ermitelt werden sollen
+     * @return ArrayList<LocalDate> Welche alle Werktage(inkl. Feiertage die auf Werktage fallen) des übergebenen Jahres enthält
+     */
     private static ArrayList<LocalDate> getAlleWerktageImJahr(Integer jahr) {
         LocalDate countDate = LocalDate.of(jahr, Month.JANUARY, 01);
         ArrayList<LocalDate> datumsListe = new ArrayList<>();
@@ -128,12 +184,25 @@ public class DatenbankCommunicator {
         return datumsListe;
     }
 
+    /**
+     * Ermittelt für das übergebene Jahres den Ersten Tag welcher ein Werktag (d. h. kein Wochenende)
+     * ist und gibt für diesen das entsprechende LocalDate zurück. Feiertage werden NICHT berücksichtigt.
+     * @param jahr jahr in welchem sich der Tag befinden soll
+     * @return LocalDate des ermittelten Tages
+     */
     private static LocalDate getFirstWerktagOfYear(Integer jahr) {
         Month monat = Month.JANUARY;
         LocalDate firstDayOfMonth = getFirstWerktagOfMonth(jahr, monat);
         return firstDayOfMonth;
     }
 
+    /**
+     * Ermittelt für den Übergebenen Monat des Übergebenen Jahres den Ersten Tag welcher ein Werktag (d. h. kein Wochenende)
+     * ist und gibt für diesen das entsprechende LocalDate zurück. Feiertage werden NICHT berücksichtigt.
+     * @param jahr jahr in welchem sich der Tag befinden soll
+     * @param monat für den der Tag ermittelt werden soll
+     * @return LocalDate des ermittelten Tages
+     */
     private static LocalDate getFirstWerktagOfMonth(Integer jahr, Month monat) {
         LocalDate firstDayOfMonth = LocalDate.of(jahr, monat, 1);
         switch (firstDayOfMonth.getDayOfWeek()) {
