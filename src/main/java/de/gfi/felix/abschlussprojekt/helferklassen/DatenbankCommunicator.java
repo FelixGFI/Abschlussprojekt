@@ -212,12 +212,11 @@ public class DatenbankCommunicator {
         return firstDayOfMonth;
     }
 
+    //TODO Do dokumentation
     public static ArrayList<KuechenTag> dbAbfrageKuechenTage(Integer jahr) throws SQLException {
         ArrayList<KuechenTag> ausgewaelteTage = new ArrayList<>();
         LocalDate firstWerktagOfYear = getFirstWerktagOfYear(jahr);
         checkForKuechenDatensatzAndGenerateIfMissing(jahr);
-
-
 
         try (Statement statement = conn.createStatement()) {
             try (ResultSet resultSet = statement.executeQuery("select k.datum, k.geoeffnet , if(k.datum = f.datum, 1, 0) as feiertag \n" +
@@ -245,6 +244,7 @@ public class DatenbankCommunicator {
         return ausgewaelteTage;
     }
 
+    //TODO Do dokumentation
     public static ArrayList<BetriebsurlaubsTag> dbAbfrageBetriebsurlaubTage(Integer jahr) throws SQLException {
         ArrayList<BetriebsurlaubsTag> ausgewaelteTage = new ArrayList<>();
         LocalDate firstWerktagOfYear = getFirstWerktagOfYear(jahr);
@@ -278,7 +278,29 @@ public class DatenbankCommunicator {
         return ausgewaelteTage;
     }
 
-    private static void checkForKuechenDatensatzAndGenerateIfMissing(Integer jahr) {
+    //TODO Do dokumentation
+    private static void checkForKuechenDatensatzAndGenerateIfMissing(Integer jahr) throws SQLException {
+        LocalDate firstWerktagOfYear = getFirstWerktagOfYear(jahr);
+        try (Statement statement = conn.createStatement()) {
+            try(ResultSet resultSet = statement.executeQuery("select exists (select * from kuechenplanung k where datum = \"" + firstWerktagOfYear.toString() + "\") as dayExists;")) {
+                while (resultSet.next()) {
+                    if(!resultSet.getBoolean("dayExists")) {
+                        generateDummyDatensaetzeFuerKuche(jahr);
+                    }
+                }
+            }
+        }
+    }
 
+    //TODO Do dokumentation
+    private static void generateDummyDatensaetzeFuerKuche(Integer jahr) throws SQLException {
+        ArrayList<LocalDate> alleWerktageImJahr = getAlleWerktageImJahr(jahr);
+
+        try(Statement statement = conn.createStatement()){
+            for (LocalDate datum : alleWerktageImJahr) {
+                statement.execute("insert into kuechenplanung (datum, geoeffnet)" +
+                        "Values (\"" + datum.toString() + "\", true);");
+            }
+        }
     }
 }
