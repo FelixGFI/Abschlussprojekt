@@ -92,9 +92,6 @@ public class KalenderController extends Controller {
         System.out.println("KalenderControllerOn.BtAbbrechenClick()");
     }
 
-    /**
-     * enthält momentan Testdatengenerierung. Kann entfernt werden.
-     */
     @FXML
     protected void onBtAnnehmenClick() {
         System.out.println("KalenderController.OnBtAnnehmenClick()");

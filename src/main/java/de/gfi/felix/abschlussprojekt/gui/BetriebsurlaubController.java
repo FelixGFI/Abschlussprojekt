@@ -2,6 +2,7 @@ package de.gfi.felix.abschlussprojekt.gui;
 
 import de.gfi.felix.abschlussprojekt.helferklassen.DatenbankCommunicator;
 import de.gfi.felix.abschlussprojekt.speicherklassen.*;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -88,18 +89,22 @@ public class BetriebsurlaubController extends Controller {
     @FXML
     protected void onBtUrlaubClick() {
         System.out.println("BetriebsurlaubController.OnBtUrlaubClick()");
+        for (BetriebsurlaubsTag tag : (ObservableList<BetriebsurlaubsTag>) tbTabelle.getSelectionModel().getSelectedItems()) {
+            if(tag.getIstBetriebsurlaub() != 2) {
+                tag.setIstBetriebsurlaub(1);
+            }
+        }
+        tbTabelle.refresh();
     }
-    /**
-     * Entält Testdatengenerierung welche später entfernt werden kann
-     */
+
     @FXML
     protected void onBtArbeitClick() {
         System.out.println("BetriebsurlaubController.OnBtArbeitClick()");
-        ArrayList<BetriebsurlaubsTag> testListe = new ArrayList();
-        testListe.add(new BetriebsurlaubsTag(LocalDate.now(), 0));
-        testListe.add(new BetriebsurlaubsTag(LocalDate.now(), 1));
-        testListe.add(new BetriebsurlaubsTag(LocalDate.now(), 2));
-        tbTabelle.getItems().setAll(testListe);
+        for (BetriebsurlaubsTag tag : (ObservableList<BetriebsurlaubsTag>) tbTabelle.getSelectionModel().getSelectedItems()) {
+            if(tag.getIstBetriebsurlaub() != 2) {
+                tag.setIstBetriebsurlaub(0);
+            }
+        }
         tbTabelle.refresh();
     }
     @FXML

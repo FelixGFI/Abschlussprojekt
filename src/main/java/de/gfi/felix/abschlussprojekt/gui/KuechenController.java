@@ -2,6 +2,7 @@ package de.gfi.felix.abschlussprojekt.gui;
 
 import de.gfi.felix.abschlussprojekt.helferklassen.DatenbankCommunicator;
 import de.gfi.felix.abschlussprojekt.speicherklassen.*;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -87,18 +88,22 @@ public class KuechenController extends Controller {
     @FXML
     protected void onBtOffenClick() {
         System.out.println("KuechenController.OnBtOffenClick");
+        for (KuechenTag tag : (ObservableList<KuechenTag>) tbTabelle.getSelectionModel().getSelectedItems()) {
+            if(tag.getKuechenStatus() != 2) {
+                tag.setKuechenStatus(1);
+            }
+        }
+        tbTabelle.refresh();
     }
-    /**
-     * Entält Testdatengenerierung welche später entfernt werden kann
-     */
+
     @FXML
     protected void onBtGeschlossenClick() {
         System.out.println("KuechenController.OnBtGeschlossenClick");
-        ArrayList<KuechenTag> testListe = new ArrayList<>();
-        testListe.add(new KuechenTag(LocalDate.now(), 0));
-        testListe.add(new KuechenTag(LocalDate.now(), 1));
-        testListe.add(new KuechenTag(LocalDate.now(), 2));
-        tbTabelle.getItems().setAll(testListe);
+        for (KuechenTag tag : (ObservableList<KuechenTag>) tbTabelle.getSelectionModel().getSelectedItems()) {
+            if(tag.getKuechenStatus() != 2) {
+                tag.setKuechenStatus(0);
+            }
+        }
         tbTabelle.refresh();
     }
     @FXML
