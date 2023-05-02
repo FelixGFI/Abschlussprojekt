@@ -6,10 +6,7 @@ import de.gfi.felix.abschlussprojekt.speicherklassen.Gruppe;
 import de.gfi.felix.abschlussprojekt.speicherklassen.GruppeOderFamilie;
 import de.gfi.felix.abschlussprojekt.speicherklassen.GruppenFamilie;
 import de.gfi.felix.abschlussprojekt.speicherklassen.Tag;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -114,8 +111,23 @@ public class Controller {
      * @param tableColumnGruppenBezeichnung zu Formatierende TableColumn
      * @param attributName attributname des Datums in der für die zugehörige TableView enthaltene Klasse
      */
-    public void configureGruppenBezeichnungtableColumn(TableColumn tableColumnGruppenBezeichnung, String attributName) {
+    public void configureGruppenBezeichnungtableColumn(TableColumn tableColumnGruppenBezeichnung, String attributName, ArrayList<Gruppe> gruppenListe) {
         tableColumnGruppenBezeichnung.setCellValueFactory(new PropertyValueFactory<>(attributName));
+        tableColumnGruppenBezeichnung.setCellFactory(column -> {
+            TableCell<Tag, Integer> cell = new TableCell<>();
+            cell.itemProperty().addListener(((observable, oldValue, newValue) -> {
+                if(newValue != null) {
+                    String cellText = "";
+                    for (Gruppe g : gruppenListe) {
+                        if(g.getGruppenID() == newValue) {
+                            cellText = g.getBezeichnung();
+                        }
+                    }
+                    cell.setText(cellText);
+                }
+            }));
+            return cell;
+        });
     }
 
     /**

@@ -52,6 +52,8 @@ public class KalenderController extends Controller {
     @FXML
     private Button btPDFErstellen;
 
+    ArrayList<Gruppe> gruppenListe;
+
     /**
      * diese Methode ist zur Öffnung eines Fensters dieser controllerKlasse aus einem anderen Fenster (Hauptmenü) da.
      * @param parentStage stage des Aufrufenden Fensters
@@ -158,10 +160,17 @@ public class KalenderController extends Controller {
         DatenbankCommunicator.establishConnection();
 
         Label lblPlacholder = new Label("Momentan sind keine Daten ausgewählt.\nBitte wählen sie eine Gruppe oder Gruppenfamilie aus");
+
+        ArrayList<GruppenFamilie> familienListe = DatenbankCommunicator.dbAbfrageGruppenUndFamilien();
+        gruppenListe = new ArrayList<>();
+        for (GruppenFamilie f : familienListe) {
+            gruppenListe.addAll(f.getGruppenListe());
+        }
+
         tbTabelle.setPlaceholder(lblPlacholder);
         tbTabelle.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         configureLocalDateTableColum(tcDatum, "datum");
-        configureGruppenBezeichnungtableColumn(tcGruppenBezeichnung, "gruppenID");
+        configureGruppenBezeichnungtableColumn(tcGruppenBezeichnung, "gruppenID", gruppenListe);
         configureGruppenStatusTableColumn(tcGruppenStatus, "status");
         configureBooleanTableColumn(tcEssenVerfuegbar, "essenVerfuegbar");
 
