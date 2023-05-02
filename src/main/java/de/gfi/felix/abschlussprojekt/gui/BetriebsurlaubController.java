@@ -110,7 +110,7 @@ public class BetriebsurlaubController extends Controller {
     protected void onCbJahrAction() {
         System.out.println("BetriebsurlaubController.onCbJahrAction()");
     }
-    public void initialize() {
+    public void initialize() throws SQLException {
         DatenbankCommunicator.establishConnection();
 
         tbTabelle.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -118,5 +118,7 @@ public class BetriebsurlaubController extends Controller {
         configureIntegerColumn(tcIstBetriebsurlaub, "istBetriebsurlaub");
         configureJahrCombobox(cbJahr);
         configureMonatCombobox(cbMonat);
+
+        tbTabelle.getItems().setAll(DatenbankCommunicator.dbAbfrageBetriebsurlaubTage(cbJahr.getSelectionModel().getSelectedItem()));
     }
 }

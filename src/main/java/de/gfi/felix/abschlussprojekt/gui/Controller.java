@@ -120,7 +120,7 @@ public class Controller {
 
     /**
      * Diese Methode formatiert eien TableColumn welche die Integers mit den Werten 0, 1  und 2 beinhalten kann
-     * indem sie je nach enthaltenem Wert einen Bestimmten String ausgibt. (0 -> "Ja", 1 -> "Nein", 2 ->
+     * indem sie je nach enthaltenem Wert einen Bestimmten String ausgibt. (0 -> "Nein", 1 -> "Ja", 2 ->
      * "gesetzlicher Feiertag")
      * Dies geschieht mithilfe einer CellValueFactory (zum festsetzen des Anzuzeigenden Attributes) und einer
      * CellFactory (zum festlegen der Formatierung jeder Zelle)
@@ -135,8 +135,8 @@ public class Controller {
                 if(newValue != null) {
                     String cellText;
                     switch (newValue) {
-                        case 0 -> cellText = "Ja";
-                        case 1 -> cellText = "Nein";
+                        case 0 -> cellText = "Nein";
+                        case 1 -> cellText = "Ja";
                         case 2 -> cellText = "gesetzlicher Feiertag";
                         default -> cellText = "";
                     }

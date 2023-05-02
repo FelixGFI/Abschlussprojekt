@@ -109,7 +109,7 @@ public class KuechenController extends Controller {
     protected void onCbJahrAction() {
         System.out.println("KuechenController.onCbJahrAction()");
     }
-    public void initialize() {
+    public void initialize() throws SQLException {
         DatenbankCommunicator.establishConnection();
 
         tbTabelle.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -117,6 +117,8 @@ public class KuechenController extends Controller {
         configureIntegerColumn(tcKuechenStatus, "kuechenStatus");
         configureJahrCombobox(cbJahr);
         configureMonatCombobox(cbMonat);
+
+        tbTabelle.getItems().setAll(DatenbankCommunicator.dbAbfrageKuechenTage(cbJahr.getSelectionModel().getSelectedItem()));
     }
 
 }

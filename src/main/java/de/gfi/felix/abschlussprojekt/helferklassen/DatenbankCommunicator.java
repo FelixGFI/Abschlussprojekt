@@ -52,7 +52,7 @@ public class DatenbankCommunicator {
                         akktuelleFamilie = new GruppenFamilie(resultSet.getInt("gruppenfamilie_id"), resultSet.getString("familienName"), new ArrayList<Gruppe>());
                     } else if(akktuelleFamilienID != akktuelleFamilie.getFamilienID()) {
                         familienListe.add(akktuelleFamilie);
-                        akktuelleFamilie = akktuelleFamilie = new GruppenFamilie(resultSet.getInt("gruppenfamilie_id"), resultSet.getString("familienName"), new ArrayList<Gruppe>());
+                        akktuelleFamilie = new GruppenFamilie(resultSet.getInt("gruppenfamilie_id"), resultSet.getString("familienName"), new ArrayList<Gruppe>());
                     }
                     akktuelleFamilie.addToGruppenListe(new Gruppe(resultSet.getInt("id"), resultSet.getString("name")));
                 }
@@ -140,7 +140,6 @@ public class DatenbankCommunicator {
                 }
             }
         }
-
     }
 
     /**
@@ -211,5 +210,75 @@ public class DatenbankCommunicator {
             default -> {}
         }
         return firstDayOfMonth;
+    }
+
+    public static ArrayList<KuechenTag> dbAbfrageKuechenTage(Integer jahr) throws SQLException {
+        ArrayList<KuechenTag> ausgewaelteTage = new ArrayList<>();
+        LocalDate firstWerktagOfYear = getFirstWerktagOfYear(jahr);
+        checkForKuechenDatensatzAndGenerateIfMissing(jahr);
+
+
+
+        try (Statement statement = conn.createStatement()) {
+            try (ResultSet resultSet = statement.executeQuery("select k.datum, k.geoeffnet , if(k.datum = f.datum, 1, 0) as feiertag \n" +
+                    "from kuechenplanung k left join feiertag f on f.datum = k.datum\n" +
+                    "where k.datum >= \"" + jahr + "-01-01\" and k.datum <= \"" + jahr + "-12-31\";")) {
+                while (resultSet.next()) {
+                    LocalDate datum = LocalDate.parse(resultSet.getDate("datum").toString());
+
+                    Boolean geoeffnet = resultSet.getBoolean("geoeffnet");
+                    Boolean isFeiertag = resultSet.getBoolean("feiertag");
+                    Integer kuechenStatus = 0;
+
+                    if(geoeffnet) {
+                        kuechenStatus = 1;
+                    }
+                    if(isFeiertag) {
+                        kuechenStatus = 2;
+                    }
+
+                    KuechenTag kTag = new KuechenTag(datum, kuechenStatus);
+                    ausgewaelteTage.add(kTag);
+                }
+            }
+        }
+        return ausgewaelteTage;
+    }
+
+    public static ArrayList<BetriebsurlaubsTag> dbAbfrageBetriebsurlaubTage(Integer jahr) throws SQLException {
+        ArrayList<BetriebsurlaubsTag> ausgewaelteTage = new ArrayList<>();
+        LocalDate firstWerktagOfYear = getFirstWerktagOfYear(jahr);
+
+        // This is neccesary becaus the SQL Command uses the datum atribute from the table Containing KeuchenDatensatz
+        checkForKuechenDatensatzAndGenerateIfMissing(jahr);
+
+        try (Statement statement = conn.createStatement()) {
+            try (ResultSet resultSet = statement.executeQuery("select k.datum, if(b.datum is null, 0, 1) as betriebsurlaub, if(k.datum = f.datum, 1, 0) as feiertag \n" +
+                    "from kuechenplanung k left join betriebsurlaub b on k.datum  = b.datum left join feiertag f on f.datum = k.datum\n" +
+                    "where k.datum >= \"" + jahr + "-01-01\" and k.datum <= \"" + jahr + "-12-31\";")) {
+                while (resultSet.next()) {
+                    LocalDate datum = LocalDate.parse(resultSet.getDate("datum").toString());
+
+                    Boolean isBetriebsurlaub = resultSet.getBoolean("betriebsurlaub");
+                    Boolean isFeiertag = resultSet.getBoolean("feiertag");
+                    Integer betriebsurlaubsStatus = 0;
+
+                    if(isBetriebsurlaub) {
+                        betriebsurlaubsStatus = 1;
+                    }
+                    if(isFeiertag) {
+                        betriebsurlaubsStatus = 2;
+                    }
+
+                    BetriebsurlaubsTag bTag = new BetriebsurlaubsTag(datum, betriebsurlaubsStatus);
+                    ausgewaelteTage.add(bTag);
+                }
+            }
+        }
+        return ausgewaelteTage;
+    }
+
+    private static void checkForKuechenDatensatzAndGenerateIfMissing(Integer jahr) {
+
     }
 }
