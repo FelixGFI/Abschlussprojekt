@@ -71,8 +71,9 @@ public class BetriebsurlaubController extends Controller {
         stage.showAndWait();
     }
     @FXML
-    protected void onBtSpeichernClick() {
+    protected void onBtSpeichernClick() throws SQLException {
         System.out.println("BetriebsurlaubController.OnBtSpeichernClick()");
+        DatenbankCommunicator.dbSpeichernBetriebsurlaubTage(tbTabelle.getItems());
     }
     @FXML
     protected void onBtAbbrechenClick() {

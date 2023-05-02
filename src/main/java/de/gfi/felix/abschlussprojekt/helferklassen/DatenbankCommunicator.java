@@ -1,6 +1,7 @@
 package de.gfi.felix.abschlussprojekt.helferklassen;
 
 import de.gfi.felix.abschlussprojekt.speicherklassen.*;
+import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.time.DayOfWeek;
@@ -300,6 +301,41 @@ public class DatenbankCommunicator {
             for (LocalDate datum : alleWerktageImJahr) {
                 statement.execute("insert into kuechenplanung (datum, geoeffnet)" +
                         "Values (\"" + datum.toString() + "\", true);");
+            }
+        }
+    }
+
+    //TODO Do dokumentation
+    public static void dbSpeichernBetriebsurlaubTage(ObservableList<BetriebsurlaubsTag> betriebsurlaubsTage) throws SQLException {
+        Integer aktuellesJahr = betriebsurlaubsTage.get(0).getDatum().getYear();
+        try(Statement statement = conn.createStatement()){
+            statement.execute("delete from betriebsurlaub where datum >= \"" + aktuellesJahr + "-01-01\" and datum < \"" + (aktuellesJahr + 1) + "-01-01\"");
+            for (BetriebsurlaubsTag tag : betriebsurlaubsTage) {
+                if(tag.getIstBetriebsurlaub() == 1) {
+                    statement.execute("insert into betriebsurlaub (datum) values (\"" + tag.getDatum().toString() + "\");");
+                }
+            }
+        }
+    }
+
+    //TODO Do dokumentation
+    public static void dbSpeichernKuechenTage(ObservableList<KuechenTag> keuchenTage) throws SQLException {
+        try(Statement statement = conn.createStatement()){
+            for (KuechenTag tag : keuchenTage) {
+                boolean geoffnet = (tag.getKuechenStatus() == 1);
+                System.out.println(geoffnet + " |" + tag.getDatum().toString() + "|");
+                statement.execute("update kuechenplanung set geoeffnet = " + geoffnet + " where datum = \"" + tag.getDatum().toString() + "\";");
+            }
+        }
+    }
+
+    //TODO Do dokumentation
+    public static void dbSpeichernKalenderDaten(ObservableList<KalenderTag> kalenderTage) throws SQLException {
+        try(Statement statement = conn.createStatement()){
+            for (KalenderTag tag : kalenderTage) {
+                statement.execute("update gruppenkalender" +
+                        " set gruppenstatus = \"" + tag.getStatus() + "\", essensangebot = " + tag.getEssenVerfuegbar() +
+                        " where datum = \"" + tag.getDatum() + "\" and gruppe_id = " + tag.getGruppenID() +";");
             }
         }
     }

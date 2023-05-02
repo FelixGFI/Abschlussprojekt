@@ -84,8 +84,9 @@ public class KalenderController extends Controller {
 
     }
     @FXML
-    protected void onBtSpeichernClick() {
+    protected void onBtSpeichernClick() throws SQLException {
         System.out.println("KalenderControllerOn.BtSpeichernClick()");
+        DatenbankCommunicator.dbSpeichernKalenderDaten(tbTabelle.getItems());
     }
     @FXML
     protected void onBtAbbrechenClick() {

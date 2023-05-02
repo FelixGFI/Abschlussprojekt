@@ -70,8 +70,9 @@ public class KuechenController extends Controller {
         stage.showAndWait();
     }
     @FXML
-    protected void onBtSpeichernClick() {
+    protected void onBtSpeichernClick() throws SQLException {
         System.out.println("KuechenController.OnBtSpeichernClick()");
+        DatenbankCommunicator.dbSpeichernKuechenTage(tbTabelle.getItems());
     }
     @FXML
     protected void onBtAbbrechenClick() {
