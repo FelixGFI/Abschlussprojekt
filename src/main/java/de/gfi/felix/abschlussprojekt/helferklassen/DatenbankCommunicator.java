@@ -213,7 +213,14 @@ public class DatenbankCommunicator {
         return firstDayOfMonth;
     }
 
-    //TODO Do dokumentation
+    /**
+     * fragt aus der Datenbank für ein übergebenes Jahr alle einträge der Tabelle kuechenplanung ab und konvertiert diese in
+     * eine ArrayList der Klasse KuechenTag. Berücksichtigt dabei gesetzliche Feiertage. Sind für das gegebene Jarh noch keine
+     * Datensätze vorhanden werden diese in der Datenbank zuerst genneiriert
+     * @param jahr jahr für das daten ausgelesen werdne sollen
+     * @return ArrayList<KuechenTag> welche aller Einträge in der tabelle keuchenplaunung aus der Datenbank für das gegebene Jahr enthält
+     * @throws SQLException
+     */
     public static ArrayList<KuechenTag> dbAbfrageKuechenTage(Integer jahr) throws SQLException {
         ArrayList<KuechenTag> ausgewaelteTage = new ArrayList<>();
         LocalDate firstWerktagOfYear = getFirstWerktagOfYear(jahr);
@@ -245,7 +252,16 @@ public class DatenbankCommunicator {
         return ausgewaelteTage;
     }
 
-    //TODO Do dokumentation
+    /**
+     * Erstellt eine Arraylist mit BetriebsurlaubsTag obejekten für das gegebene Jahr. Liest aus der Datenbank aus welcher Tag ein
+     * Betriebsurlaubstag ist, berücksichtigt gesetzliche Feiertage. Da die datenbanktabelle für den Betriebsurlaub nur einträge für Tage
+     * enthälte die tatsächlich Betriebsurlaub sind wird, damit für jeden Werktag des Jahres ein eintrag in der ArrayList erstellt werden kann
+     * das Datum aus der tabelle kuechenplanung der Datenbank verwendet. sind in dieser Tabelle für das gegebene jahr noch keine einträge
+     * vorhanden werden sie generiert.
+     * @param jahr jahr für das Daten ausgelesen werden sollen
+     * @return ArrayList<BetriebsurlaubsTag> welche BetriebsurlaubsTag objekte für jeden Werktag des übergebenen Jahres enthält
+     * @throws SQLException
+     */
     public static ArrayList<BetriebsurlaubsTag> dbAbfrageBetriebsurlaubTage(Integer jahr) throws SQLException {
         ArrayList<BetriebsurlaubsTag> ausgewaelteTage = new ArrayList<>();
         LocalDate firstWerktagOfYear = getFirstWerktagOfYear(jahr);
@@ -279,7 +295,14 @@ public class DatenbankCommunicator {
         return ausgewaelteTage;
     }
 
-    //TODO Do dokumentation
+    /**
+     * Überprüft ob in der Tabelle kuechenplanung für ein gegebenes Jahr Datensätze vorhanden sind. Generiert diese wenn nicht.
+     * Anmerkung: Daten können nur für alle Werktage eines Jahres (inklusive gesetzlicher Feiertage welche auf werktage fallen)
+     * generiert werden. Deshalb wird hier eine Abfrage für den ersten Werktag eines Jahres gemacht. Ist ein eintrag für diesen
+     * Vorhanden wird davon ausgegangen das für das Jahr alle Datensätze vollständig sind.
+     * @param jahr jahr für welches Daten überprüft und möglicherweise generiert werden sollen.
+     * @throws SQLException
+     */
     private static void checkForKuechenDatensatzAndGenerateIfMissing(Integer jahr) throws SQLException {
         LocalDate firstWerktagOfYear = getFirstWerktagOfYear(jahr);
         try (Statement statement = conn.createStatement()) {
@@ -293,7 +316,12 @@ public class DatenbankCommunicator {
         }
     }
 
-    //TODO Do dokumentation
+    /**
+     * generiert für alle Werktage des übergebenen jahres in der tabelle kuechenpalnung der Datenbank default datensätze
+     * Diese Methode solte nru aufgerufen werdne wenn vorher geprüft wurde ob die entsprechenden Datensätze schon vorhanden sind
+     * @param jahr jahr für das daten generiert werden sollen
+     * @throws SQLException
+     */
     private static void generateDummyDatensaetzeFuerKuche(Integer jahr) throws SQLException {
         ArrayList<LocalDate> alleWerktageImJahr = getAlleWerktageImJahr(jahr);
 
@@ -305,7 +333,14 @@ public class DatenbankCommunicator {
         }
     }
 
-    //TODO Do dokumentation
+    /**
+     * Löscht alle Einträge der Tabelle Betriebsurlaub für das jahr auf welches sich die Datensätze in der übergebenen ObservableList mit
+     * Betriebsurlaubstagen beziehen aus der Tabelle betriebsurlaub. Schreibt für alle BetriebsurlaubsTag Objekte aus deren Status hervorgeht
+     * das für den besagten Tag betriebsurlaub angesetzt ist einen eintrag in die Tabelle betriebsurlaub in der Datenbank.
+     * @param betriebsurlaubsTage ObersvableList<BetriebsurlaubsTag> nach der Die Datenbank aktualisiert werden soll. Darf nur Datensätze für
+     *                            EIN JAHR enthalten. Nicht für mehrere.
+     * @throws SQLException
+     */
     public static void dbSpeichernBetriebsurlaubTage(ObservableList<BetriebsurlaubsTag> betriebsurlaubsTage) throws SQLException {
         Integer aktuellesJahr = betriebsurlaubsTage.get(0).getDatum().getYear();
         try(Statement statement = conn.createStatement()){
@@ -318,7 +353,12 @@ public class DatenbankCommunicator {
         }
     }
 
-    //TODO Do dokumentation
+    /**
+     * Erhält eine ObesrvableList mit KeuchenTag Objekten und akktualisiert anhand der Daten aus dieser die Datenbanktabelle kuechenplanug.
+     * Es wird davon ausgegangen das alle benötigten datensätze bereits vorhanden sind und nur akktualisert werden müssen (Update)
+     * @param keuchenTage ObservableList<KuechenTag> anhand welcher die Datenbank akktualisiert wird.
+     * @throws SQLException
+     */
     public static void dbSpeichernKuechenTage(ObservableList<KuechenTag> keuchenTage) throws SQLException {
         try(Statement statement = conn.createStatement()){
             for (KuechenTag tag : keuchenTage) {
@@ -329,7 +369,12 @@ public class DatenbankCommunicator {
         }
     }
 
-    //TODO Do dokumentation
+    /**
+     * Erhält eine ObservableList mit KalenderTag Objekten und akktualisiert an hand dieser die Datenbanktabelle gruppenkalender.
+     * Es wird davon ausgegangen das alle benötigten datensätze bereits vorhanden sind und nur akktualisert werden müssen (Update).
+     * @param kalenderTage ObservableList<KalenderTag> anhand welcher die Datenbank akktualisiert wird.
+     * @throws SQLException
+     */
     public static void dbSpeichernKalenderDaten(ObservableList<KalenderTag> kalenderTage) throws SQLException {
         try(Statement statement = conn.createStatement()){
             for (KalenderTag tag : kalenderTage) {
