@@ -2,10 +2,8 @@ package de.gfi.felix.abschlussprojekt.gui;
 
 import de.gfi.felix.abschlussprojekt.helferklassen.DatenbankCommunicator;
 import de.gfi.felix.abschlussprojekt.helferklassen.UsefullConstants;
-import de.gfi.felix.abschlussprojekt.speicherklassen.Gruppe;
-import de.gfi.felix.abschlussprojekt.speicherklassen.GruppeOderFamilie;
-import de.gfi.felix.abschlussprojekt.speicherklassen.GruppenFamilie;
-import de.gfi.felix.abschlussprojekt.speicherklassen.Tag;
+import de.gfi.felix.abschlussprojekt.speicherklassen.*;
+import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Font;
@@ -370,6 +368,71 @@ public class Controller {
         } else {
             return false;
         }
+    }
 
+    protected void handleDpVon(DatePicker dpVon, DatePicker dpBis, TableView tbTabelle) {
+        if(dpVon.getValue() == null) {
+            return;
+        }
+        if(((ObservableList<Tag>) tbTabelle.getItems()).isEmpty()) {
+            return;
+        }
+
+        Integer jahr = ((ObservableList<Tag>) tbTabelle.getItems()).get(0).getDatum().getYear();
+
+        if(dpVon.getValue().getYear() != jahr) {
+            return;
+        }
+
+        tbTabelle.getSelectionModel().clearSelection();
+
+        if(dpBis.getValue() == null || dpBis.getValue().getYear() != jahr) {
+            LocalDate vonDat = dpVon.getValue();
+            for(Tag tag : (ObservableList<Tag>) tbTabelle.getItems()) {
+                LocalDate datum = tag.getDatum();
+                if(datum.isEqual(vonDat)) {
+                    tbTabelle.getSelectionModel().select(tag);
+                }
+            }
+
+        } else {
+            LocalDate vonDat = dpVon.getValue();
+            LocalDate bisDat = dpBis.getValue();
+            for(Tag tag : (ObservableList<Tag>) tbTabelle.getItems()) {
+                LocalDate datum = tag.getDatum();
+                if((datum.isBefore(bisDat) && datum.isAfter(vonDat)) || datum.isEqual(bisDat) || datum.isEqual(vonDat)) {
+                    tbTabelle.getSelectionModel().select(tag);
+                }
+            }
+        }
+    }
+
+    protected void handleDpBis(DatePicker dpVon, DatePicker dpBis, TableView tbTabelle) {
+        if(dpVon.getValue() == null || dpBis.getValue() == null) {
+            return;
+        }
+        if(!dpVon.getValue().isBefore(dpBis.getValue())) {
+            return;
+        }
+        if(((ObservableList<Tag>) tbTabelle.getItems()).isEmpty()) {
+            return;
+        }
+
+        Integer jahr = ((ObservableList<Tag>) tbTabelle.getItems()).get(0).getDatum().getYear();
+
+        tbTabelle.getSelectionModel().clearSelection();
+
+        if(dpVon.getValue().getYear() != jahr || dpBis.getValue().getYear() != jahr) {
+            return;
+        }
+
+        LocalDate vonDat = dpVon.getValue();
+        LocalDate bisDat = dpBis.getValue();
+        for(Tag tag : (ObservableList<Tag>) tbTabelle.getItems()) {
+            LocalDate datum = tag.getDatum();
+            if((datum.isBefore(bisDat) && datum.isAfter(vonDat)) || datum.isEqual(bisDat) || datum.isEqual(vonDat)) {
+                tbTabelle.getSelectionModel().select(tag);
+            }
+        }
     }
 }

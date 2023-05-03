@@ -160,6 +160,14 @@ public class KalenderController extends Controller {
     protected void onCbJahrAction() {
         System.out.println("KlanderController.onCbJahrAction()");
     }
+    @FXML
+    protected void onDpVonAction() {
+        handleDpVon(dpVon, dpBis, tbTabelle);
+    }
+    @FXML
+    protected void onDpBisAction() {
+        handleDpBis(dpVon, dpBis, tbTabelle);
+    }
     public void initialize() throws SQLException {
         DatenbankCommunicator.establishConnection();
 
