@@ -442,7 +442,7 @@ public class Controller {
         scrollToDatum(datum, tbTabelle);
     }
     //TODO Add Documentation
-    protected static void scrollToDatum(LocalDate datum, TableView tbTabelle) {
+    private static void scrollToDatum(LocalDate datum, TableView tbTabelle) {
         for(Tag tag : (ObservableList<Tag>) tbTabelle.getItems()) {
             if(tag.getDatum().isEqual(datum)) {
                 tbTabelle.scrollTo(tag);

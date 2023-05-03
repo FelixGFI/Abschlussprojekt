@@ -141,16 +141,24 @@ public class KalenderController extends Controller {
             return;
         }
         System.out.println("KalenderController.onCbGruppenauswahLAction()");
-        ArrayList<KalenderTag> kalenderTagsListe = DatenbankCommunicator.dbAbfrageKalenderDaten(cbGruppenauswahl.getSelectionModel().getSelectedItem(), cbJahr.getSelectionModel().getSelectedItem());
-        for (KalenderTag tag : kalenderTagsListe) {
-            System.out.println(tag.getDatum() + ", " + tag.getStatus() + ", " + tag.getGruppenID());
+
+        if(datenWurdenBearbeitet) {
+            if(!getNutzerbestätigung()) {
+                return;
+            }
         }
 
-        //TODO abfrage ob Nutzer sicher ist wenn Änderungen vorgenommen wurden
+
+        ArrayList<KalenderTag> kalenderTagsListe = DatenbankCommunicator.dbAbfrageKalenderDaten(cbGruppenauswahl.getSelectionModel().getSelectedItem(), cbJahr.getSelectionModel().getSelectedItem());
 
         tbTabelle.getItems().setAll(kalenderTagsListe);
         tbTabelle.getSortOrder().clear();
         tbTabelle.getSortOrder().add(tcDatum);
+        tbTabelle.refresh();
+
+        scrollToFirstOfMonthAndYear(cbJahr.getSelectionModel().getSelectedItem(), cbMonat.getSelectionModel().getSelectedItem(), tbTabelle);
+
+        datenWurdenBearbeitet = false;
     }
     @FXML
     protected void onCbMonatAction() {
