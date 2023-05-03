@@ -90,10 +90,12 @@ public class BetriebsurlaubController extends Controller {
     @FXML
     protected void onBtNextClick() {
         System.out.println("BetriebsurlaubController.OnBtNextClick()");
+        handleBtNextClick(cbMonat, cbJahr, tbTabelle);
     }
     @FXML
     protected void onBtPreviousClick() {
         System.out.println("BetriebsurlaubController.OnBtFreiClick()");
+        handleBtPriviousClick(cbMonat, cbJahr, tbTabelle);
     }
     @FXML
     protected void onBtUrlaubClick() {
@@ -123,6 +125,7 @@ public class BetriebsurlaubController extends Controller {
         System.out.println("BetriebsurlaubController.onCbMonatAction()");
         handleCbMonatAction(cbMonat, tbTabelle);
     }
+    //TODO Add Documentation
     @FXML
     protected void onCbJahrAction() throws SQLException {
         System.out.println("BetriebsurlaubController.onCbJahrAction()");

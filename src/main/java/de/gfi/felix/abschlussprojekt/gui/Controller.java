@@ -443,7 +443,7 @@ public class Controller {
         scrollToDatum(datum, tbTabelle);
     }
     //TODO Add Documentation
-    private static void scrollToDatum(LocalDate datum, TableView tbTabelle) {
+    protected static void scrollToDatum(LocalDate datum, TableView tbTabelle) {
         for(Tag tag : (ObservableList<Tag>) tbTabelle.getItems()) {
             if(tag.getDatum().isEqual(datum)) {
                 tbTabelle.scrollTo(tag);
@@ -451,6 +451,7 @@ public class Controller {
             }
         }
     }
+    //TODO Add Documentation
     protected void handleCbMonatAction(ComboBox<Month> cbMonat, TableView tbTabelle) {
         System.out.println("KuechenController.onCbMonatAction()");
         if(cbMonat.getSelectionModel().getSelectedItem() == null) {
@@ -464,5 +465,47 @@ public class Controller {
         Month monat = cbMonat.getSelectionModel().getSelectedItem();
 
         scrollToFirstOfMonthAndYear(jahr, monat, tbTabelle);
+    }
+    //TODO Add Documentation
+    protected void handleBtNextClick(ComboBox<Month> cbMonat, ComboBox<Integer> cbJahr ,TableView tbTabelle) {
+        Month monat = cbMonat.getSelectionModel().getSelectedItem();
+        Integer jahr = cbJahr.getSelectionModel().getSelectedItem();
+        if(monat == Month.DECEMBER) {
+            Integer neuesJahr = jahr + 1;
+            if(!cbJahr.getItems().contains(neuesJahr)) {
+                return;
+            }
+            //triggers the Action Listener for cbJahr who does everything else necccsary
+            cbJahr.getSelectionModel().select(neuesJahr);
+            if(cbJahr.getSelectionModel().getSelectedItem() == jahr) {
+                return;
+            }
+            //triggers the Action Listener for cbMonat who does everything else necccsary
+            cbMonat.getSelectionModel().select(Month.JANUARY);
+        } else {
+            //triggers the Action Listener for cbMonat who does everything else necccsary
+            cbMonat.getSelectionModel().selectNext();
+        }
+    }
+    //TODO Add Documentation
+    protected void handleBtPriviousClick(ComboBox<Month> cbMonat, ComboBox<Integer> cbJahr, TableView tbTabelle) {
+        Month monat = cbMonat.getSelectionModel().getSelectedItem();
+        Integer jahr = cbJahr.getSelectionModel().getSelectedItem();
+        if(monat == Month.JANUARY) {
+            Integer neuesJahr = jahr - 1;
+            if(!cbJahr.getItems().contains(neuesJahr)) {
+                return;
+            }
+            //triggers the Action Listener for cbJahr who does everything else necccsary
+            cbJahr.getSelectionModel().select(neuesJahr);
+            if(cbJahr.getSelectionModel().getSelectedItem() == jahr) {
+                return;
+            }
+            //triggers the Action Listener for cbMonat who does everything else necccsary
+            cbMonat.getSelectionModel().select(Month.DECEMBER);
+        } else {
+            //triggers the Action Listener for cbMonat who does everything else necccsary
+            cbMonat.getSelectionModel().selectPrevious();
+        }
     }
 }

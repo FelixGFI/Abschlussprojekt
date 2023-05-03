@@ -89,9 +89,11 @@ public class KuechenController extends Controller {
     @FXML
     protected void onBtNextClick() {
         System.out.println("KuechenController.OnBtNextClick()");
+        handleBtNextClick(cbMonat, cbJahr, tbTabelle);
     }
     @FXML
     protected void onBtPreviousClick() {
+        handleBtPriviousClick(cbMonat, cbJahr, tbTabelle);
         System.out.println("KuechenController.OnBtPreviousClick()");
     }
     @FXML
@@ -121,6 +123,7 @@ public class KuechenController extends Controller {
     protected void onCbMonatAction() {
         handleCbMonatAction(cbMonat, tbTabelle);
     }
+    //TODO Add Documentation
     @FXML
     protected void onCbJahrAction() throws SQLException {
         System.out.println("KuechenController.onCbJahrAction()");

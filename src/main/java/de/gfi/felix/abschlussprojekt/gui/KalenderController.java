@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -119,21 +120,14 @@ public class KalenderController extends Controller {
     @FXML
     protected void onBtNextClick() {
         System.out.println("KalenderController.OnBtNextClick()");
-
-        Month monat = cbMonat.getSelectionModel().getSelectedItem();
-        Integer jahr = cbJahr.getSelectionModel().getSelectedItem();
-        if(monat == Month.DECEMBER) {
-            Integer neuesJahr = cbJahr.getSelectionModel().getSelectedItem() + 1;
-            if(!cbJahr.getItems().contains(neuesJahr)) {
-                return;
-            }
-            cbJahr.getSelectionModel().select(neuesJahr);
-        }
+        handleBtNextClick(cbMonat, cbJahr, tbTabelle);
     }
+
     @FXML
     protected void onBtPreviousClick() {
         System.out.println("KalenderController.OnBtPreviousClick()");
 
+        handleBtPriviousClick(cbMonat, cbJahr, tbTabelle);
     }
     @FXML
     protected void onBtPDFErstellenClick() {
@@ -175,6 +169,7 @@ public class KalenderController extends Controller {
         System.out.println("KlanderController.onCbMonatAction()");
         handleCbMonatAction(cbMonat, tbTabelle);
     }
+    //TODO Add Documentation
     @FXML
     protected void onCbJahrAction() throws SQLException {
         if(ingnorEvent) {
