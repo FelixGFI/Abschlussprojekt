@@ -190,7 +190,7 @@ public class DatenbankCommunicator {
      * @param jahr jahr in welchem sich der Tag befinden soll
      * @return LocalDate des ermittelten Tages
      */
-    private static LocalDate getFirstWerktagOfYear(Integer jahr) {
+    public static LocalDate getFirstWerktagOfYear(Integer jahr) {
         Month monat = Month.JANUARY;
         LocalDate firstDayOfMonth = getFirstWerktagOfMonth(jahr, monat);
         return firstDayOfMonth;
@@ -203,7 +203,7 @@ public class DatenbankCommunicator {
      * @param monat für den der Tag ermittelt werden soll
      * @return LocalDate des ermittelten Tages
      */
-    private static LocalDate getFirstWerktagOfMonth(Integer jahr, Month monat) {
+    public static LocalDate getFirstWerktagOfMonth(Integer jahr, Month monat) {
         LocalDate firstDayOfMonth = LocalDate.of(jahr, monat, 1);
         switch (firstDayOfMonth.getDayOfWeek()) {
             case SATURDAY -> firstDayOfMonth = firstDayOfMonth.plusDays(2);

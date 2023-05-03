@@ -155,6 +155,7 @@ public class KalenderController extends Controller {
     @FXML
     protected void onCbMonatAction() {
         System.out.println("KlanderController.onCbMonatAction()");
+        handleCbMonatAction(cbMonat, tbTabelle);
     }
     @FXML
     protected void onCbJahrAction() {

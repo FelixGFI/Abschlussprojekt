@@ -119,7 +119,7 @@ public class KuechenController extends Controller {
     }
     @FXML
     protected void onCbMonatAction() {
-        System.out.println("KuechenController.onCbMonatAction()");
+        handleCbMonatAction(cbMonat, tbTabelle);
     }
     @FXML
     protected void onCbJahrAction() {

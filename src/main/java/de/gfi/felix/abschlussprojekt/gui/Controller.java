@@ -349,7 +349,6 @@ public class Controller {
         return cellText;
     }
 
-    //TODO implement Method
     //TODO Add Documentation
     protected boolean getNutzerbestätigung() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -369,7 +368,7 @@ public class Controller {
             return false;
         }
     }
-
+    //TODO Add Documentation
     protected void handleDpVon(DatePicker dpVon, DatePicker dpBis, TableView tbTabelle) {
         if(dpVon.getValue() == null) {
             return;
@@ -407,6 +406,7 @@ public class Controller {
         }
     }
 
+    //TODO Add Documentation
     protected void handleDpBis(DatePicker dpVon, DatePicker dpBis, TableView tbTabelle) {
         if(dpVon.getValue() == null || dpBis.getValue() == null) {
             return;
@@ -434,5 +434,34 @@ public class Controller {
                 tbTabelle.getSelectionModel().select(tag);
             }
         }
+    }
+    //TODO Add Documentation
+    protected void scrollToFirstOfMonthAndYear(Integer jahr, Month monat, TableView tbTabelle) {
+        LocalDate datum = DatenbankCommunicator.getFirstWerktagOfMonth(jahr, monat);
+
+        scrollToDatum(datum, tbTabelle);
+    }
+    //TODO Add Documentation
+    protected static void scrollToDatum(LocalDate datum, TableView tbTabelle) {
+        for(Tag tag : (ObservableList<Tag>) tbTabelle.getItems()) {
+            if(tag.getDatum().isEqual(datum)) {
+                tbTabelle.scrollTo(tag);
+                break;
+            }
+        }
+    }
+    protected void handleCbMonatAction(ComboBox<Month> cbMonat, TableView tbTabelle) {
+        System.out.println("KuechenController.onCbMonatAction()");
+        if(cbMonat.getSelectionModel().getSelectedItem() == null) {
+            return;
+        }
+        if(tbTabelle.getItems().isEmpty()) {
+            return;
+        }
+
+        Integer jahr = ((ObservableList<Tag>) tbTabelle.getItems()).get(0).getDatum().getYear();
+        Month monat = cbMonat.getSelectionModel().getSelectedItem();
+
+        scrollToFirstOfMonthAndYear(jahr, monat, tbTabelle);
     }
 }
