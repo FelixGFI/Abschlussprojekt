@@ -124,11 +124,19 @@ public class KuechenController extends Controller {
     @FXML
     protected void onCbJahrAction() throws SQLException {
         System.out.println("KuechenController.onCbJahrAction()");
+        if(ingnorEvent) {
+            ingnorEvent = false;
+            return;
+        }
+
         if(tbTabelle.getItems().isEmpty()) {
             return;
         }
         if(datenWurdenBearbeitet) {
             if(!getNutzerbestätigung()) {
+                ingnorEvent = true;
+                Integer altesJahr = ((ObservableList<Tag>) tbTabelle.getItems()).get(0).getDatum().getYear();
+                cbJahr.getSelectionModel().select(altesJahr);
                 return;
             }
         }

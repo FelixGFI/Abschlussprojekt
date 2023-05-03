@@ -21,6 +21,7 @@ import java.util.Optional;
 public class Controller {
 
     Boolean datenWurdenBearbeitet = false;
+    Boolean ingnorEvent = false;
 
     /**
      * Konfiguriert das Datum in einer übergebenen TableColumn in dem Vormat, Wochentagskürzel, DD.MM.JJJJ

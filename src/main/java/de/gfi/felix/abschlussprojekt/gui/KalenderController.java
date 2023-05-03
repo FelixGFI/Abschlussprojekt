@@ -119,10 +119,21 @@ public class KalenderController extends Controller {
     @FXML
     protected void onBtNextClick() {
         System.out.println("KalenderController.OnBtNextClick()");
+
+        Month monat = cbMonat.getSelectionModel().getSelectedItem();
+        Integer jahr = cbJahr.getSelectionModel().getSelectedItem();
+        if(monat == Month.DECEMBER) {
+            Integer neuesJahr = cbJahr.getSelectionModel().getSelectedItem() + 1;
+            if(!cbJahr.getItems().contains(neuesJahr)) {
+                return;
+            }
+            cbJahr.getSelectionModel().select(neuesJahr);
+        }
     }
     @FXML
     protected void onBtPreviousClick() {
         System.out.println("KalenderController.OnBtPreviousClick()");
+
     }
     @FXML
     protected void onBtPDFErstellenClick() {
@@ -148,7 +159,6 @@ public class KalenderController extends Controller {
             }
         }
 
-
         ArrayList<KalenderTag> kalenderTagsListe = DatenbankCommunicator.dbAbfrageKalenderDaten(cbGruppenauswahl.getSelectionModel().getSelectedItem(), cbJahr.getSelectionModel().getSelectedItem());
 
         tbTabelle.getItems().setAll(kalenderTagsListe);
@@ -167,12 +177,20 @@ public class KalenderController extends Controller {
     }
     @FXML
     protected void onCbJahrAction() throws SQLException {
+        if(ingnorEvent) {
+            ingnorEvent = false;
+            return;
+        }
+
         System.out.println("KlanderController.onCbJahrAction()");
         if(tbTabelle.getItems().isEmpty()) {
             return;
         }
         if(datenWurdenBearbeitet) {
             if(!getNutzerbestätigung()) {
+                ingnorEvent = true;
+                Integer altesJahr = ((ObservableList<Tag>) tbTabelle.getItems()).get(0).getDatum().getYear();
+                cbJahr.getSelectionModel().select(altesJahr);
                 return;
             }
         }
