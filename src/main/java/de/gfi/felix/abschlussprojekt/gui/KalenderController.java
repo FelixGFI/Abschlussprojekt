@@ -166,8 +166,26 @@ public class KalenderController extends Controller {
         handleCbMonatAction(cbMonat, tbTabelle);
     }
     @FXML
-    protected void onCbJahrAction() {
+    protected void onCbJahrAction() throws SQLException {
         System.out.println("KlanderController.onCbJahrAction()");
+        if(tbTabelle.getItems().isEmpty()) {
+            return;
+        }
+        if(datenWurdenBearbeitet) {
+            if(!getNutzerbestätigung()) {
+                return;
+            }
+        }
+        ArrayList<KalenderTag> kalenderTagsListe = DatenbankCommunicator.dbAbfrageKalenderDaten(cbGruppenauswahl.getSelectionModel().getSelectedItem(), cbJahr.getSelectionModel().getSelectedItem());
+
+        tbTabelle.getItems().setAll(kalenderTagsListe);
+        tbTabelle.getSortOrder().clear();
+        tbTabelle.getSortOrder().add(tcDatum);
+        tbTabelle.refresh();
+
+        scrollToFirstOfMonthAndYear(cbJahr.getSelectionModel().getSelectedItem(), cbMonat.getSelectionModel().getSelectedItem(), tbTabelle);
+
+        datenWurdenBearbeitet = false;
     }
     @FXML
     protected void onDpVonAction() {

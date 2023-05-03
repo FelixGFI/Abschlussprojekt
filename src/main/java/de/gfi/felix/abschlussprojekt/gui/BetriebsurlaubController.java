@@ -124,8 +124,23 @@ public class BetriebsurlaubController extends Controller {
         handleCbMonatAction(cbMonat, tbTabelle);
     }
     @FXML
-    protected void onCbJahrAction() {
+    protected void onCbJahrAction() throws SQLException {
         System.out.println("BetriebsurlaubController.onCbJahrAction()");
+        if(tbTabelle.getItems().isEmpty()) {
+            return;
+        }
+        if(datenWurdenBearbeitet) {
+            if(!getNutzerbestätigung()) {
+                return;
+            }
+        }
+        tbTabelle.getItems().setAll(DatenbankCommunicator.dbAbfrageBetriebsurlaubTage(cbJahr.getSelectionModel().getSelectedItem()));
+        tbTabelle.getSortOrder().clear();
+        tbTabelle.getSortOrder().add(tcDatum);
+        tbTabelle.refresh();
+        datenWurdenBearbeitet = false;
+
+        scrollToFirstOfMonthAndYear(cbJahr.getSelectionModel().getSelectedItem(), cbMonat.getSelectionModel().getSelectedItem(), tbTabelle);
     }
     @FXML
     protected void onDpVonAction() {
@@ -145,6 +160,9 @@ public class BetriebsurlaubController extends Controller {
         configureMonatCombobox(cbMonat);
 
         tbTabelle.getItems().setAll(DatenbankCommunicator.dbAbfrageBetriebsurlaubTage(cbJahr.getSelectionModel().getSelectedItem()));
+        tbTabelle.getSortOrder().clear();
+        tbTabelle.getSortOrder().add(tcDatum);
+        tbTabelle.refresh();
 
         tbTabelle.sceneProperty().addListener((obs, oldScene, newScene) -> Platform.runLater(() -> {
             Stage stage = (Stage) newScene.getWindow();
