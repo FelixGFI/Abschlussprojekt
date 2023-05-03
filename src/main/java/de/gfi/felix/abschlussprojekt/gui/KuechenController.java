@@ -2,6 +2,7 @@ package de.gfi.felix.abschlussprojekt.gui;
 
 import de.gfi.felix.abschlussprojekt.helferklassen.DatenbankCommunicator;
 import de.gfi.felix.abschlussprojekt.speicherklassen.*;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -73,10 +74,17 @@ public class KuechenController extends Controller {
     protected void onBtSpeichernClick() throws SQLException {
         System.out.println("KuechenController.OnBtSpeichernClick()");
         DatenbankCommunicator.dbSpeichernKuechenTage(tbTabelle.getItems());
+        datenWurdenBearbeitet = false;
     }
     @FXML
     protected void onBtAbbrechenClick() {
         System.out.println("KuechenController.OnBtAbbrechenClick()");
+        if(datenWurdenBearbeitet) {
+            System.out.println("Get Nutzerbestätigung");
+            if(!getNutzerbestätigung()) return;
+        }
+        Stage stage = (Stage) (btAbbrechen.getScene().getWindow());
+        stage.close();
     }
     @FXML
     protected void onBtNextClick() {
@@ -92,6 +100,7 @@ public class KuechenController extends Controller {
         for (KuechenTag tag : (ObservableList<KuechenTag>) tbTabelle.getSelectionModel().getSelectedItems()) {
             if(tag.getKuechenStatus() != 2) {
                 tag.setKuechenStatus(1);
+                datenWurdenBearbeitet = true;
             }
         }
         tbTabelle.refresh();
@@ -103,6 +112,7 @@ public class KuechenController extends Controller {
         for (KuechenTag tag : (ObservableList<KuechenTag>) tbTabelle.getSelectionModel().getSelectedItems()) {
             if(tag.getKuechenStatus() != 2) {
                 tag.setKuechenStatus(0);
+                datenWurdenBearbeitet = true;
             }
         }
         tbTabelle.refresh();
@@ -125,6 +135,15 @@ public class KuechenController extends Controller {
         configureMonatCombobox(cbMonat);
 
         tbTabelle.getItems().setAll(DatenbankCommunicator.dbAbfrageKuechenTage(cbJahr.getSelectionModel().getSelectedItem()));
+
+        tbTabelle.sceneProperty().addListener((obs, oldScene, newScene) -> Platform.runLater(() -> {
+            Stage stage = (Stage) newScene.getWindow();
+            stage.setOnCloseRequest(e -> {
+                if(datenWurdenBearbeitet) {
+                    if(!getNutzerbestätigung()) e.consume();
+                }
+            });
+        }));
     }
 
 }

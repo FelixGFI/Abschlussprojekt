@@ -2,6 +2,7 @@ package de.gfi.felix.abschlussprojekt.gui;
 
 import de.gfi.felix.abschlussprojekt.helferklassen.DatenbankCommunicator;
 import de.gfi.felix.abschlussprojekt.speicherklassen.*;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -74,10 +75,17 @@ public class BetriebsurlaubController extends Controller {
     protected void onBtSpeichernClick() throws SQLException {
         System.out.println("BetriebsurlaubController.OnBtSpeichernClick()");
         DatenbankCommunicator.dbSpeichernBetriebsurlaubTage(tbTabelle.getItems());
+        datenWurdenBearbeitet = false;
     }
     @FXML
     protected void onBtAbbrechenClick() {
         System.out.println("BetriebsurlaubController.OnBtAbbrechenClick()");
+        if(datenWurdenBearbeitet) {
+            System.out.println("Get Nutzerbestätigung");
+            if(!getNutzerbestätigung()) return;
+        }
+        Stage stage = (Stage) (btAbbrechen.getScene().getWindow());
+        stage.close();
     }
     @FXML
     protected void onBtNextClick() {
@@ -93,6 +101,7 @@ public class BetriebsurlaubController extends Controller {
         for (BetriebsurlaubsTag tag : (ObservableList<BetriebsurlaubsTag>) tbTabelle.getSelectionModel().getSelectedItems()) {
             if(tag.getIstBetriebsurlaub() != 2) {
                 tag.setIstBetriebsurlaub(1);
+                datenWurdenBearbeitet = true;
             }
         }
         tbTabelle.refresh();
@@ -104,6 +113,7 @@ public class BetriebsurlaubController extends Controller {
         for (BetriebsurlaubsTag tag : (ObservableList<BetriebsurlaubsTag>) tbTabelle.getSelectionModel().getSelectedItems()) {
             if(tag.getIstBetriebsurlaub() != 2) {
                 tag.setIstBetriebsurlaub(0);
+                datenWurdenBearbeitet = true;
             }
         }
         tbTabelle.refresh();
@@ -126,5 +136,14 @@ public class BetriebsurlaubController extends Controller {
         configureMonatCombobox(cbMonat);
 
         tbTabelle.getItems().setAll(DatenbankCommunicator.dbAbfrageBetriebsurlaubTage(cbJahr.getSelectionModel().getSelectedItem()));
+
+        tbTabelle.sceneProperty().addListener((obs, oldScene, newScene) -> Platform.runLater(() -> {
+            Stage stage = (Stage) newScene.getWindow();
+            stage.setOnCloseRequest(e -> {
+                if(datenWurdenBearbeitet) {
+                    if(!getNutzerbestätigung()) e.consume();
+                }
+            });
+        }));
     }
 }

@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Modality;
 import javafx.util.StringConverter;
 
 import java.sql.SQLException;
@@ -17,8 +18,11 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class Controller {
+
+    Boolean datenWurdenBearbeitet = false;
 
     /**
      * Konfiguriert das Datum in einer übergebenen TableColumn in dem Vormat, Wochentagskürzel, DD.MM.JJJJ
@@ -347,5 +351,25 @@ public class Controller {
         return cellText;
     }
 
+    //TODO implement Method
+    //TODO Add Documentation
+    protected boolean getNutzerbestätigung() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.setTitle("Bestätigung");
+        alert.setHeaderText("Sind sie sich sicher?");
+        alert.setContentText("Alle nicht gespeicherten Daten gehen verloren.");
+        DialogPane pane = alert.getDialogPane();
+        for(ButtonType buttonType : alert.getButtonTypes()) {
+            Button button = (Button) pane.lookupButton(buttonType);
+            button.setDefaultButton(buttonType == ButtonType.CANCEL);
+        }
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            return true;
+        } else {
+            return false;
+        }
 
+    }
 }

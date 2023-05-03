@@ -3,6 +3,7 @@ package de.gfi.felix.abschlussprojekt.gui;
 import de.gfi.felix.abschlussprojekt.helferklassen.DatenbankCommunicator;
 import de.gfi.felix.abschlussprojekt.helferklassen.UsefullConstants;
 import de.gfi.felix.abschlussprojekt.speicherklassen.*;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -87,10 +88,17 @@ public class KalenderController extends Controller {
     protected void onBtSpeichernClick() throws SQLException {
         System.out.println("KalenderControllerOn.BtSpeichernClick()");
         DatenbankCommunicator.dbSpeichernKalenderDaten(tbTabelle.getItems());
+        datenWurdenBearbeitet = false;
     }
     @FXML
     protected void onBtAbbrechenClick() {
         System.out.println("KalenderControllerOn.BtAbbrechenClick()");
+        if(datenWurdenBearbeitet) {
+            System.out.println("Get Nutzerbestätigung");
+            if(!getNutzerbestätigung()) return;
+        }
+        Stage stage = (Stage) (btAbbrechen.getScene().getWindow());
+        stage.close();
     }
 
     @FXML
@@ -103,6 +111,7 @@ public class KalenderController extends Controller {
         for (KalenderTag tag : (ObservableList<KalenderTag>) tbTabelle.getSelectionModel().getSelectedItems()) {
             if(tag.getStatus() != UsefullConstants.getFeiertagStatus()) {
                 tag.setStatus(ausgewaehlt);
+                datenWurdenBearbeitet = true;
             }
         }
         tbTabelle.refresh();
@@ -173,5 +182,14 @@ public class KalenderController extends Controller {
         configureJahrCombobox(cbJahr);
         configureStatusCombobox(cbStatusAuswahl);
         configureGruppenAuswahlCombobox(cbGruppenauswahl);
+
+        tbTabelle.sceneProperty().addListener((obs, oldScene, newScene) -> Platform.runLater(() -> {
+            Stage stage = (Stage) newScene.getWindow();
+            stage.setOnCloseRequest(e -> {
+                if(datenWurdenBearbeitet) {
+                    if(!getNutzerbestätigung()) e.consume();
+                }
+            });
+        }));
     }
 }
