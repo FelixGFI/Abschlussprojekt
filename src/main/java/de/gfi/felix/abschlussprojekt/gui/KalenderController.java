@@ -55,6 +55,8 @@ public class KalenderController extends Controller {
     private Button btPrevious;
     @FXML
     private Button btPDFErstellen;
+    @FXML
+    private Button btBetriebsurlaubUebernehmen;
 
     ArrayList<Gruppe> gruppenListe;
 
@@ -101,7 +103,6 @@ public class KalenderController extends Controller {
         Stage stage = (Stage) (btAbbrechen.getScene().getWindow());
         stage.close();
     }
-
     @FXML
     protected void onBtAnnehmenClick() {
         System.out.println("KalenderController.OnBtAnnehmenClick()");
@@ -134,7 +135,10 @@ public class KalenderController extends Controller {
         System.out.println("KalenderController.OnBtPDFErstellenClick()");
         PDFCreator.writeKalenderPDF((ObservableList<KalenderTag>) tbTabelle.getItems(), (Stage) this.btSpeichern.getScene().getWindow(), gruppenListe);
     }
-
+    @FXML
+    protected void onBtBetriebsurlaubUebernehmenClick() {
+        System.out.println("KalenderController.OnBtBetriebsurlaubUebernehmenClick()");
+    }
     /**
      * Holt wenn eine Gruppe oder Gruppenfamilie ausgewählt wird die Entsprechenden Daten entweder für die gewählte
      * Gruppe oder für alle Gruppen der Familie alle relevanten Daten aus der Datenbank und zeigt diese in der Tabelle an.

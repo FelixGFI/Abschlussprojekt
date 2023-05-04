@@ -7,140 +7,160 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.gfi.felix.abschlussprojekt.gui.KalenderController">
-   <top>
-      <FlowPane alignment="CENTER" prefHeight="35.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+
+<StackPane stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.gfi.felix.abschlussprojekt.gui.KalenderController">
+   <children>
+      <FlowPane alignment="TOP_RIGHT" prefHeight="50.0" prefWidth="50.0">
          <children>
-            <Label text="Gruppenplanung">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Label>
+            <ImageView fitHeight="50.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+               <FlowPane.margin>
+                  <Insets bottom="8.0" left="5.0" right="25.0" top="8.0" />
+               </FlowPane.margin>
+               <image>
+                  <Image url="C:\Abschlussprojekt\src\main\resources\de\gfi\felix\abschlussprojekt\style\GFILogo.png" />
+               </image>
+            </ImageView>
          </children>
       </FlowPane>
-   </top>
-   <bottom>
-      <FlowPane alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="btPDFErstellen" mnemonicParsing="false" onAction="#onBtPDFErstellenClick" prefWidth="100.0" text="PDF Erstellen">
-               <FlowPane.margin>
-                  <Insets bottom="10.0" right="5.0" top="5.0" />
-               </FlowPane.margin>
-            </Button>
-            <Button fx:id="btSpeichern" mnemonicParsing="false" onAction="#onBtSpeichernClick" prefWidth="75.0" text="Speichern">
-               <FlowPane.margin>
-                  <Insets bottom="10.0" right="5.0" top="5.0" />
-               </FlowPane.margin>
-            </Button>
-            <Button fx:id="btAbbrechen" mnemonicParsing="false" onAction="#onBtAbbrechenClick" prefWidth="75.0" text="Abbrechen">
-               <FlowPane.margin>
-                  <Insets bottom="10.0" right="25.0" top="5.0" />
-               </FlowPane.margin>
-            </Button>
-         </children>
-      </FlowPane>
-   </bottom>
-   <left>
-      <FlowPane prefHeight="200.0" prefWidth="25.0" BorderPane.alignment="CENTER" />
-   </left>
-   <right>
-      <FlowPane prefHeight="200.0" prefWidth="25.0" BorderPane.alignment="CENTER" />
-   </right>
-   <center>
-      <GridPane BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <TableView fx:id="tbTabelle" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
-              <columns>
-                <TableColumn fx:id="tcDatum" prefWidth="120.0" text="Datum" />
-                <TableColumn fx:id="tcGruppenBezeichnung" prefWidth="150.0" text="Gruppenbezeichnung" />
-                  <TableColumn fx:id="tcGruppenStatus" prefWidth="150.0" text="Gruppenstatus" />
-                  <TableColumn fx:id="tcEssenVerfuegbar" prefWidth="120.0" text="Essen verfügbar" />
-              </columns>
-            </TableView>
-            <FlowPane prefHeight="200.0" prefWidth="200.0">
+      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0">
+         <top>
+            <FlowPane alignment="CENTER" prefHeight="35.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <ComboBox fx:id="cbJahr" onAction="#onCbJahrAction" prefWidth="125.0" promptText="Jahr">
-                     <FlowPane.margin>
-                        <Insets bottom="5.0" right="5.0" top="5.0" />
-                     </FlowPane.margin>
-                  </ComboBox>
-                  <ComboBox fx:id="cbMonat" onAction="#onCbMonatAction" prefHeight="25.0" prefWidth="125.0" promptText="Monat">
-                     <FlowPane.margin>
-                        <Insets bottom="5.0" right="5.0" top="5.0" />
-                     </FlowPane.margin>
-                  </ComboBox>
-                  <ComboBox fx:id="cbGruppenauswahl" onAction="#onCbGruppenauswahlAction" prefWidth="175.0" promptText="Gruppenauswahl">
-                     <FlowPane.margin>
-                        <Insets bottom="5.0" left="5.0" top="5.0" />
-                     </FlowPane.margin>
-                  </ComboBox>
-               </children>
-            </FlowPane>
-            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
-               <children>
-                  <Button fx:id="btPrevious" mnemonicParsing="false" onAction="#onBtPreviousClick" prefWidth="35.0" text="&lt;--">
-                     <FlowPane.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </FlowPane.margin>
-                  </Button>
-                  <Button fx:id="btNext" mnemonicParsing="false" onAction="#onBtNextClick" prefWidth="35.0" text="--&gt;">
-                     <FlowPane.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </FlowPane.margin>
-                  </Button>
-               </children>
-            </FlowPane>
-            <FlowPane alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
-               <children>
-                  <Label text="von">
-                     <FlowPane.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </FlowPane.margin>
+                  <Label text="Gruppenplanung">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
                   </Label>
-                  <DatePicker fx:id="dpVon" onAction="#onDpVonAction" prefWidth="125.0">
+               </children>
+            </FlowPane>
+         </top>
+         <bottom>
+            <FlowPane alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="btPDFErstellen" mnemonicParsing="false" onAction="#onBtPDFErstellenClick" prefWidth="100.0" text="PDF Erstellen">
                      <FlowPane.margin>
-                        <Insets bottom="5.0" top="5.0" />
+                        <Insets bottom="10.0" right="5.0" top="5.0" />
                      </FlowPane.margin>
-                  </DatePicker>
-                  <Label text="bis">
+                  </Button>
+                  <Button fx:id="btSpeichern" mnemonicParsing="false" onAction="#onBtSpeichernClick" prefWidth="75.0" text="Speichern">
                      <FlowPane.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets bottom="10.0" right="5.0" top="5.0" />
                      </FlowPane.margin>
-                  </Label>
-                  <DatePicker fx:id="dpBis" onAction="#onDpBisAction" prefWidth="125.0">
+                  </Button>
+                  <Button fx:id="btAbbrechen" mnemonicParsing="false" onAction="#onBtAbbrechenClick" prefWidth="75.0" text="Abbrechen">
                      <FlowPane.margin>
-                        <Insets bottom="5.0" top="5.0" />
-                     </FlowPane.margin>
-                  </DatePicker>
-                  <ComboBox fx:id="cbStatusAuswahl" prefWidth="150.0" promptText="Statusauswahl">
-                     <FlowPane.margin>
-                        <Insets bottom="5.0" left="10.0" top="5.0" />
-                     </FlowPane.margin>
-                  </ComboBox>
-                  <Button fx:id="btAnnehmen" mnemonicParsing="false" onAction="#onBtAnnehmenClick" prefWidth="75.0" text="Annehmen">
-                     <FlowPane.margin>
-                        <Insets bottom="5.0" left="5.0" top="5.0" />
+                        <Insets bottom="10.0" right="25.0" top="5.0" />
                      </FlowPane.margin>
                   </Button>
                </children>
             </FlowPane>
-         </children>
-      </GridPane>
-   </center>
-</BorderPane>
+         </bottom>
+         <left>
+            <FlowPane prefHeight="200.0" prefWidth="25.0" BorderPane.alignment="CENTER" />
+         </left>
+         <right>
+            <FlowPane prefHeight="200.0" prefWidth="25.0" BorderPane.alignment="CENTER" />
+         </right>
+         <center>
+            <GridPane BorderPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TableView fx:id="tbTabelle" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                    <columns>
+                      <TableColumn fx:id="tcDatum" prefWidth="120.0" text="Datum" />
+                      <TableColumn fx:id="tcGruppenBezeichnung" prefWidth="150.0" text="Gruppenbezeichnung" />
+                        <TableColumn fx:id="tcGruppenStatus" prefWidth="150.0" text="Gruppenstatus" />
+                        <TableColumn fx:id="tcEssenVerfuegbar" prefWidth="120.0" text="Essen verfügbar" />
+                    </columns>
+                  </TableView>
+                  <FlowPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <ComboBox fx:id="cbJahr" onAction="#onCbJahrAction" prefWidth="125.0" promptText="Jahr">
+                           <FlowPane.margin>
+                              <Insets bottom="5.0" right="5.0" top="5.0" />
+                           </FlowPane.margin>
+                        </ComboBox>
+                        <ComboBox fx:id="cbMonat" onAction="#onCbMonatAction" prefHeight="25.0" prefWidth="125.0" promptText="Monat">
+                           <FlowPane.margin>
+                              <Insets bottom="5.0" right="5.0" top="5.0" />
+                           </FlowPane.margin>
+                        </ComboBox>
+                        <ComboBox fx:id="cbGruppenauswahl" onAction="#onCbGruppenauswahlAction" prefWidth="175.0" promptText="Gruppenauswahl">
+                           <FlowPane.margin>
+                              <Insets bottom="5.0" left="5.0" top="5.0" />
+                           </FlowPane.margin>
+                        </ComboBox>
+                     </children>
+                  </FlowPane>
+                  <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+                     <children>
+                        <Button fx:id="btPrevious" mnemonicParsing="false" onAction="#onBtPreviousClick" prefWidth="35.0" text="&lt;--">
+                           <FlowPane.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </FlowPane.margin>
+                        </Button>
+                        <Button fx:id="btNext" mnemonicParsing="false" onAction="#onBtNextClick" prefWidth="35.0" text="--&gt;">
+                           <FlowPane.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </FlowPane.margin>
+                        </Button>
+                     </children>
+                  </FlowPane>
+                  <FlowPane alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
+                     <children>
+                        <Label text="von">
+                           <FlowPane.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </FlowPane.margin>
+                        </Label>
+                        <DatePicker fx:id="dpVon" onAction="#onDpVonAction" prefWidth="125.0">
+                           <FlowPane.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </FlowPane.margin>
+                        </DatePicker>
+                        <Label text="bis">
+                           <FlowPane.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </FlowPane.margin>
+                        </Label>
+                        <DatePicker fx:id="dpBis" onAction="#onDpBisAction" prefWidth="125.0">
+                           <FlowPane.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </FlowPane.margin>
+                        </DatePicker>
+                        <ComboBox fx:id="cbStatusAuswahl" prefWidth="150.0" promptText="Statusauswahl">
+                           <FlowPane.margin>
+                              <Insets bottom="5.0" left="10.0" top="5.0" />
+                           </FlowPane.margin>
+                        </ComboBox>
+                        <Button fx:id="btAnnehmen" mnemonicParsing="false" onAction="#onBtAnnehmenClick" prefWidth="75.0" text="Annehmen">
+                           <FlowPane.margin>
+                              <Insets bottom="5.0" left="5.0" top="5.0" />
+                           </FlowPane.margin>
+                        </Button>
+                     </children>
+                  </FlowPane>
+               </children>
+            </GridPane>
+         </center>
+      </BorderPane>
+   </children>
+</StackPane>
