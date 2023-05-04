@@ -138,6 +138,7 @@ public class KalenderController extends Controller {
     @FXML
     protected void onBtBetriebsurlaubUebernehmenClick() {
         System.out.println("KalenderController.OnBtBetriebsurlaubUebernehmenClick()");
+
     }
     /**
      * Holt wenn eine Gruppe oder Gruppenfamilie ausgewählt wird die Entsprechenden Daten entweder für die gewählte

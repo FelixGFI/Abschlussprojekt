@@ -17,7 +17,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-
 <StackPane stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.gfi.felix.abschlussprojekt.gui.KalenderController">
    <children>
       <FlowPane alignment="TOP_RIGHT" prefHeight="50.0" prefWidth="50.0">
@@ -27,7 +26,7 @@
                   <Insets bottom="8.0" left="5.0" right="25.0" top="8.0" />
                </FlowPane.margin>
                <image>
-                  <Image url="C:\Abschlussprojekt\src\main\resources\de\gfi\felix\abschlussprojekt\style\GFILogo.png" />
+                  <Image url="@../style/GFILogo.png" />
                </image>
             </ImageView>
          </children>
@@ -47,6 +46,11 @@
          <bottom>
             <FlowPane alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
+                  <Button fx:id="btBetriebsurlaubUebernehmen" layoutX="325.0" layoutY="15.0" mnemonicParsing="false" onAction="#onBtBetriebsurlaubUebernehmenClick" prefWidth="170.0" text="Betriebsurlaub Übernehmen">
+                     <FlowPane.margin>
+                        <Insets bottom="10.0" right="86.0" top="5.0" />
+                     </FlowPane.margin>
+                  </Button>
                   <Button fx:id="btPDFErstellen" mnemonicParsing="false" onAction="#onBtPDFErstellenClick" prefWidth="100.0" text="PDF Erstellen">
                      <FlowPane.margin>
                         <Insets bottom="10.0" right="5.0" top="5.0" />

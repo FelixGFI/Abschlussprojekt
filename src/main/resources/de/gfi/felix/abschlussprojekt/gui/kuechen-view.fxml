@@ -24,7 +24,7 @@
          <children>
             <ImageView fitHeight="50.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="C:\Abschlussprojekt\src\main\resources\de\gfi\felix\abschlussprojekt\style\GFILogo.png" />
+                  <Image url="@../style/GFILogo.png" />
                </image>
             </ImageView>
          </children>

@@ -1,6 +1,8 @@
 .root
+
 {
     -fx-background: rgb(245, 245, 245);
+    -fx-focus-color: EEB647;
 }
 .button
 {
@@ -12,7 +14,7 @@
 }
 .borders
 {
-    -fx-border-color: rgb(103, 100, 78);
+    -fx-border-color: EEB647;
     -fx-border-style: dotted;
     -fx-border-width: 1.5;
     -fx-border-insets: -5;
