@@ -34,8 +34,19 @@ public class UsefullConstants {
     public static ArrayList<Character> getStatusWithoutEssenList() {
         return statusWithoutEssenList;
     }
-
     public static Character getFeiertagStatus() {
         return feiertagStatus;
+    }
+
+    /**
+     * gibt einen für einen übergebenen Status Character den entsprecehnden Status als String zurück.
+     * @param statusCharacter Character zu dem der Status strign ermittelt werden soll
+     * @return Status String wenn gefunden, wenn nicht gefunden null.
+     */
+    public static String getStatusStringForCharacter(Character statusCharacter) {
+        String statusString;
+        int statusIndex = UsefullConstants.getStatusListCharacterFormat().indexOf(statusCharacter);
+        statusString = UsefullConstants.getStatusListStringFormat().get(statusIndex);
+        return statusString;
     }
 }

@@ -2,6 +2,8 @@ module de.gfi.felix.abschlussprojekt {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
+    requires layout;
+    requires kernel;
 
     opens de.gfi.felix.abschlussprojekt to javafx.fxml;
     exports de.gfi.felix.abschlussprojekt.gui;

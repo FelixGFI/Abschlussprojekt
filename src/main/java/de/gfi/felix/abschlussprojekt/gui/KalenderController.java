@@ -1,6 +1,7 @@
 package de.gfi.felix.abschlussprojekt.gui;
 
 import de.gfi.felix.abschlussprojekt.helferklassen.DatenbankCommunicator;
+import de.gfi.felix.abschlussprojekt.helferklassen.PDFCreator;
 import de.gfi.felix.abschlussprojekt.helferklassen.UsefullConstants;
 import de.gfi.felix.abschlussprojekt.speicherklassen.*;
 import javafx.application.Platform;
@@ -83,7 +84,6 @@ public class KalenderController extends Controller {
         stage.setTitle(title);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
-
     }
     @FXML
     protected void onBtSpeichernClick() throws SQLException {
@@ -132,6 +132,7 @@ public class KalenderController extends Controller {
     @FXML
     protected void onBtPDFErstellenClick() {
         System.out.println("KalenderController.OnBtPDFErstellenClick()");
+        PDFCreator.writeKalenderPDF((ObservableList<KalenderTag>) tbTabelle.getItems(), (Stage) this.btSpeichern.getScene().getWindow(), gruppenListe);
     }
 
     /**

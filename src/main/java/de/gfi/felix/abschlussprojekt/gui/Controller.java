@@ -71,12 +71,7 @@ public class Controller {
             TableCell<Tag, Boolean> cell = new TableCell<>();
             cell.itemProperty().addListener(((observable, oldValue, newValue) -> {
                 if(newValue != null) {
-                    String cellText;
-                    if (newValue) {
-                        cellText = "Ja";
-                    } else {
-                        cellText = "Nein";
-                    }
+                    String cellText = (newValue ? "Ja" : "Nein");
                     cell.setText(cellText);
                 }
             }));
@@ -99,7 +94,7 @@ public class Controller {
             cell.itemProperty().addListener(((observable, oldValue, newValue) -> {
                 if(newValue != null) {
                     String cellText;
-                    cellText = getStatusStringForCharacter(newValue);
+                    cellText = UsefullConstants.getStatusStringForCharacter(newValue);
                     cell.setText(cellText);
                 }
             }));
@@ -301,18 +296,6 @@ public class Controller {
             }
         });
 
-    }
-
-    /**
-     * gibt einen für einen übergebenen Status Character den entsprecehnden Status als String zurück.
-     * @param statusCharacter Character zu dem der Status strign ermittelt werden soll
-     * @return Status String wenn gefunden, wenn nicht gefunden null.
-     */
-    private static String getStatusStringForCharacter(Character statusCharacter) {
-        String statusString;
-        int statusIndex = UsefullConstants.getStatusListCharacterFormat().indexOf(statusCharacter);
-        statusString = UsefullConstants.getStatusListStringFormat().get(statusIndex);
-        return statusString;
     }
     /**
      * gibt einen für einen übergebenen Status Character den entsprecehnden Status als String zurück.
