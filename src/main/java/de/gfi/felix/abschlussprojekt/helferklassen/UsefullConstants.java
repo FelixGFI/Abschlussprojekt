@@ -49,4 +49,8 @@ public class UsefullConstants {
         statusString = UsefullConstants.getStatusListStringFormat().get(statusIndex);
         return statusString;
     }
+
+    public static Character getUrlaubStatusCharacter() {
+        return statusListCharacterFormat.get(4);
+    }
 }

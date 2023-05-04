@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class KalenderController extends Controller {
     @FXML
@@ -136,9 +137,24 @@ public class KalenderController extends Controller {
         PDFCreator.writeKalenderPDF((ObservableList<KalenderTag>) tbTabelle.getItems(), (Stage) this.btSpeichern.getScene().getWindow(), gruppenListe);
     }
     @FXML
-    protected void onBtBetriebsurlaubUebernehmenClick() {
+    protected void onBtBetriebsurlaubUebernehmenClick() throws SQLException {
         System.out.println("KalenderController.OnBtBetriebsurlaubUebernehmenClick()");
+        if(tbTabelle.getItems().isEmpty()) {
+            return;
+        }
+        ObservableList<KalenderTag> tagesListe = (ObservableList<KalenderTag>) tbTabelle.getItems();
+        ArrayList<LocalDate> betriebsurlaubsDatumListe = DatenbankCommunicator.dbAbfrageBetriebsurlaubUebernehmen(tagesListe.get(0).getDatum().getYear());
+        for (KalenderTag tag : tagesListe) {
+            if(betriebsurlaubsDatumListe.contains(tag.getDatum())) {
+                if(!tag.getFeiertag()) {
+                    tag.setStatus(UsefullConstants.getUrlaubStatusCharacter());
+                }
+                /*Integer tagIndex = tbTabelle.getItems().indexOf(tag);
+                tbTabelle.getItems().get(tagIndex)*/
 
+            }
+        }
+        tbTabelle.refresh();
     }
     /**
      * Holt wenn eine Gruppe oder Gruppenfamilie ausgewählt wird die Entsprechenden Daten entweder für die gewählte

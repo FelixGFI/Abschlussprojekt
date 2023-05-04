@@ -8,6 +8,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DatenbankCommunicator {
 
@@ -380,8 +381,24 @@ public class DatenbankCommunicator {
             for (KalenderTag tag : kalenderTage) {
                 statement.execute("update gruppenkalender" +
                         " set gruppenstatus = \"" + tag.getStatus() + "\", essensangebot = " + tag.getEssenVerfuegbar() +
-                        " where datum = \"" + tag.getDatum() + "\" and gruppe_id = " + tag.getGruppenID() +";");
+                        " where datum = \"" + tag.getDatum() + "\" and gruppe_id = " + tag.getGruppenID() + ";");
             }
         }
+    }
+
+    //TODO add Dokumentation
+    public static ArrayList<LocalDate> dbAbfrageBetriebsurlaubUebernehmen(int jahr) throws SQLException {
+
+        ArrayList<LocalDate> betriebsurlaubsDatenListe = new ArrayList<>();
+
+        try (Statement statement = conn.createStatement()) {
+            try (ResultSet resultSet = statement.executeQuery("select * from betriebsurlaub b where datum >= \"" + jahr + "-01-01\" and datum < \"" + (jahr + 1) + "-01-01\"")) {
+                while (resultSet.next()) {
+                    LocalDate datum = LocalDate.parse(resultSet.getDate("datum").toString());
+                    betriebsurlaubsDatenListe.add(datum);
+                }
+            }
+        }
+        return betriebsurlaubsDatenListe;
     }
 }

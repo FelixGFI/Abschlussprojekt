@@ -3,8 +3,8 @@ package de.gfi.felix.abschlussprojekt.speicherklassen;
 import java.time.LocalDate;
 
 public class Tag {
-    public LocalDate datum;
-    public Boolean isFeiertag;
+    protected LocalDate datum;
+    protected Boolean isFeiertag;
 
     public Boolean getFeiertag() {
         return isFeiertag;
