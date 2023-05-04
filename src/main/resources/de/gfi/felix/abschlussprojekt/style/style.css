@@ -5,5 +5,46 @@
 .button
 {
     -fx-border-color: EEB647;
+    -fx-text-fill : black;
+    -fx-border-radius: 5 5 5 5;
+    -fx-background-radius: 5 5 5 5;
     -fx-base: white;
+}
+.borders
+{
+    -fx-border-color: rgb(103, 100, 78);
+    -fx-border-style: dotted;
+    -fx-border-width: 1.5;
+    -fx-border-insets: -5;
+}
+.lable
+{
+    -fx-text-fill : black;
+}
+.combo-box
+{
+    -fx-text-fill : black;
+    -fx-base: white;
+    -fx-border-color : EEB647;
+    -fx-border-radius: 5 5 5 5;
+    -fx-background-radius: 5 5 5 5;
+}
+.date-picker
+{
+    -fx-base: EEB647;
+    -fx-border-radius: 5 5 5 5;
+    -fx-background-radius: 5 5 5 5;
+}
+.table-view
+{
+    -fx-base: EEB647;
+    -fx-highlight-fill: EEB647;
+    -fx-highlight-text-fill: black;
+}
+.table-column
+{
+    -fx-base: EEB647;
+    -fx-text-fill : black;
+    -fx-highlight-fill: EEB647;
+    -fx-highlight-text-fill: black;
 }
