@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.ScrollEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -15,7 +16,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
 
 public class KuechenController extends Controller {
     @FXML
@@ -127,8 +127,8 @@ public class KuechenController extends Controller {
     @FXML
     protected void onCbJahrAction() throws SQLException {
         System.out.println("KuechenController.onCbJahrAction()");
-        if(ingnorEvent) {
-            ingnorEvent = false;
+        if(ingnorEventCbJahr) {
+            ingnorEventCbJahr = false;
             return;
         }
 
@@ -137,7 +137,7 @@ public class KuechenController extends Controller {
         }
         if(datenWurdenBearbeitet) {
             if(!getNutzerbestätigung()) {
-                ingnorEvent = true;
+                ingnorEventCbJahr = true;
                 Integer altesJahr = ((ObservableList<Tag>) tbTabelle.getItems()).get(0).getDatum().getYear();
                 cbJahr.getSelectionModel().select(altesJahr);
                 return;
@@ -174,6 +174,9 @@ public class KuechenController extends Controller {
         tbTabelle.getSortOrder().add(tcDatum);
         tbTabelle.refresh();
 
+        tbTabelle.addEventFilter(ScrollEvent.SCROLL, event ->
+        handleScrollEvent(event, cbMonat, tbTabelle));
+
         tbTabelle.sceneProperty().addListener((obs, oldScene, newScene) -> Platform.runLater(() -> {
             Stage stage = (Stage) newScene.getWindow();
             stage.setOnCloseRequest(e -> {
@@ -183,5 +186,4 @@ public class KuechenController extends Controller {
             });
         }));
     }
-
 }

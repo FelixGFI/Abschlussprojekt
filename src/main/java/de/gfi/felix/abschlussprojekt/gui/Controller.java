@@ -6,6 +6,7 @@ import de.gfi.felix.abschlussprojekt.speicherklassen.*;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
@@ -21,7 +22,8 @@ import java.util.Optional;
 public class Controller {
 
     Boolean datenWurdenBearbeitet = false;
-    Boolean ingnorEvent = false;
+    Boolean ingnorEventCbJahr = false;
+    Boolean ingnorEventCbMonat = false;
 
     /**
      * Konfiguriert das Datum in einer übergebenen TableColumn in dem Vormat, Wochentagskürzel, DD.MM.JJJJ
@@ -453,7 +455,13 @@ public class Controller {
     }
     //TODO Add Documentation
     protected void handleCbMonatAction(ComboBox<Month> cbMonat, TableView tbTabelle) {
+
         System.out.println("KuechenController.onCbMonatAction()");
+
+        if(ingnorEventCbMonat) {
+            ingnorEventCbMonat = false;
+            return;
+        }
         if(cbMonat.getSelectionModel().getSelectedItem() == null) {
             return;
         }
@@ -506,6 +514,24 @@ public class Controller {
         } else {
             //triggers the Action Listener for cbMonat who does everything else necccsary
             cbMonat.getSelectionModel().selectPrevious();
+        }
+    }
+    //TODO Add Documentation
+    protected void handleScrollEvent(ScrollEvent event, ComboBox<Month> cbMonat, TableView tbTabelle) {
+        if(tbTabelle.getItems().isEmpty()) {
+            return;
+        }
+        try {
+            System.out.println(event.getTarget());
+            TableCell<Tag, LocalDate> cell = (TableCell) event.getTarget();
+            Tag tag = (Tag) cell.getTableRow().getItem();
+            System.out.println(tag.getDatum());
+            if(cbMonat.getSelectionModel().getSelectedItem() != tag.getDatum().getMonth()) {
+                ingnorEventCbMonat = true;
+                cbMonat.getSelectionModel().select(tag.getDatum().getMonth());
+            }
+        } catch (ClassCastException ce) {
+
         }
     }
 }
