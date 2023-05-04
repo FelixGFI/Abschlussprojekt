@@ -1,5 +1,6 @@
 package de.gfi.felix.abschlussprojekt.helferklassen;
 
+import de.gfi.felix.abschlussprojekt.gui.Controller;
 import de.gfi.felix.abschlussprojekt.speicherklassen.Gruppe;
 import de.gfi.felix.abschlussprojekt.speicherklassen.KalenderTag;
 import javafx.collections.ObservableList;
@@ -21,6 +22,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class PDFCreator {
+
+    //TODO Document all methods of class
     public static void writeKalenderPDF(ObservableList<KalenderTag> tage, Stage parentStage, ArrayList<Gruppe> gruppenListe) {
 
         Integer fontSizeUeaberschrift = 20;
@@ -31,11 +34,14 @@ public class PDFCreator {
         }
         String speicherOrt = requestSpeicherortFromUser(parentStage);
         if(speicherOrt.equals("") || speicherOrt == null) {
-            System.out.println("PDFCreator.writeKalenderPDF() speicherOrt is null or an empty String");
-            //TODO show error Message
             return;
         }
-
+        if(!speicherOrt.endsWith(".pdf")){
+            Controller.createAndShowErrorAlert("Fehler", "Ungültiger Pfad",
+                    "Der Ausgewählte Pfad ist ungültig oder existiert nicht." +
+                            " Bitte stellen Sie sicher einen gültigen Pfad zu verwenden welcher auf ein PDF dokument verweist.");
+            return;
+        }
         try{
             PdfWriter writer = new PdfWriter(speicherOrt);
             // Creating a PdfDocument
@@ -61,8 +67,9 @@ public class PDFCreator {
             document.close();
 
         } catch (FileNotFoundException fnfe) {
-            //TODO throw Error Message
-            System.out.println("PDFCreator.writeKalenderPDF() threw FileNotFoundExeption");
+            Controller.createAndShowErrorAlert("Fehler", "Ungültiger Pfad",
+                    "Der Ausgewählte Pfad ist ungültig oder existiert nicht." +
+                            " Bitte stellen Sie sicher einen gültigen Pfad zu verwenden welcher auf ein PDF dokument verweist.");
         }
     }
 

@@ -517,4 +517,13 @@ public class Controller {
 
         }
     }
+
+    public static void createAndShowErrorAlert(String titel, String ueberschrift, String inhalt) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.setTitle(titel);
+        alert.setHeaderText(ueberschrift);
+        alert.setContentText(inhalt);
+        alert.showAndWait();
+    }
 }

@@ -63,6 +63,7 @@ public class KalenderController extends Controller {
 
     /**
      * diese Methode ist zur Öffnung eines Fensters dieser controllerKlasse aus einem anderen Fenster (Hauptmenü) da.
+     * Zum Aufrufen dieses Controllers sollte außschließlich diese Methode verwendet werden. Ansonsten kann es zu Fehlern kommen.
      * @param parentStage stage des Aufrufenden Fensters
      * @param title titel des zu Zeigenden Fensters als String
      * @param fxmlResource dateipfad der für den Controller verwendeten fxml Datei als String
@@ -71,15 +72,14 @@ public class KalenderController extends Controller {
     public static void openWindow(Stage parentStage, String title, String fxmlResource) throws IOException {
         FXMLLoader loader = new FXMLLoader(Controller.class.getResource(fxmlResource));
         Scene newScene;
-        newScene = new Scene(loader.load());
-        /*try {
-
+        try {
+            newScene = new Scene(loader.load());
         } catch (IOException ex) {
-
-            //TODO gennerate ERROR popup
-            System.out.println("Error beim öffnen von Dialog. KalenderController.openWindow()");
+            createAndShowErrorAlert("Fehler", "FXML Ladefehler", "Beim laden des Dialogs ist ein Fehler aufgetreten.");
             return;
-        }*/
+        }
+
+        DatenbankCommunicator.establishConnection();
 
         Stage stage = new Stage();
         stage.initOwner(parentStage);
@@ -233,8 +233,6 @@ public class KalenderController extends Controller {
         handleDpBis(dpVon, dpBis, tbTabelle);
     }
     public void initialize() throws SQLException {
-        DatenbankCommunicator.establishConnection();
-
         Label lblPlacholder = new Label("Momentan sind keine Daten ausgewählt.\nBitte wählen sie eine Gruppe oder Gruppenfamilie aus");
 
         ArrayList<GruppenFamilie> familienListe = DatenbankCommunicator.dbAbfrageGruppenUndFamilien();

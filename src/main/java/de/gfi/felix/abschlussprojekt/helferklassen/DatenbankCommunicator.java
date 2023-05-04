@@ -1,5 +1,6 @@
 package de.gfi.felix.abschlussprojekt.helferklassen;
 
+import de.gfi.felix.abschlussprojekt.gui.Controller;
 import de.gfi.felix.abschlussprojekt.speicherklassen.*;
 import javafx.collections.ObservableList;
 
@@ -27,7 +28,8 @@ public class DatenbankCommunicator {
         try {
             conn = DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
-            //TODO make error alert
+            Controller.createAndShowErrorAlert("Fehler", "Datenbankfehler",
+                    "Verbindung mit der Datenbank fehlgeschlagen. Bitte stellen Sie sicher das die Datenbank angeschaltet und verfügbar ist.");
             System.out.println( "Datenbankverbindung Fehlgeschlagen. Bitte Stellen Sie sicher das das Programm zugriff auf die Datenbank hat. [" + url + "]");
         }
     }

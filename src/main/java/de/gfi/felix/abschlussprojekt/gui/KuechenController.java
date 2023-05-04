@@ -47,6 +47,7 @@ public class KuechenController extends Controller {
 
     /**
      * diese Methode ist zur Öffnung eines Fensters dieser controllerKlasse aus einem anderen Fenster (Hauptmenü) da.
+     * Zum Aufrufen dieses Controllers sollte außschließlich diese Methode verwendet werden. Ansonsten kann es zu Fehlern kommen.
      * @param parentStage stage des Aufrufenden Fensters
      * @param title titel des zu Zeigenden Fensters als String
      * @param fxmlResource dateipfad der für den Controller verwendeten fxml Datei als String
@@ -58,11 +59,12 @@ public class KuechenController extends Controller {
         try {
             newScene = new Scene(loader.load());
         } catch (IOException ex) {
-
-            //TODO gennerate ERROR popup
-            System.out.println("Error beim öffnen von Dialog. KuechenController.openWindow()");
+            createAndShowErrorAlert("Fehler", "FXML Ladefehler", "Beim laden des Dialogs ist ein Fehler aufgetreten.");
             return;
         }
+
+        DatenbankCommunicator.establishConnection();
+
         Stage stage = new Stage();
         stage.initOwner(parentStage);
         stage.setScene(newScene);
@@ -161,8 +163,6 @@ public class KuechenController extends Controller {
     }
 
     public void initialize() throws SQLException {
-        DatenbankCommunicator.establishConnection();
-
         tbTabelle.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         configureLocalDateTableColum(tcDatum, "datum");
         configureIntegerColumn(tcKuechenStatus, "kuechenStatus");
