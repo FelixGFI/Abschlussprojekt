@@ -421,13 +421,30 @@ public class Controller {
             }
         }
     }
-    //TODO Add Documentation
+
+    /**
+     * fragt für das übergebene Jahr und den Übergebenen Monat den ersten Werktag ab und scrollt zum Ersten gefundenen
+     * Tag mit diesem Datum in der übergebenen TableView
+     * @param jahr Integer jahr des Werktags zu dem gescrollt werden soll.
+     * @param monat Month des Werktags zu dem gescrollt werden soll
+     * @param tbTabelle TableView in der gescrollt werden soll.
+     */
     protected void scrollToFirstOfMonthAndYear(Integer jahr, Month monat, TableView tbTabelle) {
         LocalDate datum = DatenbankCommunicator.getFirstWerktagOfMonth(jahr, monat);
 
         scrollToDatum(datum, tbTabelle);
     }
-    //TODO Add Documentation
+
+    /**
+     * scrollt zu einem Tag mit einem bestimmten übergebenen Datum in der übergebenen TableView.
+     * Wichtig!: die Methode prüft NICHT ob ein Tag mit diseem Datum in der Tabellevorhanden ist. Deswegen sollte
+     * beim Aufrufen sichergestelltw werden das ein Tag mit dem Entsprechenden Datum auch wirklich in der TableView
+     * vorhanden ist. (z. B. es sollte Überpfüfte werrden das das gegeben Datum ein Werktag ist.)
+     * alternativ kann die Funktion scrollToFirstOfMonthAndYear verwendet werden welche einen Werktag ermittelt
+     * zu dem sie scrollt.
+     * @param datum datum zu welchem ein tag in der TabelView gesucht und zu diesem gescrollt werden soll.
+     * @param tbTabelle TableView in der gescroltl werden soll
+     */
     protected static void scrollToDatum(LocalDate datum, TableView tbTabelle) {
         for(Tag tag : (ObservableList<Tag>) tbTabelle.getItems()) {
             if(tag.getDatum().isEqual(datum)) {
@@ -518,6 +535,13 @@ public class Controller {
         }
     }
 
+    /**
+     * erstellt einen Alert vom Typ AlertType.Error mit dem Übergebenen Titel, der Übergebenen Überschrift und dem
+     * Übergebenen Inhalt und zeigt diesen an.
+     * @param titel titel des Alert
+     * @param ueberschrift Überschrift für den Alert
+     * @param inhalt Inhalt des Alerts
+     */
     public static void createAndShowErrorAlert(String titel, String ueberschrift, String inhalt) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.initModality(Modality.APPLICATION_MODAL);
