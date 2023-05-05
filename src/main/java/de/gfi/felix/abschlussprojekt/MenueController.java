@@ -21,7 +21,7 @@ public class MenueController {
     Stage stage;
 
     @FXML
-    protected void onBtBetriebsurlaubClick() throws IOException, SQLException {
+    protected void onBtBetriebsurlaubClick() {
         BetriebsurlaubController.openWindow(stage, "Betriebsurlaub", "betriebsurlaub-view.fxml");
     }
     @FXML

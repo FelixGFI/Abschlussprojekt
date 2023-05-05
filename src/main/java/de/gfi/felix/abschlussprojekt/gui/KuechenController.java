@@ -63,8 +63,6 @@ public class KuechenController extends Controller {
             return;
         }
 
-        DatenbankCommunicator.establishConnection();
-
         Stage stage = new Stage();
         stage.initOwner(parentStage);
         stage.setScene(newScene);
@@ -163,6 +161,8 @@ public class KuechenController extends Controller {
     }
 
     public void initialize() throws SQLException {
+        DatenbankCommunicator.establishConnection();
+
         tbTabelle.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         configureLocalDateTableColum(tcDatum, "datum");
         configureIntegerColumn(tcKuechenStatus, "kuechenStatus");

@@ -79,8 +79,6 @@ public class KalenderController extends Controller {
             return;
         }
 
-        DatenbankCommunicator.establishConnection();
-
         Stage stage = new Stage();
         stage.initOwner(parentStage);
         stage.setScene(newScene);
@@ -233,6 +231,8 @@ public class KalenderController extends Controller {
         handleDpBis(dpVon, dpBis, tbTabelle);
     }
     public void initialize() throws SQLException {
+        DatenbankCommunicator.establishConnection();
+
         Label lblPlacholder = new Label("Momentan sind keine Daten ausgewählt.\nBitte wählen sie eine Gruppe oder Gruppenfamilie aus");
 
         ArrayList<GruppenFamilie> familienListe = DatenbankCommunicator.dbAbfrageGruppenUndFamilien();
