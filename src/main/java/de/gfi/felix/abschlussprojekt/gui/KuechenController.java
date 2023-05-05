@@ -47,7 +47,6 @@ public class KuechenController extends Controller {
 
     /**
      * diese Methode ist zur Öffnung eines Fensters dieser controllerKlasse aus einem anderen Fenster (Hauptmenü) da.
-     * Zum Aufrufen dieses Controllers sollte außschließlich diese Methode verwendet werden. Ansonsten kann es zu Fehlern kommen.
      * @param parentStage stage des Aufrufenden Fensters
      * @param title titel des zu Zeigenden Fensters als String
      * @param fxmlResource dateipfad der für den Controller verwendeten fxml Datei als String
@@ -70,12 +69,23 @@ public class KuechenController extends Controller {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
     }
+
+    /**
+     * speichert alle Änderungen die der Nutzer für die Angeziegten Daten vorgenommen hat in der Datenbank und setzt
+     * den Boolen der anzeigt ob ungespeicherte Änderungen vorhanden sein könnten auf False
+     * @throws SQLException
+     */
     @FXML
     protected void onBtSpeichernClick() throws SQLException {
         System.out.println("KuechenController.OnBtSpeichernClick()");
         DatenbankCommunicator.dbSpeichernKuechenTage(tbTabelle.getItems());
         datenWurdenBearbeitet = false;
     }
+
+    /**
+     * Schließt das Fenster. Wenn Änderungen des Nutzers durch verlassen des dialoges
+     * Verworfen werden könnten holt die Methode vor dem Verlassen Nutzerbestätigung ein.
+     */
     @FXML
     protected void onBtAbbrechenClick() {
         System.out.println("KuechenController.OnBtAbbrechenClick()");
@@ -86,16 +96,26 @@ public class KuechenController extends Controller {
         Stage stage = (Stage) (btAbbrechen.getScene().getWindow());
         stage.close();
     }
+
+    /**
+     * wechselt zum Nächsten Monat
+     */
     @FXML
     protected void onBtNextClick() {
         System.out.println("KuechenController.OnBtNextClick()");
         handleBtNextClick(cbMonat, cbJahr, tbTabelle);
     }
+
+    /**
+     * wechselt zum Vormonat
+     */
     @FXML
     protected void onBtPreviousClick() {
         handleBtPriviousClick(cbMonat, cbJahr, tbTabelle);
         System.out.println("KuechenController.OnBtPreviousClick()");
     }
+
+    //TODO add Documentation
     @FXML
     protected void onBtOffenClick() {
         System.out.println("KuechenController.OnBtOffenClick");
@@ -108,6 +128,7 @@ public class KuechenController extends Controller {
         tbTabelle.refresh();
     }
 
+    //TODO add Documentation
     @FXML
     protected void onBtGeschlossenClick() {
         System.out.println("KuechenController.OnBtGeschlossenClick");
@@ -119,6 +140,11 @@ public class KuechenController extends Controller {
         }
         tbTabelle.refresh();
     }
+
+    /**
+     * führt das Eventhandlung bei Änderung des Monats in der Combobox<Month> cbMonat entsprechend der
+     * aufgerufenen Methode aus.
+     */
     @FXML
     protected void onCbMonatAction() {
         handleCbMonatAction(cbMonat, tbTabelle);
@@ -151,15 +177,28 @@ public class KuechenController extends Controller {
         tbTabelle.getItems().setAll(DatenbankCommunicator.dbAbfrageKuechenTage(cbJahr.getSelectionModel().getSelectedItem()));
         scrollToFirstOfMonthAndYear(cbJahr.getSelectionModel().getSelectedItem(), cbMonat.getSelectionModel().getSelectedItem(), tbTabelle);
     }
+    /**
+     * führt das Eventhandlung bei Eingabe in den Datepicker dpVon entsprechend der aufgerufenen Methode aus.
+     */
     @FXML
     protected void onDpVonAction() {
         handleDpVon(dpVon, dpBis, tbTabelle);
     }
+    /**
+     * führt das Eventhandlung bei Eingabe in den Datepicker dpBis entsprechend der aufgerufenen Methode aus.
+     */
     @FXML
     protected void onDpBisAction() {
         handleDpBis(dpVon, dpBis, tbTabelle);
     }
 
+    /**
+     * diese Initialize Methode setzt alle gui Elemente auf die Aufgesetzt werden müsssen. Sie stellt die Verbindung
+     * zur Datenbank her und legt fest was getan werden soll wenn der User in der Tabelle scrollt und
+     * was passieren soll wenn der user durch clicken auf das Kreuz in der rechten Oberen ecke den Dialog verlässt.
+     * befüllt die TableView mit den Daten des Akktuellen Jahres
+     * @throws SQLException
+     */
     public void initialize() throws SQLException {
         DatenbankCommunicator.establishConnection();
 
