@@ -335,7 +335,12 @@ public class Controller {
         return cellText;
     }
 
-    //TODO Add Documentation
+    /**
+     * Erzeugt einen Alert des AlertType.CONFIRMATION welcher den User Fragt ob er Fortfahren möchte und das Ungespeicherte
+     * Daten verloren gehen. Gibt die Antwort des Users zurück. True wenn der User mit "OK" bestätigt. False wenn der
+     * User mit "Abbrechen" die Zustimmung verweigert
+     * @return boolean true wenn Nutzerbestätigung erteilt wurde. fasle wenn nicht
+     */
     protected boolean getNutzerbestätigung() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.APPLICATION_MODAL);
@@ -354,7 +359,20 @@ public class Controller {
             return false;
         }
     }
-    //TODO Add Documentation
+
+    /**
+     * handelt die OnAction Methode des Datepickers in den Einzelnen Controllern in dem das Datum angegeben werden kann
+     * von dem Aus Tage in der Tabelle markiert werden sollen (dpVon). Überprüft ob in dpVon und im dpBis gültige Werte vorhanden sind
+     * und führt je nach gültigkeit der Werte unterschiedliceh Aktionen aus. Sind keine gültigen Werte vorhanden oder
+     * ist nur der dpBis wert gültig beendet sich die Methode. Ist nur der dpVon Wert gültig oder der dpBis wert vor oder
+     * gleich dem dpVon wert wird nur der dpVon Wert markeirt. sind dpVon und dpBis gültig und dp Bis nach dpVon werden
+     * alel Tage mit den beiden werten, sowie alle Tage dazwischen markeirt. Das Programm prüft außerdem ob die daten sich
+     * auf dds Momentan ausgewählte Jahr beziehen. Wenn nicht beendet sich die Methode.
+     * @param dpVon DatePicker welcher das Datum enthalten kann von dem Aus in der Tabelle ausgewäht werden soll
+     *              dpVon löst außerdem das ActionEvent aus welches dies Methode bearbeiten soll.
+     * @param dpBis DatePicker welcher das Datum enthalten kann bis zu Welchem in der Tabelle ausgewäht werden soll
+     * @param tbTabelle TableView in welcher zeilen ausgewählt werden sollen
+     */
     protected void handleDpVon(DatePicker dpVon, DatePicker dpBis, TableView tbTabelle) {
         if(dpVon.getValue() == null) {
             return;
@@ -392,7 +410,19 @@ public class Controller {
         }
     }
 
-    //TODO Add Documentation
+    /**
+     * handelt die OnAction Methode des Datepickers in den Einzelnen Controllern in dem das Datum angegeben werden kann
+     * bis zu dem Tage in der Tabelle markiert werden sollen (dpBis). Überprüft ob in dpVon und im dpBis gültige Werte vorhanden sind
+     * und führt je nach gültigkeit der Werte unterschiedliceh Aktionen aus. Sind keine gültigen Werte vorhanden,
+     * ist nur der dpBis wert gültig oder der dpBisWert vor oder gliech beendet sich die Methode. sind dpVon und dpBis gültig und
+     * dpBis nach dpVon werden alle Tage mit den beiden werten, sowie alle Tage dazwischen markeirt.
+     * Das Programm prüft außerdem ob die daten sich auf dds Momentan ausgewählte Jahr beziehen. Wenn nicht beendet
+     * sich die Methode.
+     * @param dpVon DatePicker welcher das Datum enthalten kann von dem Aus in der Tabelle ausgewäht werden soll
+     * @param dpBis DatePicker welcher das Datum enthalten kann bis zu Welchem in der Tabelle ausgewäht werden soll
+     *              dpBis löst außerdem das ActionEvent aus welches dies Methode bearbeiten soll.
+     * @param tbTabelle TableView in welcher zeilen ausgewählt werden sollen
+     */
     protected void handleDpBis(DatePicker dpVon, DatePicker dpBis, TableView tbTabelle) {
         if(dpVon.getValue() == null || dpBis.getValue() == null) {
             return;
@@ -453,7 +483,17 @@ public class Controller {
             }
         }
     }
-    //TODO Add Documentation
+
+    /**
+     * Soll vom Event handler der ComboBoxen der einzelenen Controller augerufen werden in denen der Nutzer
+     * den ausgewählten Monat auswählen kann. Ist ingnorEventCbMonat true, d. h. wird dise Methode durch eine AUswahländerung
+     * via programcode in einer Anderen Methode aufgerufen und soll deswegen nciht weiter ausgeführt werden beenet sich
+     * die Methode. Ansonsten Überprüft sie ob ein Monat ausgewählt ist (sollte in der Regel eigentlcih immer der Fall sein)
+     * und ob in der Tabelle gerade Daten angezeigt werden. Ist letzteres der Fall so wird zum ausgewählten Monat
+     * in der tabelle gescrollt
+     * @param cbMonat Combobox<Month> für welche diese Methode aufgerufen wird.
+     * @param tbTabelle TableView in der gescrollt werden soll
+     */
     protected void handleCbMonatAction(ComboBox<Month> cbMonat, TableView tbTabelle) {
 
         System.out.println("KuechenController.onCbMonatAction()");
@@ -474,7 +514,19 @@ public class Controller {
 
         scrollToFirstOfMonthAndYear(jahr, monat, tbTabelle);
     }
-    //TODO Add Documentation
+
+    /**
+     * soll vom EventHandler der btNext in den einzelnen Controllern controller ausgewähtl werden welcher vom Nutzer
+     * verwendet werden können um zum nächsten Monat umzuschalten. wenn durch das springen zum nächsten Monat
+     * auch das Jahr geweschelt werden würde (z. B. von Dezember 2023 nach Januar 2024) holt die Methode
+     * dafür Nutzerbstätigung ein, wenn möglicherweise Änderungen an den Angezeigten Daten vorgenommen wurden.
+     * In jedem Fall, es sei den sie wurde vorher beeendet, scroltl die Methode zum neuen Ausgewählten Monat
+     * Die Methode akktualisiert außerdem die Comboboxen cbJahr und cbMonat entsprechend des Neuen
+     * Ausgewählten jahres und Monats.
+     * @param cbMonat Combobox<Month>cbMonat welche durch die Methode aktualiseirt wird.
+     * @param cbJahr Combobox<Integer> cbJahr welche durch die Methode aktualiseirt wird.
+     * @param tbTabelle tbTabelle auf in welcher zum neuen Ausgewählten Monat gescrollt werden soll
+     */
     protected void handleBtNextClick(ComboBox<Month> cbMonat, ComboBox<Integer> cbJahr ,TableView tbTabelle) {
         Month monat = cbMonat.getSelectionModel().getSelectedItem();
         Integer jahr = cbJahr.getSelectionModel().getSelectedItem();
@@ -495,7 +547,21 @@ public class Controller {
             cbMonat.getSelectionModel().selectNext();
         }
     }
-    //TODO Add Documentation
+    /**
+     * soll vom EventHandler der btPrevious in den einzelnen Controllern controller ausgewähtl werden welcher vom Nutzer
+     * verwendet werden können um zum vorherigen Monat umzuschalten. wenn durch das springen zum vorherigen Monat
+     * auch das Jahr geweschelt werden würde (z. B. von Januar 2023 nach Dezember 2022) holt die Methode
+     * dafür Nutzerbstätigung ein, wenn möglicherweise Änderungen an den Angezeigten Daten vorgenommen wurden.
+     * In jedem Fall, es sei den sie wurde vorher beeendet, scroltl die Methode zum neuen Ausgewählten Monat.
+     * Anmerkung: Beim Wechsel zu Manchen Jahren funktioniert das Scrollen nicht. Bei Manchen schon.
+     * Dies scheint mit der funktinsweise der scroll funktionen von JavaFx zutun zu haben und ich konnte keine
+     * Lösung dafür finden. In manchen jahren funktioniert es.
+     * Die Methode akktualisiert außerdem die Comboboxen cbJahr und cbMonat entsprechend des Neuen
+     * Ausgewählten jahres und Monats.
+     * @param cbMonat Combobox<Month>cbMonat welche durch die Methode aktualiseirt wird.
+     * @param cbJahr Combobox<Integer> cbJahr welche durch die Methode aktualiseirt wird.
+     * @param tbTabelle tbTabelle auf in welcher zum neuen Ausgewählten Monat gescrollt werden soll
+     */
     protected void handleBtPriviousClick(ComboBox<Month> cbMonat, ComboBox<Integer> cbJahr, TableView tbTabelle) {
         Month monat = cbMonat.getSelectionModel().getSelectedItem();
         Integer jahr = cbJahr.getSelectionModel().getSelectedItem();
@@ -516,7 +582,19 @@ public class Controller {
             cbMonat.getSelectionModel().selectPrevious();
         }
     }
-    //TODO Add Documentation
+
+    /**
+     * wird von eventFiltern der Einzelnen Controller aufgerufen welche ScrollEvents abfangen und mittels dieser
+     * methode bearbeiten sollen. Die Methode überprüft ob in der Tabelle einträge vorhanden sind und wenn ja
+     * passt sie die combobox in welcher der Ausgewähtle Monat angezeigt ist entsprechend der Position an zu welcher der User
+     * gescrollt ist. (z. b. Der user scrollt in der Tabelle von einträgen aus dem Monat märz, zu einträgen aus dem Monat
+     * Apri. Die methode soll den Ausgewählten Monat auf März ändern). Um sicher zustellen das der event Handler
+     * von cbMonat nicht dazwischen funkt wird der Boolean ingnorEventCbMonat verwendet, welccher wenn true
+     * die ausführung der eventHandler Methode unterbricht.
+     * @param event
+     * @param cbMonat
+     * @param tbTabelle
+     */
     protected void handleScrollEvent(ScrollEvent event, ComboBox<Month> cbMonat, TableView tbTabelle) {
         if(tbTabelle.getItems().isEmpty()) {
             return;
