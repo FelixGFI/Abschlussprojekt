@@ -388,7 +388,16 @@ public class DatenbankCommunicator {
         }
     }
 
-    //TODO add Dokumentation
+    /**
+     * Fragt für das Übergebene Jahr alle Betriebsurlaubsdaten aus der Datenbank ab. gibt eine ArrayList<LocalDate> zurück
+     * welche für jeden Eintrag in der Tabelle betriebsurlaub in der Datenbank für das gegebene Jahr, d. h. für jeden
+     * Tag des Jahres der stand jetzt Betriebsurlaub ist, das entsprechende Datum enthält. Diese methode ist dazu die Daten
+     * zu liefern welche benötigt werden um den bisher Festgelegten Betriebsurlaub in einen Gruppenkalender zu übernehmen,
+     * daher der Name.
+     * @param jahr jahr für das die Betriebsurlaubsdaten abgefafragt werden sollen.
+     * @return ArrayList<LocalDate> mit dem Datum aller Tage des übergebenen jahres für die Betriebsurlaub angesetzt ist
+     * @throws SQLException
+     */
     public static ArrayList<LocalDate> dbAbfrageBetriebsurlaubUebernehmen(int jahr) throws SQLException {
 
         ArrayList<LocalDate> betriebsurlaubsDatenListe = new ArrayList<>();

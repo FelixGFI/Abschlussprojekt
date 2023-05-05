@@ -170,8 +170,6 @@ public class PDFCreator {
         table.addCell(getCellWithContent(essenVerfuegbarText, fontSizeTabelle));
     }
 
-
-    //TODO test this method
     /**
      * Sucht aus der übergebenen ArrayList welche Gurppen enhält die passende Gruppe für den Übergebenen Tag heraus.
      * gibt die entsprechend Gruppenbeziechung als string zurück. Falls die Gruppe nicht gefunden wurde oder das
