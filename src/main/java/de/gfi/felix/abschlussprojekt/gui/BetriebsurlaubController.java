@@ -115,7 +115,11 @@ public class BetriebsurlaubController extends Controller {
         handleBtPriviousClick(cbMonat, cbJahr, tbTabelle);
     }
 
-    //TODO documentation
+    /**
+     * Setzt für alle in der Tabelel ausgewählten Tage den Betriebsurlaubsstatus (istBetriebsurlaub) auf 1,
+     * stellt also ein das die ausgewählten Tage Betriebsurlaubstage sind. Ausnahme sind gesetztliche
+     * Feiertage welche vom Nuter nicht abgeendert werden können (istBetriebsurlaub = 2 : gesetzlicher Feiertag).
+     */
     @FXML
     protected void onBtUrlaubClick() {
         System.out.println("BetriebsurlaubController.OnBtUrlaubClick()");
@@ -128,8 +132,11 @@ public class BetriebsurlaubController extends Controller {
         tbTabelle.refresh();
     }
 
-
-    //TODO documentation
+    /**
+     * Setzt für alle in der Tabelel ausgewählten Tage den Betriebsurlaubsstatus (istBetriebsurlaub) auf 0,
+     * stellt also ein das die ausgewählten Tage KEINE Betriebsurlaubstage sind. Ausnahme sind gesetztliche
+     * Feiertage welche vom Nuter nicht abgeendert werden können (istBetriebsurlaub = 2 : gesetzlicher Feiertag).
+     */
     @FXML
     protected void onBtArbeitClick() {
         System.out.println("BetriebsurlaubController.OnBtArbeitClick()");
@@ -151,7 +158,18 @@ public class BetriebsurlaubController extends Controller {
         System.out.println("BetriebsurlaubController.onCbMonatAction()");
         handleCbMonatAction(cbMonat, tbTabelle);
     }
-    //TODO Add Documentation
+
+    /**
+     * wird ausgelöst wenn ein anderes Jahr in der cbJahr ausgewählt wird. Überprüft ob
+     * daten editiert worden sein könnten und fragt, wenn ja Nuterbestätigung ab. Wird diese
+     * nicht gewehrt so wird in der cbJahr das momentan in der Tabelle angezeigte Jahr
+     * ausgewählt und die Methode dan beendet. Damit durch das auswählen des in der Tabelle
+     * angeziegten jahres onCBJahrAction nicht erneut ausgeführt wird wird der
+     * Boolean ingnorEventCbJahr verwendet. Wenn diese Methode nicht vorher beendet wird
+     * fragte sie die Daten für das vom Nutzer neu ausgewählte jahr ab und befüllt
+     * die Datenbank damit.
+     * @throws SQLException
+     */
     @FXML
     protected void onCbJahrAction() throws SQLException {
         System.out.println("BetriebsurlaubController.onCbJahrAction()");

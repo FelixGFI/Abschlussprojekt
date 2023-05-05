@@ -113,7 +113,12 @@ public class KalenderController extends Controller {
         stage.close();
     }
 
-    //TODO add Documentation
+    /**
+     * Wir beim clicken des btAnnehmen ausgelöst und ändert die ausgewählten Einträge in der
+     * Tableview entsprechend des in der cbStatusauswahl ausgewählten Status. Ausgenommen ist
+     * der Status "gesetzlicher Feiertag" welcher vom Programm anhand daten der Datenbank
+     * automatisch vergeben wird und vom Nutzer nicht geändert werden kann.
+     */
     @FXML
     protected void onBtAnnehmenClick() {
         System.out.println("KalenderController.OnBtAnnehmenClick()");
@@ -222,7 +227,18 @@ public class KalenderController extends Controller {
         System.out.println("KlanderController.onCbMonatAction()");
         handleCbMonatAction(cbMonat, tbTabelle);
     }
-    //TODO Add Documentation
+
+    /**
+     * wird ausgelöst wenn ein anderes Jahr in der cbJahr ausgewählt wird. Überprüft ob
+     * daten editiert worden sein könnten und fragt, wenn ja Nuterbestätigung ab. Wird diese
+     * nicht gewehrt so wird in der cbJahr das momentan in der Tabelle angezeigte Jahr
+     * ausgewählt und die Methode dan beendet. Damit durch das auswählen des in der Tabelle
+     * angeziegten jahres onCBJahrAction nicht erneut ausgeführt wird wird der
+     * Boolean ingnorEventCbJahr verwendet. Wenn diese Methode nicht vorher beendet wird
+     * fragte sie die Daten für das vom Nutzer neu ausgewählte jahr und die ausgewählte Gruppe/
+     * Gruppenfamilie ab und befüllt die Datenbank damit.
+     * @throws SQLException
+     */
     @FXML
     protected void onCbJahrAction() throws SQLException {
         if(ingnorEventCbJahr) {
