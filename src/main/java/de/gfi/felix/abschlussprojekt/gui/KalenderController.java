@@ -63,7 +63,6 @@ public class KalenderController extends Controller {
 
     /**
      * diese Methode ist zur Öffnung eines Fensters dieser controllerKlasse aus einem anderen Fenster (Hauptmenü) da.
-     * Zum Aufrufen dieses Controllers sollte außschließlich diese Methode verwendet werden. Ansonsten kann es zu Fehlern kommen.
      * @param parentStage stage des Aufrufenden Fensters
      * @param title titel des zu Zeigenden Fensters als String
      * @param fxmlResource dateipfad der für den Controller verwendeten fxml Datei als String
@@ -86,12 +85,23 @@ public class KalenderController extends Controller {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
     }
+
+    /**
+     * speichert alle Änderungen die der Nutzer für die Angeziegten Daten vorgenommen hat in der Datenbank und setzt
+     * den Boolen der anzeigt ob ungespeicherte Änderungen vorhanden sein könnten auf False
+     * @throws SQLException
+     */
     @FXML
     protected void onBtSpeichernClick() throws SQLException {
         System.out.println("KalenderControllerOn.BtSpeichernClick()");
         DatenbankCommunicator.dbSpeichernKalenderDaten(tbTabelle.getItems());
         datenWurdenBearbeitet = false;
     }
+
+    /**
+     * Schließt das Fenster. Wenn Änderungen des Nutzers durch verlassen des dialoges
+     * Verworfen werden könnten holt die Methode vor dem Verlassen Nutzerbestätigung ein.
+     */
     @FXML
     protected void onBtAbbrechenClick() {
         System.out.println("KalenderControllerOn.BtAbbrechenClick()");
@@ -102,6 +112,8 @@ public class KalenderController extends Controller {
         Stage stage = (Stage) (btAbbrechen.getScene().getWindow());
         stage.close();
     }
+
+    //TODO add Documentation
     @FXML
     protected void onBtAnnehmenClick() {
         System.out.println("KalenderController.OnBtAnnehmenClick()");
@@ -117,25 +129,42 @@ public class KalenderController extends Controller {
         }
         tbTabelle.refresh();
     }
+
+    /**
+     * wechselt zum nächsten Monat
+     */
     @FXML
     protected void onBtNextClick() {
         System.out.println("KalenderController.OnBtNextClick()");
         handleBtNextClick(cbMonat, cbJahr, tbTabelle);
     }
 
+    /**
+     * wechselt zum Vormonat
+     */
     @FXML
     protected void onBtPreviousClick() {
         System.out.println("KalenderController.OnBtPreviousClick()");
 
         handleBtPriviousClick(cbMonat, cbJahr, tbTabelle);
     }
+
+    /**
+     * beginnt den Prozess der PDF erstellung aus den Daten in der Tabelel entsprechend der Aufgerufenen Methode
+     */
     @FXML
     protected void onBtPDFErstellenClick() {
         System.out.println("KalenderController.OnBtPDFErstellenClick()");
         PDFCreator.writeKalenderPDF((ObservableList<KalenderTag>) tbTabelle.getItems(), (Stage) this.btSpeichern.getScene().getWindow(), gruppenListe);
     }
 
-    //TODO add Dokumentation
+    /**
+     * Übernimmt den Betriebsurlaub aus der Datenbank für die in der Tabelle Augewählten Datensätze.
+     * fragt eine ArrayListe von LocalDates ab an welchen alle Daten für das gegeben Jahr enthält für die
+     * Betriebsurlaub angesetzt ist und übernimmt für alle Tage in der Tabelle mit dem entsprechenden Datum
+     * (außer gesetzliche Feiertage) dan Status character 'U' für "Urlaub"
+     * @throws SQLException
+     */
     @FXML
     protected void onBtBetriebsurlaubUebernehmenClick() throws SQLException {
         System.out.println("KalenderController.OnBtBetriebsurlaubUebernehmenClick()");
@@ -149,9 +178,6 @@ public class KalenderController extends Controller {
                 if(!tag.getFeiertag()) {
                     tag.setStatus(UsefullConstants.getUrlaubStatusCharacter());
                 }
-                /*Integer tagIndex = tbTabelle.getItems().indexOf(tag);
-                tbTabelle.getItems().get(tagIndex)*/
-
             }
         }
         tbTabelle.refresh();
@@ -186,6 +212,11 @@ public class KalenderController extends Controller {
 
         datenWurdenBearbeitet = false;
     }
+
+    /**
+     * führt das Eventhandlung bei Änderung des Monats in der Combobox<Month> cbMonat entsprechend der
+     * aufgerufenen Methode aus.
+     */
     @FXML
     protected void onCbMonatAction() {
         System.out.println("KlanderController.onCbMonatAction()");
@@ -222,14 +253,31 @@ public class KalenderController extends Controller {
 
         datenWurdenBearbeitet = false;
     }
+
+    /**
+     * führt das Eventhandlung bei Eingabe in den Datepicker dpVon entsprechend der aufgerufenen Methode aus.
+     */
     @FXML
     protected void onDpVonAction() {
         handleDpVon(dpVon, dpBis, tbTabelle);
     }
+
+    /**
+     * führt das Eventhandlung bei Eingabe in den Datepicker dpBis entsprechend der aufgerufenen Methode aus.
+     */
     @FXML
     protected void onDpBisAction() {
         handleDpBis(dpVon, dpBis, tbTabelle);
     }
+
+    /**
+     * diese Initialize Methode setzt alle gui Elemente auf die Aufgesetzt werden müsssen. Sie stellt die Verbindung
+     * zur Datenbank her und legt fest was getan werden soll wenn der User in der Tabelle scrollt und
+     * was passieren soll wenn der user durch clicken auf das Kreuz in der rechten Oberen ecke den Dialog verlässt.
+     * Fragt außerdem alle Vorhanden Gruppen und Gruppenfamilien aus der Datenbank ab und Speichert alle Gruppen
+     * in einer Globalen Variable
+     * @throws SQLException
+     */
     public void initialize() throws SQLException {
         DatenbankCommunicator.establishConnection();
 
