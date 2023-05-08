@@ -19,7 +19,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class KalenderController extends Controller {
     @FXML
@@ -107,7 +106,7 @@ public class KalenderController extends Controller {
         System.out.println("KalenderControllerOn.BtAbbrechenClick()");
         if(datenWurdenBearbeitet) {
             System.out.println("Get Nutzerbestätigung");
-            if(!getNutzerbestätigung()) return;
+            if(!getNutzerbestaetigung("Dialog beenden und Änderungen verwerfen?")) return;
         }
         Stage stage = (Stage) (btAbbrechen.getScene().getWindow());
         stage.close();
@@ -201,7 +200,7 @@ public class KalenderController extends Controller {
         System.out.println("KalenderController.onCbGruppenauswahLAction()");
 
         if(datenWurdenBearbeitet) {
-            if(!getNutzerbestätigung()) {
+            if(!getNutzerbestaetigung("Andere Gruppe auswählen und Änderungen verwerfen?")) {
                 return;
             }
         }
@@ -251,7 +250,7 @@ public class KalenderController extends Controller {
             return;
         }
         if(datenWurdenBearbeitet) {
-            if(!getNutzerbestätigung()) {
+            if(!getNutzerbestaetigung("Daten für anderes Jahr laden und Änderungen verwerfen?")) {
                 ingnorEventCbJahr = true;
                 Integer altesJahr = ((ObservableList<Tag>) tbTabelle.getItems()).get(0).getDatum().getYear();
                 cbJahr.getSelectionModel().select(altesJahr);
@@ -324,7 +323,7 @@ public class KalenderController extends Controller {
             Stage stage = (Stage) newScene.getWindow();
             stage.setOnCloseRequest(e -> {
                 if(datenWurdenBearbeitet) {
-                    if(!getNutzerbestätigung()) e.consume();
+                    if(!getNutzerbestaetigung("Dialog beenden und Änderungen verwerfen?")) e.consume();
                 }
             });
         }));

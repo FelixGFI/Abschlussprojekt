@@ -46,22 +46,22 @@
          <bottom>
             <FlowPane alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="btBetriebsurlaubUebernehmen" layoutX="325.0" layoutY="15.0" mnemonicParsing="false" onAction="#onBtBetriebsurlaubUebernehmenClick" prefWidth="170.0" text="Betriebsurlaub Übernehmen">
+                  <Button fx:id="btBetriebsurlaubUebernehmen" layoutX="325.0" layoutY="15.0" mnemonicParsing="false" onAction="#onBtBetriebsurlaubUebernehmenClick" prefWidth="170.0" text="Betriebsurlaub übernehmen">
                      <FlowPane.margin>
-                        <Insets bottom="10.0" right="86.0" top="5.0" />
+                        <Insets bottom="10.0" right="76.0" top="5.0" />
                      </FlowPane.margin>
                   </Button>
-                  <Button fx:id="btPDFErstellen" mnemonicParsing="false" onAction="#onBtPDFErstellenClick" prefWidth="100.0" text="PDF Erstellen">
-                     <FlowPane.margin>
-                        <Insets bottom="10.0" right="5.0" top="5.0" />
-                     </FlowPane.margin>
-                  </Button>
-                  <Button fx:id="btSpeichern" mnemonicParsing="false" onAction="#onBtSpeichernClick" prefWidth="75.0" text="Speichern">
+                  <Button fx:id="btPDFErstellen" mnemonicParsing="false" onAction="#onBtPDFErstellenClick" prefWidth="100.0" text="PDF erstellen">
                      <FlowPane.margin>
                         <Insets bottom="10.0" right="5.0" top="5.0" />
                      </FlowPane.margin>
                   </Button>
-                  <Button fx:id="btAbbrechen" mnemonicParsing="false" onAction="#onBtAbbrechenClick" prefWidth="75.0" text="Abbrechen">
+                  <Button fx:id="btSpeichern" mnemonicParsing="false" onAction="#onBtSpeichernClick" prefWidth="80.0" text="Speichern">
+                     <FlowPane.margin>
+                        <Insets bottom="10.0" right="5.0" top="5.0" />
+                     </FlowPane.margin>
+                  </Button>
+                  <Button fx:id="btAbbrechen" mnemonicParsing="false" onAction="#onBtAbbrechenClick" prefWidth="80.0" text="Abbrechen">
                      <FlowPane.margin>
                         <Insets bottom="10.0" right="25.0" top="5.0" />
                      </FlowPane.margin>
@@ -150,12 +150,12 @@
                               <Insets bottom="5.0" top="5.0" />
                            </FlowPane.margin>
                         </DatePicker>
-                        <ComboBox fx:id="cbStatusAuswahl" prefWidth="150.0" promptText="Statusauswahl">
+                        <ComboBox fx:id="cbStatusAuswahl" prefWidth="145.0" promptText="Statusauswahl">
                            <FlowPane.margin>
                               <Insets bottom="5.0" left="10.0" top="5.0" />
                            </FlowPane.margin>
                         </ComboBox>
-                        <Button fx:id="btAnnehmen" mnemonicParsing="false" onAction="#onBtAnnehmenClick" prefWidth="75.0" text="Annehmen">
+                        <Button fx:id="btAnnehmen" mnemonicParsing="false" onAction="#onBtAnnehmenClick" prefWidth="80.0" text="Annehmen">
                            <FlowPane.margin>
                               <Insets bottom="5.0" left="5.0" top="5.0" />
                            </FlowPane.margin>

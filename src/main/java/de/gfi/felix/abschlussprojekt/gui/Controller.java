@@ -341,17 +341,23 @@ public class Controller {
      * User mit "Abbrechen" die Zustimmung verweigert
      * @return boolean true wenn Nutzerbestätigung erteilt wurde. fasle wenn nicht
      */
-    protected boolean getNutzerbestätigung() {
+    protected boolean getNutzerbestaetigung(String ueberschrift) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.setTitle("Bestätigung");
-        alert.setHeaderText("Sind sie sich sicher?");
+        alert.setHeaderText(ueberschrift);
         alert.setContentText("Alle nicht gespeicherten Daten gehen verloren.");
         DialogPane pane = alert.getDialogPane();
         for(ButtonType buttonType : alert.getButtonTypes()) {
             Button button = (Button) pane.lookupButton(buttonType);
             button.setDefaultButton(buttonType == ButtonType.CANCEL);
+            if(button.isCancelButton()) {
+                button.setText("zurück");
+            } else {
+                button.setText("Änderungen verwerfen");
+            }
         }
+
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){
             return true;

@@ -91,7 +91,7 @@ public class KuechenController extends Controller {
         System.out.println("KuechenController.OnBtAbbrechenClick()");
         if(datenWurdenBearbeitet) {
             System.out.println("Get Nutzerbestätigung");
-            if(!getNutzerbestätigung()) return;
+            if(!getNutzerbestaetigung("Dialog beenden und Änderungen verwerfen?")) return;
         }
         Stage stage = (Stage) (btAbbrechen.getScene().getWindow());
         stage.close();
@@ -180,7 +180,7 @@ public class KuechenController extends Controller {
             return;
         }
         if(datenWurdenBearbeitet) {
-            if(!getNutzerbestätigung()) {
+            if(!getNutzerbestaetigung("Daten für anderes Jahr laden und Änderungen verwerfen?")) {
                 ingnorEventCbJahr = true;
                 Integer altesJahr = ((ObservableList<Tag>) tbTabelle.getItems()).get(0).getDatum().getYear();
                 cbJahr.getSelectionModel().select(altesJahr);
@@ -238,7 +238,7 @@ public class KuechenController extends Controller {
             Stage stage = (Stage) newScene.getWindow();
             stage.setOnCloseRequest(e -> {
                 if(datenWurdenBearbeitet) {
-                    if(!getNutzerbestätigung()) e.consume();
+                    if(!getNutzerbestaetigung("Dialog beenden und Änderungen verwerfen?")) e.consume();
                 }
             });
         }));
