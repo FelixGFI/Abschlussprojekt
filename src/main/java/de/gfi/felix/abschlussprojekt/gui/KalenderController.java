@@ -58,6 +58,8 @@ public class KalenderController extends Controller {
     @FXML
     private Button btBetriebsurlaubUebernehmen;
 
+    GruppeOderFamilie ausgewaehlteGruppeOderFamilie;
+
     ArrayList<Gruppe> gruppenListe;
 
     /**
@@ -187,9 +189,14 @@ public class KalenderController extends Controller {
         tbTabelle.refresh();
     }
     /**
-     * Holt wenn eine Gruppe oder Gruppenfamilie ausgewählt wird die Entsprechenden Daten entweder für die gewählte
-     * Gruppe oder für alle Gruppen der Familie alle relevanten Daten aus der Datenbank und zeigt diese in der Tabelle an.
-     * Änderungen werden stand jetzt nicht gespeichert, die in der Tabelle breits vorhandenen Daten werden einfach überschrieben
+     * Bei Auswahl eines Eintrags in der ComboBox cbGruppenauswahl: Überprüft ob eine andere Gruppe als die Momentan
+     * angezeigte ausgwählt wurde (dies dient dazu zu erkennen wann die Auswahl in der Combobox automatisch zurück zur
+     * ursprünglich ausgewählten Gruppe gestellt wurde da Nutzerbestätigung verweigert wurde. in diesem Fall soll die
+     * Methode nicht nochmal ausgeführt werden). Wurden änderungen durchgeführt fragt du Methode Nutzerbestätigung ab.
+     * Wird diese verweigert so wird die Auswahl in der combobox zurück auf die momentan ausgewählte Grupep gestellt.
+     * Wird Nutzerbestätigung gewehrt oder wurden keine Änderungen unternommen holt die Methode entweder für die gewählte
+     * Gruppe oder für alle Gruppen der gewählten Familie alle relevanten Daten aus der Datenbank und zeigt diese
+     * in der Tabelle an.
      * @throws SQLException
      */
     @FXML
@@ -197,13 +204,19 @@ public class KalenderController extends Controller {
         if(cbGruppenauswahl.getSelectionModel().getSelectedItem() == null) {
             return;
         }
+        if(cbGruppenauswahl.getSelectionModel().getSelectedItem() == ausgewaehlteGruppeOderFamilie) {
+            return;
+        }
         System.out.println("KalenderController.onCbGruppenauswahLAction()");
 
         if(datenWurdenBearbeitet) {
             if(!getNutzerbestaetigung("Andere Gruppe auswählen und Änderungen verwerfen?")) {
+                cbGruppenauswahl.getSelectionModel().select(ausgewaehlteGruppeOderFamilie);
                 return;
             }
         }
+
+        ausgewaehlteGruppeOderFamilie = cbGruppenauswahl.getSelectionModel().getSelectedItem();
 
         ArrayList<KalenderTag> kalenderTagsListe = DatenbankCommunicator.dbAbfrageKalenderDaten(cbGruppenauswahl.getSelectionModel().getSelectedItem(), cbJahr.getSelectionModel().getSelectedItem());
 
