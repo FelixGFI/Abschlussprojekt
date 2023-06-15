@@ -92,7 +92,7 @@
                       <TableColumn fx:id="tcDatum" prefWidth="120.0" text="Datum" />
                       <TableColumn fx:id="tcGruppenBezeichnung" prefWidth="150.0" text="Gruppenbezeichnung" />
                         <TableColumn fx:id="tcGruppenStatus" prefWidth="150.0" text="Gruppenstatus" />
-                        <TableColumn fx:id="tcEssenVerfuegbar" prefWidth="120.0" text="Essen verfügbar" />
+                        <TableColumn fx:id="tcEssenVerfuegbar" prefWidth="115.0" text="Essen verfügbar" />
                     </columns>
                   </TableView>
                   <FlowPane prefHeight="200.0" prefWidth="200.0">
